@@ -1,0 +1,386 @@
+/* ============================================
+   components.css — Componentes con responsive
+   ============================================ */
+
+/* ---------- Tarjetas de itinerario ---------- */
+/* Grid: 1 col en móvil, 2 en tablet (≥768), 3 en escritorio (≥1024). */
+.tarjetas {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.2rem;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .tarjetas {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .tarjetas {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.tarjeta {
+  background: var(--color-superficie);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-grande);
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+  min-width: 280px;
+  min-height: 360px;
+  display: flex;
+  flex-direction: column;
+}
+
+.tarjeta::before {
+  content: '';
+  display: block;
+  height: 140px;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, var(--color-primario-claro) 0%, var(--color-primario) 100%);
+}
+
+@media (min-width: 768px) {
+  .tarjeta::before { height: 160px; }
+}
+
+.tarjeta:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--sombra-fuerte);
+}
+
+.tarjeta-titulo { font-size: 1.15rem; margin: 1rem 1.2rem 0.3rem; }
+.tarjeta-titulo a { color: var(--color-texto); text-decoration: none; }
+.tarjeta-titulo a:hover { color: var(--color-primario-oscuro); text-decoration: underline; }
+
+.tarjeta-ciudad {
+  margin: 0 1.2rem 0.5rem;
+  font-size: 0.9rem;
+  color: var(--color-texto-secundario);
+}
+
+.tarjeta-descripcion {
+  margin: 0 1.2rem 1rem;
+  font-size: 0.95rem;
+  color: var(--color-texto);
+  line-height: 1.5;
+  display: -webkit-box;
+    -webkit-box-orient: vertical;   
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.tarjeta-meta {
+  margin: auto 1.2rem 1.2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+/* Secciones */
+
+.seccion-pie {
+  margin: 24px 0 56px 0;
+}
+
+/* ---------- Badges públicos ---------- */
+.meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radio-pill);
+  background: var(--color-fondo);
+  color: var(--color-texto-secundario);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.meta .icono { font-size: 0.9rem; }
+.publico-todos { background: var(--publico-todos-bg); color: var(--publico-todos-tx); }
+.publico-doce_mas { background: var(--publico-doce-bg); color: var(--publico-doce-tx); }
+.publico-adultos { background: var(--publico-adultos-bg); color: var(--publico-adultos-tx); }
+
+/* ---------- Recursos accesibilidad ---------- */
+.recursos {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+}
+
+.recurso {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radio-pill);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.recurso::before { font-size: 0.9rem; }
+
+.recurso-LSE { background: var(--recurso-lse-bg); color: var(--recurso-lse-tx); }
+.recurso-LSE::before { content: '🤟'; }
+
+.recurso-SUBTITULOS { background: var(--recurso-sub-bg); color: var(--recurso-sub-tx); }
+.recurso-SUBTITULOS::before { content: '💬'; }
+
+.recurso-SIGNOGUIA { background: var(--recurso-sig-bg); color: var(--recurso-sig-tx); }
+.recurso-SIGNOGUIA::before { content: '👁'; }
+
+.recurso-BUCLE_MAGNETICO { background: var(--recurso-bucle-bg); color: var(--recurso-bucle-tx); }
+.recurso-BUCLE_MAGNETICO::before { content: '🔊'; }
+
+.recurso-LECTURA_FACIL { background: var(--recurso-lect-bg); color: var(--recurso-lect-tx); }
+.recurso-LECTURA_FACIL::before { content: '📖'; }
+
+/* ---------- Alertas y vacíos ---------- */
+.alerta-error {
+  background: var(--color-error-bg);
+  color: var(--color-error-tx);
+  border-left: 4px solid var(--color-error-borde);
+  padding: 0.9rem 1.1rem;
+  border-radius: var(--radio-pequeno);
+  margin-bottom: 1.2rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.vacio {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--color-texto-secundario);
+  background: var(--color-superficie);
+  border-radius: var(--radio-medio);
+  border: 2px dashed var(--color-borde-oscuro);
+}
+
+/* ---------- Botones (mínimo 44px de alto) ---------- */
+.boton,
+.boton-primario {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--tamano-toque-min);
+  padding: 0.8rem 1.5rem;
+  background: var(--color-primario);
+  color: #fff;
+  border: 2px solid var(--color-primario);
+  border-radius: var(--radio-pequeno);
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  transition: background 0.2s, border-color 0.2s, transform 0.1s;
+}
+
+.boton:hover,
+.boton-primario:hover {
+  background: var(--color-primario-oscuro);
+  border-color: var(--color-primario-oscuro);
+  text-decoration: none;
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.boton-secundario {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--tamano-toque-min);
+  padding: 0.8rem 1.5rem;
+  background: transparent;
+  color: var(--color-texto);
+  border: 2px solid var(--color-borde-oscuro);
+  border-radius: var(--radio-pequeno);
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.boton-secundario:hover {
+  background: var(--color-fondo);
+  border-color: var(--color-texto);
+  text-decoration: none;
+}
+
+.volver {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  color: var(--color-texto-secundario);
+  font-size: 0.95rem;
+  text-decoration: none;
+  min-height: var(--tamano-toque-min);
+  padding: 0.5rem 0;
+}
+
+.volver:hover { color: var(--color-primario-oscuro); text-decoration: underline; }
+
+.enlace-secundario {
+  text-align: center;
+  margin-top: 1.2rem;
+  font-size: 0.95rem;
+  color: var(--color-texto-secundario);
+}
+
+.enlace-secundario a { font-weight: 600; }
+
+/* ---------- Formularios ---------- */
+.formulario-auth,
+.formulario-itinerario {
+  max-width: 500px;
+  margin: 1.5rem auto;
+  background: var(--color-superficie);
+  padding: 1.5rem;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-medio);
+  box-shadow: var(--sombra-suave);
+}
+
+@media (min-width: 768px) {
+  .formulario-auth,
+  .formulario-itinerario { padding: 2rem; margin: 2rem auto; }
+  .formulario-itinerario { max-width: 700px; }
+}
+
+.formulario-auth h1,
+.formulario-itinerario h1 { font-size: 1.6rem; margin-bottom: 0.3rem; text-align: center; }
+
+.formulario-auth .subtitulo,
+.formulario-itinerario .subtitulo {
+  color: var(--color-texto-secundario);
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.formulario-auth .boton-primario {
+  width: 100%;
+  margin-top: 16px;
+}
+
+.campo { margin-bottom: 1.2rem; }
+
+.campo label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--color-texto);
+  margin-bottom: 0.4rem;
+}
+
+.campo input,
+.campo select,
+.campo textarea {
+  width: 100%;
+  min-height: var(--tamano-toque-min);
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--color-borde-oscuro);
+  border-radius: var(--radio-pequeno);
+  font-size: 1rem;
+  font-family: inherit;
+  background: var(--color-superficie);
+  color: var(--color-texto);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.campo textarea {
+  resize: vertical;
+  min-height: 100px;
+  line-height: 1.5;
+}
+
+.campo input:focus,
+.campo select:focus,
+.campo textarea:focus {
+  outline: none;
+  border-color: var(--color-primario);
+  box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.25);
+}
+
+.campo .ayuda {
+  display: block;
+  margin-top: 0.3rem;
+  color: var(--color-texto-secundario);
+  font-size: 0.85rem;
+}
+
+.nota {
+  font-size: 0.85rem;
+  color: var(--color-texto-secundario);
+  margin: 1rem 0;
+}
+
+.acciones {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 480px) {
+  .acciones { flex-direction: row; justify-content: space-between; }
+  .acciones .boton-primario,
+  .acciones .boton-secundario { flex: 1; min-width: 150px; max-width: 220px; }
+}
+
+/* ============================================
+   Tarjeta de itinerario con imagen (variante)
+   ============================================ */
+.tarjeta--con-imagen::before {
+  display: none;
+}
+
+.tarjeta--con-imagen .tarjeta-imagen {
+  width: 100%;
+  height: 160px;
+  background-color: var(--color-primario);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  flex-shrink: 0;
+}
+
+@media (min-width: 768px) {
+  .tarjeta--con-imagen .tarjeta-imagen { height: 180px; }
+}
+
+.tarjeta--con-imagen .tarjeta-cuerpo {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 1rem 1.2rem 1.2rem;
+}
+
+.tarjeta--con-imagen .tarjeta-titulo,
+.tarjeta--con-imagen .tarjeta-ciudad,
+.tarjeta--con-imagen .tarjeta-descripcion,
+.tarjeta--con-imagen .tarjeta-meta {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.tarjeta--con-imagen .tarjeta-titulo {
+  margin-top: 0;
+  margin-bottom: 0.3rem;
+}
+
+.tarjeta--con-imagen .tarjeta-meta {
+  margin-top: auto;
+  margin-bottom: 0;
+}
