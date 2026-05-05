@@ -1,4 +1,3 @@
-// Header.jsx
 function Header() {
   return (
     <header>
