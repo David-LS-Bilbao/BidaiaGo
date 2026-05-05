@@ -1,7 +1,25 @@
 function Header() {
   return (
-    <header>
-      <h1>Mi App de Viajes</h1>
+    <header className="cabecera">
+      <div className="cabecera-contenedor">
+
+        {/* Logo / título */}
+        <h1 className="logo">BidaiaGo</h1>
+
+        {/* Navegación */}
+        <nav className="nav-central">
+          <a href="#">Home</a>
+          <a href="#">Destinos</a>
+          <a href="#">Mi viaje</a>
+          <a href="#">About</a>
+        </nav>
+
+        {/* Botón hamburguesa (para móvil) */}
+        <button className="boton-hamburguesa">
+          ☰
+        </button>
+
+      </div>
     </header>
   );
 }

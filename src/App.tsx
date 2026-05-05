@@ -4,14 +4,14 @@ import Footer from './components/Footer'
 
 function App() {
   return (
-    <div>
+    <div className="app">
       <Header />
-      <main>
+
+      <main className="contenido">
         <h2>Bienvenido a Mi App de Viajes</h2>
       </main>
+
       <Footer />
     </div>
   )
-}
-
-export default App
+}export default App
