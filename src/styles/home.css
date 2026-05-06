@@ -231,10 +231,12 @@
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
   scroll-padding-left: 0.25rem;
-  padding-bottom: 0.75rem;      /* espacio para scrollbar en sistemas que lo muestran */
-  /* Ocultar scrollbar visualmente (aún funcional) */
+  padding-top: 0.5rem;
+  padding-bottom: 0.75rem;
   scrollbar-width: thin;
   scrollbar-color: var(--color-borde) transparent;
+  perspective: 1200px;
+  perspective-origin: 50% 50%;
 }
 
 .home-carousel::-webkit-scrollbar {
@@ -263,11 +265,13 @@
   border-radius: var(--radio-grande);
   overflow: hidden;
   box-shadow: var(--sombra-media);
-  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  transition: transform 0.30s ease-out, box-shadow 0.30s ease-out;
   cursor: pointer;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  transform-style: preserve-3d;
+  transform-origin: center bottom;
 }
 
 .home-carousel-card::after {
@@ -285,8 +289,9 @@
 }
 
 .home-carousel-card:hover {
-  transform: translateY(-4px) scale(1.02);
+  transform: translateY(-4px);
   box-shadow: var(--sombra-fuerte);
+  z-index: 2;
 }
 
 /* Texto superpuesto */
@@ -322,6 +327,32 @@
   .home-carousel-card {
     flex: 0 0 300px;
     min-height: 300px;
+  }
+}
+
+/* ── Efecto abanico 3D — solo desktop ─────────────────────────────────── */
+@media (min-width: 768px) {
+  /* Rotaciones alternas que crean el patrón de abanico */
+  .home-carousel-card:nth-child(4n + 1) {
+    transform: rotateZ(-2deg) rotateY(4deg);
+  }
+  .home-carousel-card:nth-child(4n + 2) {
+    transform: rotateZ(-1deg) rotateY(2deg);
+  }
+  .home-carousel-card:nth-child(4n + 3) {
+    transform: rotateZ(1deg) rotateY(-2deg);
+  }
+  .home-carousel-card:nth-child(4n + 4) {
+    transform: rotateZ(2deg) rotateY(-4deg);
+  }
+
+  /* Hover: la card se endereza, sube y destaca sobre sus vecinas */
+  .home-carousel-card:hover {
+    transform: translateY(-6px) rotateZ(0deg) rotateY(0deg) scale(1.03);
+    box-shadow:
+      0 16px 38px rgba(0, 0, 0, 0.22),
+      0 6px 14px rgba(0, 0, 0, 0.12);
+    z-index: 2;
   }
 }
 
@@ -737,6 +768,19 @@
 
   .home-card-favorite:hover {
     transform: none;
+  }
+
+  /* Desactivar abanico 3D del carrusel */
+  .home-carousel-card:nth-child(4n + 1),
+  .home-carousel-card:nth-child(4n + 2),
+  .home-carousel-card:nth-child(4n + 3),
+  .home-carousel-card:nth-child(4n + 4) {
+    transform: none;
+  }
+
+  .home-carousel-card:hover {
+    transform: none;
+    box-shadow: var(--sombra-fuerte);
   }
 
   .home-loading-spinner {
