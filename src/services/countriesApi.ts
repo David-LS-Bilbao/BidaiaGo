@@ -11,6 +11,15 @@ export interface RestCountryFlags {
   alt?: string;
 }
 
+export interface RestCountryTranslation {
+  common: string;
+  official: string;
+}
+
+export interface RestCountryTranslations {
+  spa?: RestCountryTranslation;
+}
+
 export interface RestCountry {
   name: RestCountryName;
   cca2: string;
@@ -20,12 +29,13 @@ export interface RestCountry {
   subregion?: string;
   population: number;
   flags: RestCountryFlags;
+  translations?: RestCountryTranslations;
 }
 
 // ─── Endpoint ────────────────────────────────────────────────────────────────
 
 const COUNTRIES_API_URL =
-  'https://restcountries.com/v3.1/all?fields=name,cca2,cca3,capital,region,subregion,population,flags';
+  'https://restcountries.com/v3.1/all?fields=name,cca2,cca3,capital,region,subregion,population,flags,translations';
 
 // ─── Servicio ─────────────────────────────────────────────────────────────────
 

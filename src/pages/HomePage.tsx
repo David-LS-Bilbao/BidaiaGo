@@ -8,6 +8,7 @@ interface Destination {
   id: string;
   name: string;
   officialName: string;
+  englishName: string; // nombre original en inglés, usado como término de búsqueda adicional
   capital: string;
   region: string;
   subregion: string;
@@ -51,8 +52,9 @@ const numberFormatter = new Intl.NumberFormat('es-ES');
 function mapToDestination(country: RestCountry): Destination {
   return {
     id: country.cca3,
-    name: country.name.common,
-    officialName: country.name.official,
+    name: country.translations?.spa?.common ?? country.name.common,
+    officialName: country.translations?.spa?.official ?? country.name.official,
+    englishName: country.name.common,
     capital: country.capital?.[0] ?? 'Sin capital',
     region: country.region,
     subregion: country.subregion ?? 'Sin subregión',
@@ -122,6 +124,7 @@ function HomePage() {
         !q ||
         d.name.toLowerCase().includes(q) ||
         d.officialName.toLowerCase().includes(q) ||
+        d.englishName.toLowerCase().includes(q) ||
         d.capital.toLowerCase().includes(q) ||
         d.region.toLowerCase().includes(q);
       const matchRegion = !region || d.region === region;
