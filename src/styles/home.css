@@ -1,0 +1,623 @@
+/* ============================================
+   home.css — Dashboard / Explorador de países
+   Prefijo exclusivo: home-
+   Mobile-first · WCAG AA · prefers-reduced-motion
+   ============================================ */
+
+/* ============================================
+   1. CONTENEDOR RAÍZ
+   ============================================ */
+.home-page {
+  width: 100%;
+  max-width: var(--max-ancho);
+  margin: 0 auto;
+  padding: 1.5rem 1rem 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+@media (min-width: 768px) {
+  .home-page {
+    padding: 2rem 1.5rem 4rem;
+    gap: 3rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .home-page {
+    padding: 2.5rem 1rem 4rem;
+  }
+}
+
+/* ============================================
+   2. CABECERA DEL DASHBOARD
+   ============================================ */
+.home-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 2rem 1.5rem;
+  background: linear-gradient(
+    135deg,
+    var(--color-primario-claro) 0%,
+    var(--color-fondo) 100%
+  );
+  border-radius: var(--radio-grande);
+  border: 1px solid var(--color-borde);
+  box-shadow: var(--sombra-suave);
+}
+
+.home-title {
+  font-family: var(--fuente-titulo);
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--color-primario-oscuro);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.home-description {
+  font-size: 1rem;
+  color: var(--color-texto-secundario);
+  line-height: 1.6;
+  max-width: 560px;
+  margin: 0;
+}
+
+@media (min-width: 768px) {
+  .home-header {
+    padding: 2.5rem 2rem;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+
+  .home-title {
+    font-size: 2.2rem;
+  }
+
+  .home-description {
+    font-size: 1.05rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .home-title {
+    font-size: 2.6rem;
+  }
+}
+
+/* ============================================
+   3. ZONA DE CONTROLES (buscador + filtro)
+   ============================================ */
+.home-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+@media (min-width: 600px) {
+  .home-controls {
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+  }
+}
+
+/* Buscador */
+.home-search {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--color-superficie);
+  border: 1.5px solid var(--color-borde);
+  border-radius: var(--radio-pill);
+  padding: 0.55rem 1.1rem;
+  min-height: 44px;
+  box-shadow: var(--sombra-suave);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.home-search:focus-within {
+  border-color: var(--color-primario);
+  box-shadow: 0 0 0 3px rgba(79, 104, 20, 0.15);
+}
+
+.home-search input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 0.95rem;
+  color: var(--color-texto);
+  font-family: inherit;
+  min-width: 0;
+}
+
+.home-search input::placeholder {
+  color: var(--color-texto-claro, #6a6a6a);
+}
+
+.home-search svg,
+.home-search .home-search-icon {
+  flex-shrink: 0;
+  color: var(--color-texto-secundario);
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+/* Filtro por región */
+.home-filter {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--color-superficie);
+  border: 1.5px solid var(--color-borde);
+  border-radius: var(--radio-pill);
+  padding: 0.55rem 1rem 0.55rem 1.1rem;
+  min-height: 44px;
+  cursor: pointer;
+  box-shadow: var(--sombra-suave);
+  transition: border-color 0.2s;
+  white-space: nowrap;
+}
+
+.home-filter:focus-within {
+  border-color: var(--color-primario);
+  box-shadow: 0 0 0 3px rgba(79, 104, 20, 0.15);
+}
+
+.home-filter select {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 0.95rem;
+  color: var(--color-texto);
+  font-family: inherit;
+  cursor: pointer;
+  appearance: none;
+  padding-right: 0.4rem;
+}
+
+.home-filter svg,
+.home-filter .home-filter-icon {
+  flex-shrink: 0;
+  color: var(--color-texto-secundario);
+  width: 1rem;
+  height: 1rem;
+  pointer-events: none;
+}
+
+/* ============================================
+   4. CARRUSEL — PAÍSES DESTACADOS
+   ============================================ */
+.home-carousel-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.home-carousel-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.home-carousel-title {
+  font-family: var(--fuente-titulo);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-texto);
+  margin: 0;
+  line-height: 1.3;
+}
+
+@media (min-width: 768px) {
+  .home-carousel-title {
+    font-size: 1.45rem;
+  }
+}
+
+/* Pista del carrusel */
+.home-carousel {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scroll-padding-left: 0.25rem;
+  padding-bottom: 0.75rem;      /* espacio para scrollbar en sistemas que lo muestran */
+  /* Ocultar scrollbar visualmente (aún funcional) */
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-borde) transparent;
+}
+
+.home-carousel::-webkit-scrollbar {
+  height: 4px;
+}
+
+.home-carousel::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.home-carousel::-webkit-scrollbar-thumb {
+  background-color: var(--color-borde);
+  border-radius: var(--radio-pill);
+}
+
+/* Tarjeta del carrusel */
+.home-carousel-card {
+  flex: 0 0 220px;
+  scroll-snap-align: start;
+  position: relative;
+  min-height: 240px;
+  background-color: var(--color-primario);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: var(--radio-grande);
+  overflow: hidden;
+  box-shadow: var(--sombra-media);
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.home-carousel-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 30%,
+    rgba(0, 0, 0, 0.6) 80%,
+    rgba(0, 0, 0, 0.85) 100%
+  );
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.home-carousel-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: var(--sombra-fuerte);
+}
+
+/* Texto superpuesto */
+.home-carousel-card-label {
+  position: relative;
+  z-index: 1;
+  padding: 1rem 1.1rem;
+  color: #fff;
+  font-family: var(--fuente-titulo);
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+  line-height: 1.3;
+}
+
+.home-carousel-card-sub {
+  position: relative;
+  z-index: 1;
+  padding: 0 1.1rem 1rem;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 0.82rem;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+@media (min-width: 768px) {
+  .home-carousel-card {
+    flex: 0 0 260px;
+    min-height: 280px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .home-carousel-card {
+    flex: 0 0 300px;
+    min-height: 300px;
+  }
+}
+
+/* ============================================
+   5. GRID DE CARDS — TODOS LOS PAÍSES
+   ============================================ */
+.home-grid-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.home-grid-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.home-grid-title {
+  font-family: var(--fuente-titulo);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-texto);
+  margin: 0;
+}
+
+@media (min-width: 768px) {
+  .home-grid-title {
+    font-size: 1.45rem;
+  }
+}
+
+/* Grid */
+.home-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+@media (min-width: 540px) {
+  .home-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 900px) {
+  .home-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+@media (min-width: 1100px) {
+  .home-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ============================================
+   6. CARD DE PAÍS (grid)
+   ============================================ */
+.home-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-superficie);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-grande);
+  overflow: hidden;
+  box-shadow: var(--sombra-suave);
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.home-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--sombra-fuerte);
+}
+
+/* Imagen / bandera */
+.home-card-flag {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+  background: var(--color-primario-claro);
+  flex-shrink: 0;
+}
+
+/* Contenido */
+.home-card-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem 1.1rem;
+}
+
+.home-card-title {
+  font-family: var(--fuente-titulo);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-texto);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.home-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.75rem;
+  font-size: 0.82rem;
+  color: var(--color-texto-secundario);
+  line-height: 1.4;
+}
+
+.home-card-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+/* Acciones */
+.home-card-actions {
+  padding: 0.75rem 1.1rem 1rem;
+  margin-top: auto;
+}
+
+.home-card-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  min-height: 40px;
+  padding: 0.5rem 1.2rem;
+  background: var(--color-primario);
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: inherit;
+  border-radius: var(--radio-pill);
+  border: 2px solid transparent;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+  cursor: pointer;
+}
+
+.home-card-link:hover {
+  background: var(--color-primario-oscuro);
+  color: #fff;
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+.home-card-link:focus-visible {
+  outline: 3px solid var(--color-acento);
+  outline-offset: 3px;
+}
+
+/* ============================================
+   7. ESTADOS: LOADING · ERROR · VACÍO
+   ============================================ */
+
+/* Loading */
+.home-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  min-height: 200px;
+  color: var(--color-texto-secundario);
+  font-size: 0.95rem;
+}
+
+.home-loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--color-borde);
+  border-top-color: var(--color-primario);
+  border-radius: 50%;
+  animation: home-spin 0.8s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes home-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Error */
+.home-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 2rem 1.5rem;
+  background: var(--color-error-bg);
+  border: 1px solid var(--color-error-borde);
+  border-radius: var(--radio-grande);
+  color: var(--color-error-tx);
+  text-align: center;
+}
+
+.home-error-title {
+  font-family: var(--fuente-titulo);
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--color-error-tx);
+}
+
+.home-error-message {
+  font-size: 0.92rem;
+  margin: 0;
+  color: var(--color-error-tx);
+  opacity: 0.9;
+}
+
+.home-error-retry {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 40px;
+  padding: 0.5rem 1.2rem;
+  background: var(--color-error-tx);
+  color: #fff;
+  border: none;
+  border-radius: var(--radio-pill);
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  margin-top: 0.25rem;
+}
+
+.home-error-retry:hover {
+  opacity: 0.88;
+}
+
+.home-error-retry:focus-visible {
+  outline: 3px solid var(--color-acento);
+  outline-offset: 3px;
+}
+
+/* Sin resultados */
+.home-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 3rem 1.5rem;
+  background: var(--color-superficie);
+  border: 1px dashed var(--color-borde);
+  border-radius: var(--radio-grande);
+  color: var(--color-texto-secundario);
+  text-align: center;
+}
+
+.home-empty-icon {
+  font-size: 2.5rem;
+  line-height: 1;
+}
+
+.home-empty-title {
+  font-family: var(--fuente-titulo);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-texto);
+  margin: 0;
+}
+
+.home-empty-message {
+  font-size: 0.92rem;
+  margin: 0;
+  max-width: 340px;
+}
+
+/* ============================================
+   8. ACCESIBILIDAD — prefers-reduced-motion
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  .home-carousel-card,
+  .home-card,
+  .home-card-link,
+  .home-error-retry {
+    transition: none;
+  }
+
+  .home-loading-spinner {
+    animation: none;
+    border-top-color: var(--color-primario);
+    opacity: 0.6;
+  }
+
+  .home-carousel {
+    scroll-snap-type: none;
+  }
+}
