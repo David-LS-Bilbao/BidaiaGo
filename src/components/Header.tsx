@@ -9,6 +9,7 @@ function Header() {
         {/* Navegación */}
         <nav className="nav-central">
           <a href="#">Home</a>
+          <a href="/tipsviajes">Tips Viajes</a>
           <a href="#">Destinos</a>
           <a href="#">Mi viaje</a>
           <a href="#">About</a>

@@ -353,3 +353,276 @@
   font-size: 0.95rem;
   font-weight: 500;
 }
+
+/* ============================================
+   Tips Viajes Page
+   ============================================ */
+.tipsviajes-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.tipsviajes-page .hero {
+  text-align: center;
+  padding: 2rem 1rem;
+  margin-bottom: 2rem;
+  background: linear-gradient(180deg, rgba(216, 243, 220, 0.6) 0%, rgba(255, 255, 255, 0) 100%);
+  border-radius: var(--radio-grande);
+}
+
+.tipsviajes-page .hero h1 {
+  font-size: 1.8rem;
+  color: var(--color-primario-oscuro);
+  margin-bottom: 0.5rem;
+}
+
+.tipsviajes-page .hero p {
+  color: var(--color-texto-secundario);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.seccion-busqueda {
+  margin-bottom: 2rem;
+}
+
+.formulario-busqueda {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.input-busqueda {
+  flex: 1;
+  min-width: 200px;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-pequeno);
+  font-size: 1rem;
+  font-family: inherit;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-busqueda:focus {
+  outline: none;
+  border-color: var(--color-primario);
+  box-shadow: 0 0 0 3px rgba(79, 104, 20, 0.15);
+}
+
+.boton-buscar {
+  padding: 0.8rem 1.5rem;
+  background: var(--color-primario);
+  color: #fff;
+  border: none;
+  border-radius: var(--radio-pequeno);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.boton-buscar:hover {
+  background: var(--color-primario-oscuro);
+}
+
+.boton-buscar:disabled {
+  background: var(--color-borde-oscuro);
+  cursor: not-allowed;
+}
+
+.alerta-error {
+  background: var(--color-error-bg);
+  color: var(--color-error-tx);
+  border-left: 4px solid var(--color-error-borde);
+  padding: 1rem;
+  border-radius: var(--radio-pequeno);
+  margin-bottom: 1.5rem;
+}
+
+.resultado-pais {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.tarjeta-info {
+  background: var(--color-superficie);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-medio);
+  padding: 1.5rem;
+  box-shadow: var(--sombra-suave);
+}
+
+.info-cabecera {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.bandera-pais {
+  width: 80px;
+  height: auto;
+  border-radius: var(--radio-pequeno);
+  box-shadow: var(--sombra-suave);
+}
+
+.info-cabecera h2 {
+  font-size: 1.4rem;
+  color: var(--color-texto);
+  margin-bottom: 0.2rem;
+}
+
+.informacion-secundaria {
+  color: var(--color-texto-secundario);
+  font-size: 0.9rem;
+}
+
+.info-detalles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.info-label {
+  font-size: 0.85rem;
+  color: var(--color-texto-secundario);
+  font-weight: 500;
+}
+
+.info-valor {
+  font-size: 1rem;
+  color: var(--color-texto);
+}
+
+.tarjeta-clima {
+  background: var(--color-superficie);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-medio);
+  padding: 1.5rem;
+  box-shadow: var(--sombra-suave);
+}
+
+.tarjeta-clima h3 {
+  font-size: 1.1rem;
+  color: var(--color-primario-oscuro);
+  margin-bottom: 1rem;
+}
+
+.clima-contenido {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.clima-icono {
+  font-size: 2.5rem;
+}
+
+.clima-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.clima-temperatura {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--color-texto);
+}
+
+.clima-condicion {
+  color: var(--color-texto-secundario);
+}
+
+.clima-detalles {
+  margin-left: auto;
+  display: flex;
+  gap: 1rem;
+  color: var(--color-texto-secundario);
+  font-size: 0.9rem;
+}
+
+.tarjeta-seguridad {
+  background: var(--color-superficie);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-medio);
+  padding: 1.5rem;
+  box-shadow: var(--sombra-suave);
+}
+
+.tarjeta-seguridad h3 {
+  font-size: 1.1rem;
+  color: var(--color-primario-oscuro);
+  margin-bottom: 1rem;
+}
+
+.lista-recomendaciones {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.recomendacion-item {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 0.8rem;
+  background: var(--color-fondo);
+  border-radius: var(--radio-pequeno);
+}
+
+.badge-nivel {
+  padding: 0.3rem 0.6rem;
+  border-radius: var(--radio-pequeno);
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.badge-seguro {
+  background: #d4edda;
+  color: #155724;
+}
+
+.badge-advertencia {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.badge-peligro {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.recomendacion-contenido {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.recomendacion-categoria {
+  font-size: 0.85rem;
+  color: var(--color-texto-secundario);
+  font-weight: 500;
+}
+
+.recomendacion-texto {
+  font-size: 0.95rem;
+  color: var(--color-texto);
+  margin: 0;
+}
+
+@media (min-width: 768px) {
+  .tipsviajes-page { padding: 2rem; }
+  .tipsviajes-page .hero h1 { font-size: 2.2rem; }
+  .formulario-busqueda { flex-wrap: nowrap; }
+}
