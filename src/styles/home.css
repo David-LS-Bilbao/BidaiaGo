@@ -91,6 +91,110 @@
 }
 
 /* ============================================
+   2b. FLIP BOARD — panel de mensajes rotativos
+   ============================================ */
+.home-flip-board {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background: #191c14;
+  border-radius: var(--radio-grande);
+  padding: 0.9rem 1.2rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 4px 20px rgba(0, 0, 0, 0.35);
+  flex-shrink: 0;
+}
+
+.home-flip-board-label {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-primario, #6b8a2a);
+  opacity: 0.7;
+  line-height: 1;
+}
+
+.home-flip-board-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  perspective: 400px;
+}
+
+.home-flip-board-line {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.12em;
+  margin: 0;
+  transform-origin: top center;
+  animation: home-flip-line-in 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.home-flip-board-line:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+@keyframes home-flip-line-in {
+  from {
+    opacity: 0;
+    transform: rotateX(-80deg) translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: rotateX(0deg) translateY(0);
+  }
+}
+
+.home-flip-board-cell {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 1.55em;
+  min-width: 0.78em;
+  padding: 0 0.07em;
+  background: #232818;
+  border-radius: 3px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #f0be50;
+  line-height: 1;
+  position: relative;
+  text-shadow: 0 0 6px rgba(240, 190, 80, 0.35);
+}
+
+/* División central — estética split-flap */
+.home-flip-board-cell::after {
+  content: '';
+  position: absolute;
+  inset: 50% 0 auto;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.38);
+  pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  .home-flip-board {
+    align-self: center;
+  }
+
+  .home-flip-board-cell {
+    font-size: 1.2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .home-flip-board-cell {
+    font-size: 1.45rem;
+  }
+}
+
+/* ============================================
    3. ZONA DE CONTROLES (buscador + filtro)
    ============================================ */
 .home-controls {
@@ -767,6 +871,13 @@
   }
 
   .home-card-favorite:hover {
+    transform: none;
+  }
+
+  /* Flip board: sin rotación, solo fade */
+  .home-flip-board-line {
+    animation: none;
+    opacity: 1;
     transform: none;
   }
 

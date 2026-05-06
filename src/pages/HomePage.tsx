@@ -23,6 +23,14 @@ interface Destination {
 
 const FAVORITES_STORAGE_KEY = 'bidaiago:favorites';
 
+const HEADER_MESSAGES: string[][] = [
+  ['DESCUBRE', 'NUEVOS DESTINOS'],
+  ['GUARDA', 'TUS FAVORITOS'],
+  ['EXPLORA', 'PAÍSES DEL MUNDO'],
+  ['PLANIFICA', 'TU PRÓXIMO VIAJE'],
+  ['BIDAIA', 'GO'],
+];
+
 // Lista fija de países que aparecen en el carrusel
 const FEATURED_CCA3 = new Set([
   'JPN', 'FRA', 'BRA', 'MAR', 'ITA', 'AUS', 'CAN', 'MEX',
@@ -77,6 +85,14 @@ function HomePage() {
   const [retryKey, setRetryKey] = useState(0);
   const [search, setSearch] = useState('');
   const [region, setRegion] = useState('');
+  const [headerMessageIndex, setHeaderMessageIndex] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setHeaderMessageIndex((prev) => (prev + 1) % HEADER_MESSAGES.length);
+    }, 5000);
+    return () => clearInterval(id);
+  }, []);
 
   const { value: favoriteDestinations, setValue: setFavoriteDestinations } =
     useLocalStorage<Destination[]>(FAVORITES_STORAGE_KEY, []);
@@ -215,6 +231,25 @@ function HomePage() {
             Descubre países, culturas y aventuras. Guarda tus favoritos y
             planifica tu próximo viaje.
           </p>
+        </div>
+
+        <div
+          className="home-flip-board"
+          aria-live="polite"
+          aria-label="Mensajes de BidaiaGo"
+        >
+          <span className="home-flip-board-label">BidaiaGo</span>
+          <div key={headerMessageIndex} className="home-flip-board-text">
+            {HEADER_MESSAGES[headerMessageIndex].map((line, i) => (
+              <p key={i} className="home-flip-board-line">
+                {[...line].map((char, j) => (
+                  <span key={j} className="home-flip-board-cell">
+                    {char === ' ' ? ' ' : char}
+                  </span>
+                ))}
+              </p>
+            ))}
+          </div>
         </div>
       </header>
 
