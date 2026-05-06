@@ -6,6 +6,7 @@ import AboutPage from "./pages/AboutPage";
 import DestinationDetailPage from "./pages/DestinationDetailPage";
 import HomePage from "./pages/HomePage";
 import TripListPage from "./pages/TripListPage";
+import ContactPage from "./pages/ContactPage";
 
 function App() {
   return (
@@ -13,12 +14,12 @@ function App() {
       <Header />
 
       <main className="contenido">
-        <h2>Bienvenido a Mi App de Viajes</h2>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/destinations" element={<DestinationDetailPage />} />
           <Route path="/trip-list" element={<TripListPage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
           
         </Routes>
       </main>

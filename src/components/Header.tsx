@@ -14,6 +14,7 @@ function Header() {
           <Link to="/destinations">Destinos</Link>
           <Link to="/trip-list">Mi viaje</Link>
           <Link to="/about">About</Link>
+          <Link to="/contact">Contacto</Link>
         </nav>
 
         <button
