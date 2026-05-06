@@ -1,165 +1,202 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import '../styles/home.css';
 
-interface MockDestination {
+// ─── Tipos de la API REST Countries ───────────────────────────────────────────
+
+interface RestCountryName {
+  common: string;
+  official: string;
+}
+
+interface RestCountryFlags {
+  png: string;
+  svg: string;
+  alt?: string;
+}
+
+interface RestCountry {
+  name: RestCountryName;
+  cca2: string;
+  cca3: string;
+  capital?: string[];
+  region: string;
+  subregion?: string;
+  population: number;
+  flags: RestCountryFlags;
+}
+
+// ─── Tipo interno de la UI ────────────────────────────────────────────────────
+
+interface Destination {
   id: string;
   name: string;
+  officialName: string;
   capital: string;
   region: string;
+  subregion: string;
   population: string;
   imageUrl: string;
   flagUrl: string;
-  featured?: boolean;
+  featured: boolean;
 }
 
-const MOCK_DESTINATIONS: MockDestination[] = [
-  {
-    id: 'jp',
-    name: 'Japón',
-    capital: 'Tokio',
-    region: 'Asia',
-    population: '125.7 M',
-    imageUrl: 'https://picsum.photos/seed/japan-temple/800/450',
-    flagUrl: 'https://flagcdn.com/jp.svg',
-    featured: true,
-  },
-  {
-    id: 'fr',
-    name: 'Francia',
-    capital: 'París',
-    region: 'Europa',
-    population: '67.4 M',
-    imageUrl: 'https://picsum.photos/seed/paris-tower/800/450',
-    flagUrl: 'https://flagcdn.com/fr.svg',
-    featured: true,
-  },
-  {
-    id: 'br',
-    name: 'Brasil',
-    capital: 'Brasília',
-    region: 'América del Sur',
-    population: '215.3 M',
-    imageUrl: 'https://picsum.photos/seed/brazil-nature/800/450',
-    flagUrl: 'https://flagcdn.com/br.svg',
-    featured: true,
-  },
-  {
-    id: 'ma',
-    name: 'Marruecos',
-    capital: 'Rabat',
-    region: 'África',
-    population: '37.5 M',
-    imageUrl: 'https://picsum.photos/seed/morocco-desert/800/450',
-    flagUrl: 'https://flagcdn.com/ma.svg',
-    featured: true,
-  },
-  {
-    id: 'it',
-    name: 'Italia',
-    capital: 'Roma',
-    region: 'Europa',
-    population: '59.5 M',
-    imageUrl: 'https://picsum.photos/seed/italy-colosseum/800/450',
-    flagUrl: 'https://flagcdn.com/it.svg',
-  },
-  {
-    id: 'au',
-    name: 'Australia',
-    capital: 'Canberra',
-    region: 'Oceanía',
-    population: '26.1 M',
-    imageUrl: 'https://picsum.photos/seed/australia-reef/800/450',
-    flagUrl: 'https://flagcdn.com/au.svg',
-  },
-  {
-    id: 'ca',
-    name: 'Canadá',
-    capital: 'Ottawa',
-    region: 'América del Norte',
-    population: '38.2 M',
-    imageUrl: 'https://picsum.photos/seed/canada-forest/800/450',
-    flagUrl: 'https://flagcdn.com/ca.svg',
-  },
-  {
-    id: 'nz',
-    name: 'Nueva Zelanda',
-    capital: 'Wellington',
-    region: 'Oceanía',
-    population: '5.1 M',
-    imageUrl: 'https://picsum.photos/seed/newzealand-fjord/800/450',
-    flagUrl: 'https://flagcdn.com/nz.svg',
-  },
-  {
-    id: 'co',
-    name: 'Colombia',
-    capital: 'Bogotá',
-    region: 'América del Sur',
-    population: '51.9 M',
-    imageUrl: 'https://picsum.photos/seed/colombia-coffee/800/450',
-    flagUrl: 'https://flagcdn.com/co.svg',
-  },
-  {
-    id: 'eg',
-    name: 'Egipto',
-    capital: 'El Cairo',
-    region: 'África',
-    population: '104.2 M',
-    imageUrl: 'https://picsum.photos/seed/egypt-pyramids/800/450',
-    flagUrl: 'https://flagcdn.com/eg.svg',
-  },
-  {
-    id: 'mx',
-    name: 'México',
-    capital: 'Ciudad de México',
-    region: 'América del Norte',
-    population: '128.9 M',
-    imageUrl: 'https://picsum.photos/seed/mexico-ruins/800/450',
-    flagUrl: 'https://flagcdn.com/mx.svg',
-  },
-  {
-    id: 'th',
-    name: 'Tailandia',
-    capital: 'Bangkok',
-    region: 'Asia',
-    population: '71.8 M',
-    imageUrl: 'https://picsum.photos/seed/thailand-temples/800/450',
-    flagUrl: 'https://flagcdn.com/th.svg',
-  },
+// ─── Constantes ───────────────────────────────────────────────────────────────
+
+const API_URL =
+  'https://restcountries.com/v3.1/all?fields=name,cca2,cca3,capital,region,subregion,population,area,languages,currencies,flags,maps,borders,continents,timezones,latlng';
+
+// Lista fija de países que aparecen en el carrusel
+const FEATURED_CCA3 = new Set([
+  'JPN', 'FRA', 'BRA', 'MAR', 'ITA', 'AUS', 'CAN', 'MEX',
+]);
+
+const REGION_OPTIONS: Array<{ value: string; label: string }> = [
+  { value: '', label: 'Todas las regiones' },
+  { value: 'Africa', label: 'África' },
+  { value: 'Americas', label: 'América' },
+  { value: 'Asia', label: 'Asia' },
+  { value: 'Europe', label: 'Europa' },
+  { value: 'Oceania', label: 'Oceanía' },
+  { value: 'Antarctic', label: 'Antártida' },
 ];
 
-const REGIONS = [
-  'Todas las regiones',
-  'África',
-  'América del Norte',
-  'América del Sur',
-  'Asia',
-  'Europa',
-  'Oceanía',
-];
+// Mapeo de valores de la API a etiquetas en español para la UI
+const REGION_LABELS: Record<string, string> = {
+  Africa: 'África',
+  Americas: 'América',
+  Asia: 'Asia',
+  Europe: 'Europa',
+  Oceania: 'Oceanía',
+  Antarctic: 'Antártida',
+};
+
+const numberFormatter = new Intl.NumberFormat('es-ES');
+
+// ─── Transformación API → UI ──────────────────────────────────────────────────
+
+function mapToDestination(country: RestCountry): Destination {
+  return {
+    id: country.cca3,
+    name: country.name.common,
+    officialName: country.name.official,
+    capital: country.capital?.[0] ?? 'Sin capital',
+    region: country.region,
+    subregion: country.subregion ?? 'Sin subregión',
+    population: numberFormatter.format(country.population),
+    imageUrl: `https://picsum.photos/seed/${country.cca3}/800/450`,
+    flagUrl: country.flags.svg || country.flags.png,
+    featured: FEATURED_CCA3.has(country.cca3),
+  };
+}
+
+// ─── Componente ───────────────────────────────────────────────────────────────
 
 function HomePage() {
+  const [countries, setCountries] = useState<Destination[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [retryKey, setRetryKey] = useState(0);
   const [search, setSearch] = useState('');
-  const [region, setRegion] = useState('Todas las regiones');
+  const [region, setRegion] = useState('');
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const loadCountries = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const res = await fetch(API_URL);
+        if (!res.ok) {
+          throw new Error(`Error ${res.status}: ${res.statusText}`);
+        }
+        const data: RestCountry[] = await res.json();
+        if (!cancelled) {
+          const destinations = data
+            .map(mapToDestination)
+            .sort((a, b) => a.name.localeCompare(b.name, 'es'));
+          setCountries(destinations);
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setError(
+            err instanceof Error
+              ? err.message
+              : 'Error desconocido al cargar los destinos',
+          );
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    };
+
+    loadCountries();
+
+    // Cancela el efecto anterior si retryKey cambia o el componente desmonta
+    return () => {
+      cancelled = true;
+    };
+  }, [retryKey]);
 
   const featured = useMemo(
-    () => MOCK_DESTINATIONS.filter((d) => d.featured),
-    []
+    () => countries.filter((d) => d.featured),
+    [countries],
   );
 
   const filtered = useMemo(() => {
     const q = search.toLowerCase().trim();
-    return MOCK_DESTINATIONS.filter((d) => {
+    return countries.filter((d) => {
       const matchSearch =
         !q ||
         d.name.toLowerCase().includes(q) ||
+        d.officialName.toLowerCase().includes(q) ||
         d.capital.toLowerCase().includes(q) ||
         d.region.toLowerCase().includes(q);
-      const matchRegion =
-        region === 'Todas las regiones' || d.region === region;
+      const matchRegion = !region || d.region === region;
       return matchSearch && matchRegion;
     });
-  }, [search, region]);
+  }, [countries, search, region]);
 
+  // ── Estado: cargando ────────────────────────────────────────────────────────
+  if (loading) {
+    return (
+      <main className="home-page">
+        <div
+          className="home-loading"
+          role="status"
+          aria-label="Cargando destinos"
+        >
+          <div className="home-loading-spinner" aria-hidden="true" />
+          <span>Cargando destinos…</span>
+        </div>
+      </main>
+    );
+  }
+
+  // ── Estado: error ───────────────────────────────────────────────────────────
+  if (error) {
+    return (
+      <main className="home-page">
+        <div className="home-error" role="alert">
+          <h2 className="home-error-title">
+            No se pudieron cargar los destinos
+          </h2>
+          <p className="home-error-message">{error}</p>
+          <button
+            className="home-error-retry"
+            type="button"
+            onClick={() => setRetryKey((k) => k + 1)}
+          >
+            Reintentar
+          </button>
+        </div>
+      </main>
+    );
+  }
+
+  // ── Render principal ────────────────────────────────────────────────────────
   return (
     <main className="home-page">
       {/* Cabecera del dashboard */}
@@ -211,9 +248,9 @@ function HomePage() {
             onChange={(e) => setRegion(e.target.value)}
             aria-label="Filtrar por región"
           >
-            {REGIONS.map((r) => (
-              <option key={r} value={r}>
-                {r}
+            {REGION_OPTIONS.map((opt) => (
+              <option key={opt.value} value={opt.value}>
+                {opt.label}
               </option>
             ))}
           </select>
@@ -242,7 +279,9 @@ function HomePage() {
               aria-label={`Ver ${dest.name}`}
             >
               <span className="home-carousel-card-label">{dest.name}</span>
-              <span className="home-carousel-card-sub">{dest.region}</span>
+              <span className="home-carousel-card-sub">
+                {REGION_LABELS[dest.region] ?? dest.region}
+              </span>
             </a>
           ))}
         </div>
@@ -257,7 +296,7 @@ function HomePage() {
           <h2 className="home-grid-title" id="home-grid-title">
             Todos los destinos
           </h2>
-          {filtered.length !== MOCK_DESTINATIONS.length && (
+          {(search || region) && (
             <span className="home-grid-count" aria-live="polite">
               {filtered.length} resultado{filtered.length !== 1 ? 's' : ''}
             </span>
@@ -269,15 +308,17 @@ function HomePage() {
             <span className="home-empty-icon">🗺️</span>
             <h3 className="home-empty-title">Sin resultados</h3>
             <p className="home-empty-message">
-              No encontramos destinos para «{search}». Prueba con otro nombre
-              o cambia la región.
+              {search
+                ? `No encontramos destinos para «${search}»${region ? ` en ${REGION_LABELS[region] ?? region}` : ''}.`
+                : 'No hay destinos en la región seleccionada.'}{' '}
+              Prueba con otro término o cambia los filtros.
             </p>
           </div>
         ) : (
           <div className="home-grid">
             {filtered.map((dest) => (
               <article key={dest.id} className="home-card">
-                {/* Botón favorito — overlay esquina superior izquierda */}
+                {/* Favorito — overlay esquina superior izquierda */}
                 <button
                   className="home-card-favorite"
                   type="button"
@@ -310,7 +351,7 @@ function HomePage() {
                       Capital: {dest.capital}
                     </span>
                     <span className="home-card-meta-item">
-                      Región: {dest.region}
+                      Región: {REGION_LABELS[dest.region] ?? dest.region}
                     </span>
                     <span className="home-card-meta-item">
                       Población: {dest.population}
