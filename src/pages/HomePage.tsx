@@ -1,8 +1,9 @@
-import { useState, useMemo, useEffect, useCallback } from 'react';
+import { useState, useMemo, useEffect, useCallback, useRef } from 'react';
 import '../styles/home.css';
 import { getAllCountries, type RestCountry } from '../services/countriesApi';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import ScrollToTopButton from '../components/ScrollToTopButton';
+import { getCountryTravelImage } from '../services/pexelsApi';
 
 // ─── Tipo interno de la UI ────────────────────────────────────────────────────
 
@@ -169,6 +170,47 @@ function HomePage() {
     return [...favoriteDestinations, ...uniqueFeatured];
   }, [favoriteDestinations, favoriteIds, featured]);
 
+  // ── Imágenes Pexels para el carrusel (solo para los destinos visibles) ───────
+  const [pexelsImages, setPexelsImages] = useState<Record<string, string>>({});
+  const fetchedIds = useRef<Set<string>>(new Set());
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const toFetch = carouselDestinations.filter(
+      (d) => !fetchedIds.current.has(d.id),
+    );
+    if (toFetch.length === 0) return;
+
+    // Marca los IDs como en vuelo antes del await para evitar llamadas duplicadas
+    toFetch.forEach((d) => fetchedIds.current.add(d.id));
+
+    const fetchPexelsImages = async () => {
+      const results = await Promise.all(
+        toFetch.map(async (dest) => {
+          const result = await getCountryTravelImage(
+            `${dest.englishName} travel landscape`,
+          );
+          return result !== null ? ([dest.id, result.url] as const) : null;
+        }),
+      );
+      if (cancelled) return;
+      const newImages: Record<string, string> = {};
+      for (const entry of results) {
+        if (entry !== null) newImages[entry[0]] = entry[1];
+      }
+      if (Object.keys(newImages).length > 0) {
+        setPexelsImages((prev) => ({ ...prev, ...newImages }));
+      }
+    };
+
+    void fetchPexelsImages();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [carouselDestinations]);
+
   const filtered = useMemo(() => {
     const q = search.toLowerCase().trim();
     return countries.filter((d) => {
@@ -312,7 +354,7 @@ function HomePage() {
               className={`home-carousel-card${isFavorite(dest.id) ? ' home-carousel-card-favorite' : ''}`}
               href={`/destinations/${dest.id}`}
               role="listitem"
-              style={{ backgroundImage: `url(${dest.imageUrl})` }}
+              style={{ backgroundImage: `url(${pexelsImages[dest.id] ?? dest.imageUrl})` }}
               aria-label={`Ver ${dest.name}`}
             >
               <span className="home-carousel-card-label">{dest.name}</span>
