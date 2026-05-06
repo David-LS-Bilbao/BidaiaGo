@@ -386,6 +386,7 @@
    6. CARD DE PAÍS (grid)
    ============================================ */
 .home-card {
+  position: relative; /* ancla los overlays de favorito y bandera */
   display: flex;
   flex-direction: column;
   background: var(--color-superficie);
@@ -401,7 +402,7 @@
   box-shadow: var(--sombra-fuerte);
 }
 
-/* Imagen / bandera */
+/* Imagen / bandera (legacy — mantenido por compatibilidad) */
 .home-card-flag {
   width: 100%;
   aspect-ratio: 16 / 9;
@@ -409,6 +410,78 @@
   display: block;
   background: var(--color-primario-claro);
   flex-shrink: 0;
+}
+
+/* Botón de favorito — overlay esquina superior izquierda */
+.home-card-favorite {
+  position: absolute;
+  top: 0.65rem;
+  left: 0.65rem;
+  z-index: 10;
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(4px);
+  color: var(--color-texto);
+  font-size: 1.05rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.22);
+  transition: background 0.18s ease, transform 0.15s ease;
+}
+
+.home-card-favorite:hover {
+  background: #fff;
+  transform: scale(1.12);
+}
+
+.home-card-favorite:focus-visible {
+  outline: 3px solid var(--color-acento);
+  outline-offset: 2px;
+}
+
+/* Área de imagen turística — contenedor relativo para el badge */
+.home-card-image-area {
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+/* Imagen turística — ocupa toda la parte superior */
+.home-card-image {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  display: block;
+  background: var(--color-primario-claro);
+}
+
+/* Bandera circular — overlay esquina superior derecha */
+.home-card-flag-badge {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  z-index: 5;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.28);
+  background: var(--color-superficie);
+}
+
+/* Contador de resultados filtrados */
+.home-grid-count {
+  font-size: 0.88rem;
+  color: var(--color-texto-secundario);
+  font-weight: 500;
 }
 
 /* Contenido */
@@ -444,9 +517,9 @@
   gap: 0.3rem;
 }
 
-/* Acciones */
+/* Acciones — dentro de home-card-content, sin padding lateral extra */
 .home-card-actions {
-  padding: 0.75rem 1.1rem 1rem;
+  padding-top: 0.5rem;
   margin-top: auto;
 }
 
@@ -606,9 +679,14 @@
 @media (prefers-reduced-motion: reduce) {
   .home-carousel-card,
   .home-card,
+  .home-card-favorite,
   .home-card-link,
   .home-error-retry {
     transition: none;
+  }
+
+  .home-card-favorite:hover {
+    transform: none;
   }
 
   .home-loading-spinner {

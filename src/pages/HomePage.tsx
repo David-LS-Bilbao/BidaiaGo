@@ -1,219 +1,337 @@
-import "../styles/home.css";
+import { useState, useMemo } from 'react';
+import '../styles/home.css';
 
-/**
- * Tipo temporal para pintar países de ejemplo.
- *
- * Más adelante este tipo se podrá sustituir por el modelo común
- * TravelDestination cuando conectemos REST Countries.
- */
-type MockDestination = {
+interface MockDestination {
   id: string;
   name: string;
   capital: string;
   region: string;
   population: string;
-  flagUrl: string;
   imageUrl: string;
-};
+  flagUrl: string;
+  featured?: boolean;
+}
 
-/**
- * Datos mock temporales.
- *
- * Objetivo:
- * - Probar la estructura visual.
- * - Validar el carrusel.
- * - Validar el grid.
- *
- * Más adelante estos datos vendrán desde REST Countries API.
- */
-const mockDestinations: MockDestination[] = [
+const MOCK_DESTINATIONS: MockDestination[] = [
   {
-    id: "ESP",
-    name: "España",
-    capital: "Madrid",
-    region: "Europe",
-    population: "47,4 M",
-    flagUrl: "https://flagcdn.com/w640/es.png",
-    imageUrl:
-      "https://images.unsplash.com/photo-1543783207-ec64e4d95325?auto=format&fit=crop&w=900&q=80",
+    id: 'jp',
+    name: 'Japón',
+    capital: 'Tokio',
+    region: 'Asia',
+    population: '125.7 M',
+    imageUrl: 'https://picsum.photos/seed/japan-temple/800/450',
+    flagUrl: 'https://flagcdn.com/jp.svg',
+    featured: true,
   },
   {
-    id: "JPN",
-    name: "Japón",
-    capital: "Tokio",
-    region: "Asia",
-    population: "125,7 M",
-    flagUrl: "https://flagcdn.com/w640/jp.png",
-    imageUrl:
-      "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=900&q=80",
+    id: 'fr',
+    name: 'Francia',
+    capital: 'París',
+    region: 'Europa',
+    population: '67.4 M',
+    imageUrl: 'https://picsum.photos/seed/paris-tower/800/450',
+    flagUrl: 'https://flagcdn.com/fr.svg',
+    featured: true,
   },
   {
-    id: "BRA",
-    name: "Brasil",
-    capital: "Brasilia",
-    region: "Americas",
-    population: "203 M",
-    flagUrl: "https://flagcdn.com/w640/br.png",
-    imageUrl:
-      "https://images.unsplash.com/photo-1483729558449-99ef09a8c325?auto=format&fit=crop&w=900&q=80",
+    id: 'br',
+    name: 'Brasil',
+    capital: 'Brasília',
+    region: 'América del Sur',
+    population: '215.3 M',
+    imageUrl: 'https://picsum.photos/seed/brazil-nature/800/450',
+    flagUrl: 'https://flagcdn.com/br.svg',
+    featured: true,
   },
   {
-    id: "MAR",
-    name: "Marruecos",
-    capital: "Rabat",
-    region: "Africa",
-    population: "37 M",
-    flagUrl: "https://flagcdn.com/w640/ma.png",
-    imageUrl:
-      "https://images.unsplash.com/photo-1539020140153-e8c237112e53?auto=format&fit=crop&w=900&q=80",
+    id: 'ma',
+    name: 'Marruecos',
+    capital: 'Rabat',
+    region: 'África',
+    population: '37.5 M',
+    imageUrl: 'https://picsum.photos/seed/morocco-desert/800/450',
+    flagUrl: 'https://flagcdn.com/ma.svg',
+    featured: true,
   },
   {
-    id: "AUS",
-    name: "Australia",
-    capital: "Canberra",
-    region: "Oceania",
-    population: "26 M",
-    flagUrl: "https://flagcdn.com/w640/au.png",
-    imageUrl:
-      "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?auto=format&fit=crop&w=900&q=80",
+    id: 'it',
+    name: 'Italia',
+    capital: 'Roma',
+    region: 'Europa',
+    population: '59.5 M',
+    imageUrl: 'https://picsum.photos/seed/italy-colosseum/800/450',
+    flagUrl: 'https://flagcdn.com/it.svg',
+  },
+  {
+    id: 'au',
+    name: 'Australia',
+    capital: 'Canberra',
+    region: 'Oceanía',
+    population: '26.1 M',
+    imageUrl: 'https://picsum.photos/seed/australia-reef/800/450',
+    flagUrl: 'https://flagcdn.com/au.svg',
+  },
+  {
+    id: 'ca',
+    name: 'Canadá',
+    capital: 'Ottawa',
+    region: 'América del Norte',
+    population: '38.2 M',
+    imageUrl: 'https://picsum.photos/seed/canada-forest/800/450',
+    flagUrl: 'https://flagcdn.com/ca.svg',
+  },
+  {
+    id: 'nz',
+    name: 'Nueva Zelanda',
+    capital: 'Wellington',
+    region: 'Oceanía',
+    population: '5.1 M',
+    imageUrl: 'https://picsum.photos/seed/newzealand-fjord/800/450',
+    flagUrl: 'https://flagcdn.com/nz.svg',
+  },
+  {
+    id: 'co',
+    name: 'Colombia',
+    capital: 'Bogotá',
+    region: 'América del Sur',
+    population: '51.9 M',
+    imageUrl: 'https://picsum.photos/seed/colombia-coffee/800/450',
+    flagUrl: 'https://flagcdn.com/co.svg',
+  },
+  {
+    id: 'eg',
+    name: 'Egipto',
+    capital: 'El Cairo',
+    region: 'África',
+    population: '104.2 M',
+    imageUrl: 'https://picsum.photos/seed/egypt-pyramids/800/450',
+    flagUrl: 'https://flagcdn.com/eg.svg',
+  },
+  {
+    id: 'mx',
+    name: 'México',
+    capital: 'Ciudad de México',
+    region: 'América del Norte',
+    population: '128.9 M',
+    imageUrl: 'https://picsum.photos/seed/mexico-ruins/800/450',
+    flagUrl: 'https://flagcdn.com/mx.svg',
+  },
+  {
+    id: 'th',
+    name: 'Tailandia',
+    capital: 'Bangkok',
+    region: 'Asia',
+    population: '71.8 M',
+    imageUrl: 'https://picsum.photos/seed/thailand-temples/800/450',
+    flagUrl: 'https://flagcdn.com/th.svg',
   },
 ];
 
-/**
- * HomePage
- *
- * Esta página se usa como dashboard funcional de BidaiaGo.
- *
- * Responsabilidad actual:
- * - Mostrar una base visual con datos mock.
- * - Pintar buscador y filtro de región.
- * - Mostrar carrusel de destinos destacados.
- * - Mostrar grid de cards.
- *
- * Próximo paso:
- * - Añadir estado React.
- * - Conectar con REST Countries.
- * - Filtrar por país/capital y región.
- */
+const REGIONS = [
+  'Todas las regiones',
+  'África',
+  'América del Norte',
+  'América del Sur',
+  'Asia',
+  'Europa',
+  'Oceanía',
+];
+
 function HomePage() {
-  const featuredDestinations = mockDestinations.slice(0, 4);
+  const [search, setSearch] = useState('');
+  const [region, setRegion] = useState('Todas las regiones');
+
+  const featured = useMemo(
+    () => MOCK_DESTINATIONS.filter((d) => d.featured),
+    []
+  );
+
+  const filtered = useMemo(() => {
+    const q = search.toLowerCase().trim();
+    return MOCK_DESTINATIONS.filter((d) => {
+      const matchSearch =
+        !q ||
+        d.name.toLowerCase().includes(q) ||
+        d.capital.toLowerCase().includes(q) ||
+        d.region.toLowerCase().includes(q);
+      const matchRegion =
+        region === 'Todas las regiones' || d.region === region;
+      return matchSearch && matchRegion;
+    });
+  }, [search, region]);
 
   return (
-    <section className="home-page" aria-labelledby="home-title">
-      {/* CABECERA DEL DASHBOARD */}
+    <main className="home-page">
+      {/* Cabecera del dashboard */}
       <header className="home-header">
         <div>
-          <h1 id="home-title" className="home-title">
-            Explorar destinos
-          </h1>
-
+          <h1 className="home-title">Explorar destinos</h1>
           <p className="home-description">
-            Busca países, compara información útil y descubre posibles destinos
-            para tu próximo viaje.
+            Descubre países, culturas y aventuras. Guarda tus favoritos y
+            planifica tu próximo viaje.
           </p>
         </div>
       </header>
 
-      {/* CONTROLES VISUALES: buscador + filtro */}
-      <div className="home-controls" aria-label="Controles de búsqueda y filtrado">
-        <label className="home-search" htmlFor="country-search">
-          <span className="home-search-icon" aria-hidden="true">
-            🔎
-          </span>
-
+      {/* Buscador + filtro de región */}
+      <div className="home-controls">
+        <label className="home-search" aria-label="Buscar destino">
+          <svg
+            className="home-search-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            aria-hidden="true"
+          >
+            <circle cx="11" cy="11" r="8" />
+            <path d="M21 21l-4.35-4.35" />
+          </svg>
           <input
-            id="country-search"
             type="search"
-            placeholder="Buscar por país o capital..."
-            aria-label="Buscar por país o capital"
+            placeholder="País, capital o región…"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
           />
         </label>
 
-        <label className="home-filter" htmlFor="region-filter">
-          <span className="home-filter-icon" aria-hidden="true">
-            🌍
-          </span>
-
-          <select id="region-filter" aria-label="Filtrar por región">
-            <option value="">Todas las regiones</option>
-            <option value="Africa">África</option>
-            <option value="Americas">América</option>
-            <option value="Asia">Asia</option>
-            <option value="Europe">Europa</option>
-            <option value="Oceania">Oceanía</option>
+        <div className="home-filter">
+          <svg
+            className="home-filter-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            aria-hidden="true"
+          >
+            <path d="M3 6h18M7 12h10M11 18h2" />
+          </svg>
+          <select
+            value={region}
+            onChange={(e) => setRegion(e.target.value)}
+            aria-label="Filtrar por región"
+          >
+            {REGIONS.map((r) => (
+              <option key={r} value={r}>
+                {r}
+              </option>
+            ))}
           </select>
-        </label>
+        </div>
       </div>
 
-      {/* CARRUSEL DE DESTINOS DESTACADOS */}
-      <section className="home-carousel-section" aria-labelledby="featured-title">
+      {/* Carrusel — destinos destacados */}
+      <section
+        className="home-carousel-section"
+        aria-labelledby="home-featured-title"
+      >
         <div className="home-carousel-header">
-          <h2 id="featured-title" className="home-carousel-title">
+          <h2 className="home-carousel-title" id="home-featured-title">
             Destinos destacados
           </h2>
         </div>
 
-        <div className="home-carousel" aria-label="Carrusel de países destacados">
-          {featuredDestinations.map((destination) => (
-            <article
-              key={destination.id}
+        <div className="home-carousel" role="list">
+          {featured.map((dest) => (
+            <a
+              key={dest.id}
               className="home-carousel-card"
-              style={{ backgroundImage: `url(${destination.imageUrl})` }}
+              href={`/destinations/${dest.id}`}
+              role="listitem"
+              style={{ backgroundImage: `url(${dest.imageUrl})` }}
+              aria-label={`Ver ${dest.name}`}
             >
-              <h3 className="home-carousel-card-label">{destination.name}</h3>
-              <p className="home-carousel-card-sub">
-                {destination.capital} · {destination.region}
-              </p>
-            </article>
+              <span className="home-carousel-card-label">{dest.name}</span>
+              <span className="home-carousel-card-sub">{dest.region}</span>
+            </a>
           ))}
         </div>
       </section>
 
-      {/* GRID DE TODOS LOS DESTINOS */}
-      <section className="home-grid-section" aria-labelledby="grid-title">
+      {/* Grid — todos los destinos */}
+      <section
+        className="home-grid-section"
+        aria-labelledby="home-grid-title"
+      >
         <div className="home-grid-header">
-          <h2 id="grid-title" className="home-grid-title">
+          <h2 className="home-grid-title" id="home-grid-title">
             Todos los destinos
           </h2>
+          {filtered.length !== MOCK_DESTINATIONS.length && (
+            <span className="home-grid-count" aria-live="polite">
+              {filtered.length} resultado{filtered.length !== 1 ? 's' : ''}
+            </span>
+          )}
         </div>
 
-        <div className="home-grid">
-          {mockDestinations.map((destination) => (
-            <article key={destination.id} className="home-card">
-              <img
-                className="home-card-flag"
-                src={destination.flagUrl}
-                alt={`Bandera de ${destination.name}`}
-              />
+        {filtered.length === 0 ? (
+          <div className="home-empty" role="status">
+            <span className="home-empty-icon">🗺️</span>
+            <h3 className="home-empty-title">Sin resultados</h3>
+            <p className="home-empty-message">
+              No encontramos destinos para «{search}». Prueba con otro nombre
+              o cambia la región.
+            </p>
+          </div>
+        ) : (
+          <div className="home-grid">
+            {filtered.map((dest) => (
+              <article key={dest.id} className="home-card">
+                {/* Botón favorito — overlay esquina superior izquierda */}
+                <button
+                  className="home-card-favorite"
+                  type="button"
+                  aria-label={`Añadir ${dest.name} a favoritos`}
+                >
+                  ☆
+                </button>
 
-              <div className="home-card-content">
-                <h3 className="home-card-title">{destination.name}</h3>
-
-                <div className="home-card-meta">
-                  <span className="home-card-meta-item">
-                    Capital: {destination.capital}
-                  </span>
-
-                  <span className="home-card-meta-item">
-                    Región: {destination.region}
-                  </span>
-
-                  <span className="home-card-meta-item">
-                    Población: {destination.population}
-                  </span>
+                {/* Imagen turística + bandera badge */}
+                <div className="home-card-image-area">
+                  <img
+                    className="home-card-image"
+                    src={dest.imageUrl}
+                    alt={`Imagen turística de ${dest.name}`}
+                    loading="lazy"
+                  />
+                  <img
+                    className="home-card-flag-badge"
+                    src={dest.flagUrl}
+                    alt={`Bandera de ${dest.name}`}
+                  />
                 </div>
-              </div>
 
-              <div className="home-card-actions">
-                <a className="home-card-link" href={`/destinations/${destination.id}`}>
-                  Ver detalle
-                </a>
-              </div>
-            </article>
-          ))}
-        </div>
+                {/* Datos del país */}
+                <div className="home-card-content">
+                  <h3 className="home-card-title">{dest.name}</h3>
+
+                  <div className="home-card-meta">
+                    <span className="home-card-meta-item">
+                      Capital: {dest.capital}
+                    </span>
+                    <span className="home-card-meta-item">
+                      Región: {dest.region}
+                    </span>
+                    <span className="home-card-meta-item">
+                      Población: {dest.population}
+                    </span>
+                  </div>
+
+                  <div className="home-card-actions">
+                    <a
+                      className="home-card-link"
+                      href={`/destinations/${dest.id}`}
+                    >
+                      Ver detalle
+                    </a>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
       </section>
-    </section>
+    </main>
   );
 }
 
