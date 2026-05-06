@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect, useCallback } from 'react';
 import '../styles/home.css';
 import { getAllCountries, type RestCountry } from '../services/countriesApi';
 import { useLocalStorage } from '../hooks/useLocalStorage';
+import ScrollToTopButton from '../components/ScrollToTopButton';
 
 // ─── Tipo interno de la UI ────────────────────────────────────────────────────
 
@@ -410,6 +411,8 @@ function HomePage() {
           </div>
         )}
       </section>
+
+      <ScrollToTopButton />
     </main>
   );
 }

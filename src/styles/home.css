@@ -848,6 +848,55 @@
 }
 
 /* ============================================
+   9. BOTÓN FLOTANTE — volver arriba
+   ============================================ */
+.home-scroll-top {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 200;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  border: none;
+  background: var(--color-primario);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+  transition: opacity 0.22s ease, transform 0.22s ease, background 0.18s ease;
+}
+
+.home-scroll-top-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.home-scroll-top:hover {
+  background: var(--color-primario-oscuro);
+}
+
+.home-scroll-top:focus-visible {
+  outline: 3px solid var(--color-acento);
+  outline-offset: 3px;
+}
+
+@media (min-width: 768px) {
+  .home-scroll-top {
+    bottom: 2rem;
+    right: 2rem;
+    width: 3rem;
+    height: 3rem;
+  }
+}
+
+/* ============================================
    8. ACCESIBILIDAD — prefers-reduced-motion
    ============================================ */
 @media (prefers-reduced-motion: reduce) {
@@ -856,8 +905,13 @@
   .home-card-image,
   .home-card-favorite,
   .home-card-link,
-  .home-error-retry {
+  .home-error-retry,
+  .home-scroll-top {
     transition: none;
+  }
+
+  .home-scroll-top {
+    transform: none;
   }
 
   .home-card:hover {
