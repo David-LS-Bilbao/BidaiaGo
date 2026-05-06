@@ -13,7 +13,6 @@ function App() {
       <Header />
 
       <main className="contenido">
-        <h2>Bienvenido a Mi App de Viajes</h2>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/destinations" element={<DestinationDetailPage />} />

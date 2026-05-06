@@ -225,19 +225,9 @@ function HomePage() {
     <main className="home-page">
       {/* Cabecera del dashboard */}
       <header className="home-header">
-        <div>
-          <h1 className="home-title">Explorar destinos</h1>
-          <p className="home-description">
-            Descubre países, culturas y aventuras. Guarda tus favoritos y
-            planifica tu próximo viaje.
-          </p>
-        </div>
+        <h1 className="home-visually-hidden">Explorar destinos</h1>
 
-        <div
-          className="home-flip-board"
-          aria-live="polite"
-          aria-label="Mensajes de BidaiaGo"
-        >
+        <div className="home-flip-board" aria-hidden="true">
           <span className="home-flip-board-label">BidaiaGo</span>
           <div key={headerMessageIndex} className="home-flip-board-text">
             {HEADER_MESSAGES[headerMessageIndex].map((line, i) => (
@@ -250,6 +240,9 @@ function HomePage() {
               </p>
             ))}
           </div>
+          <p className="home-flip-board-subtitle">
+            Explora países, guarda favoritos y planifica tu viaje
+          </p>
         </div>
       </header>
 
