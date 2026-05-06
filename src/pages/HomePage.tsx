@@ -1,29 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import '../styles/home.css';
-
-// ─── Tipos de la API REST Countries ───────────────────────────────────────────
-
-interface RestCountryName {
-  common: string;
-  official: string;
-}
-
-interface RestCountryFlags {
-  png: string;
-  svg: string;
-  alt?: string;
-}
-
-interface RestCountry {
-  name: RestCountryName;
-  cca2: string;
-  cca3: string;
-  capital?: string[];
-  region: string;
-  subregion?: string;
-  population: number;
-  flags: RestCountryFlags;
-}
+import { getAllCountries, type RestCountry } from '../services/countriesApi';
 
 // ─── Tipo interno de la UI ────────────────────────────────────────────────────
 
@@ -41,9 +18,6 @@ interface Destination {
 }
 
 // ─── Constantes ───────────────────────────────────────────────────────────────
-
-const API_URL =
-  'https://restcountries.com/v3.1/all?fields=name,cca2,cca3,capital,region,subregion,population,area,languages,currencies,flags,maps,borders,continents,timezones,latlng';
 
 // Lista fija de países que aparecen en el carrusel
 const FEATURED_CCA3 = new Set([
@@ -106,11 +80,7 @@ function HomePage() {
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch(API_URL);
-        if (!res.ok) {
-          throw new Error(`Error ${res.status}: ${res.statusText}`);
-        }
-        const data: RestCountry[] = await res.json();
+        const data = await getAllCountries();
         if (!cancelled) {
           const destinations = data
             .map(mapToDestination)
