@@ -1,0 +1,470 @@
+/* ============================================
+   landing.css - Estilos especificos Landing Page
+   ============================================ */
+
+/* ---------- Base de pagina ---------- */
+.landing-page {
+  min-height: 100vh;
+  color: var(--color-texto);
+  background:
+    radial-gradient(circle at top left, rgba(216, 243, 220, 0.9), transparent 34rem),
+    radial-gradient(circle at 90% 18%, rgba(232, 93, 42, 0.12), transparent 22rem),
+    linear-gradient(180deg, var(--color-fondo) 0%, var(--color-superficie) 48%, var(--color-fondo) 100%);
+  overflow-x: hidden;
+}
+
+/* ---------- Hero ---------- */
+.landing-hero {
+  position: relative;
+  isolation: isolate;
+  min-height: 82vh;
+  display: flex;
+  align-items: center;
+  padding: 5rem 1rem 4rem;
+}
+
+.landing-hero::before,
+.landing-hero::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.landing-hero::before {
+  width: 15rem;
+  height: 15rem;
+  right: -5rem;
+  top: 6rem;
+  background: color-mix(in srgb, var(--color-primario-claro) 74%, var(--color-superficie));
+  box-shadow: var(--sombra-media);
+  animation: landing-float 9s ease-in-out infinite;
+}
+
+.landing-hero::after {
+  width: 8rem;
+  height: 8rem;
+  left: -3rem;
+  bottom: 4rem;
+  background: color-mix(in srgb, var(--color-acento) 18%, transparent);
+  animation: landing-float 11s ease-in-out infinite reverse;
+}
+
+.landing-hero-content {
+  width: min(100%, var(--max-ancho));
+  margin: 0 auto;
+  animation: landing-rise 680ms ease-out both;
+}
+
+.landing-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  width: fit-content;
+  margin-bottom: 1rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--radio-pill);
+  color: var(--color-primario-oscuro);
+  background: color-mix(in srgb, var(--color-primario-claro) 76%, var(--color-superficie));
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.landing-title {
+  max-width: 12ch;
+  margin: 0;
+  color: var(--color-texto);
+  font-size: clamp(2.45rem, 12vw, 4.75rem);
+  line-height: 0.98;
+  letter-spacing: 0;
+}
+
+.landing-subtitle {
+  max-width: 42rem;
+  margin: 1.25rem 0 0;
+  color: var(--color-texto-secundario);
+  font-size: clamp(1rem, 2.8vw, 1.25rem);
+  line-height: 1.65;
+}
+
+.landing-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-top: 2rem;
+}
+
+.landing-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  padding: 0.85rem 1.25rem;
+  border: 2px solid transparent;
+  border-radius: var(--radio-pill);
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease,
+    color 180ms ease;
+}
+
+.landing-button:hover {
+  transform: translateY(-2px);
+}
+
+.landing-button:focus-visible {
+  outline: 3px solid var(--color-acento);
+  outline-offset: 4px;
+}
+
+.landing-button-primary {
+  color: var(--color-superficie);
+  background: var(--color-primario);
+  box-shadow: var(--sombra-media);
+}
+
+.landing-button-primary:hover {
+  color: var(--color-superficie);
+  background: var(--color-primario-oscuro);
+  box-shadow: var(--sombra-fuerte);
+}
+
+.landing-button-secondary {
+  color: var(--color-primario-oscuro);
+  background: color-mix(in srgb, var(--color-superficie) 88%, transparent);
+  border-color: color-mix(in srgb, var(--color-primario) 34%, transparent);
+}
+
+.landing-button-secondary:hover {
+  color: var(--color-primario-oscuro);
+  background: var(--color-superficie);
+  border-color: var(--color-primario);
+  box-shadow: var(--sombra-media);
+}
+
+/* ---------- Secciones ---------- */
+.landing-section {
+  width: min(100%, var(--max-ancho));
+  margin: 0 auto;
+  padding: 3.5rem 1rem;
+}
+
+.landing-section-header {
+  max-width: 42rem;
+  margin-bottom: 1.75rem;
+}
+
+.landing-section-title {
+  margin: 0;
+  color: var(--color-texto);
+  font-size: clamp(1.7rem, 6vw, 2.65rem);
+  line-height: 1.12;
+  letter-spacing: 0;
+}
+
+.landing-section-text {
+  margin: 0.85rem 0 0;
+  color: var(--color-texto-secundario);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+/* ---------- Cards de funcionalidades ---------- */
+.landing-features-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.landing-feature-card {
+  position: relative;
+  min-height: 13rem;
+  padding: 1.35rem;
+  border: 1px solid color-mix(in srgb, var(--color-primario) 18%, transparent);
+  border-radius: var(--radio-grande);
+  background: color-mix(in srgb, var(--color-superficie) 94%, var(--color-primario-claro));
+  box-shadow: var(--sombra-media);
+  overflow: hidden;
+  transition:
+    transform 200ms ease,
+    box-shadow 200ms ease,
+    border-color 200ms ease;
+}
+
+.landing-feature-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 0.35rem;
+  background: linear-gradient(90deg, var(--color-primario), var(--color-acento));
+}
+
+.landing-feature-card:hover {
+  transform: translateY(-0.35rem);
+  border-color: color-mix(in srgb, var(--color-primario) 44%, transparent);
+  box-shadow: var(--sombra-fuerte);
+}
+
+.landing-feature-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: 1rem;
+  border-radius: var(--radio-medio);
+  color: var(--color-primario-oscuro);
+  background: var(--color-primario-claro);
+  font-size: 1.35rem;
+  font-weight: 800;
+}
+
+/* ---------- Pasos ---------- */
+.landing-steps {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  counter-reset: landing-step;
+}
+
+.landing-step {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1rem;
+  align-items: start;
+  padding: 1.2rem;
+  border-radius: var(--radio-grande);
+  background: var(--color-superficie);
+  box-shadow: var(--sombra-media);
+  transition:
+    transform 200ms ease,
+    box-shadow 200ms ease;
+}
+
+.landing-step:hover {
+  transform: translateY(-0.25rem);
+  box-shadow: var(--sombra-fuerte);
+}
+
+.landing-step-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  color: var(--color-superficie);
+  background: var(--color-primario);
+  font-weight: 800;
+  box-shadow: 0 0 0 0.4rem var(--color-primario-claro);
+}
+
+/* ---------- Bloques de informacion ---------- */
+.landing-info-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.9rem;
+}
+
+.landing-info-item {
+  padding: 1.15rem;
+  border-left: 0.28rem solid var(--color-acento);
+  border-radius: var(--radio-medio);
+  color: var(--color-texto);
+  background: color-mix(in srgb, var(--color-superficie) 90%, var(--color-primario-claro));
+  box-shadow: var(--sombra-media);
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.landing-info-item:hover {
+  transform: translateX(0.25rem);
+  box-shadow: var(--sombra-fuerte);
+}
+
+/* ---------- CTA final ---------- */
+.landing-cta {
+  width: min(calc(100% - 2rem), var(--max-ancho));
+  margin: 2rem auto 4rem;
+  padding: 2rem 1.25rem;
+  border-radius: var(--radio-grande);
+  color: var(--color-superficie);
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--color-primario-oscuro) 94%, black), var(--color-primario)),
+    var(--color-primario-oscuro);
+  box-shadow: var(--sombra-fuerte);
+  text-align: center;
+}
+
+.landing-cta-title {
+  max-width: 42rem;
+  margin: 0 auto;
+  color: var(--color-superficie);
+  font-size: clamp(1.85rem, 7vw, 3rem);
+  line-height: 1.12;
+  letter-spacing: 0;
+}
+
+.landing-cta-text {
+  max-width: 39rem;
+  margin: 1rem auto 0;
+  color: color-mix(in srgb, var(--color-superficie) 86%, var(--color-primario-claro));
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.landing-cta .landing-actions {
+  align-items: stretch;
+  margin-top: 1.6rem;
+}
+
+.landing-cta .landing-button-primary {
+  color: var(--color-primario-oscuro);
+  background: var(--color-superficie);
+}
+
+.landing-cta .landing-button-primary:hover {
+  color: var(--color-primario-oscuro);
+  background: var(--color-primario-claro);
+}
+
+/* ---------- Animaciones ---------- */
+@keyframes landing-rise {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes landing-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, -0.9rem, 0);
+  }
+}
+
+/* ---------- Tablet ---------- */
+@media (min-width: 640px) {
+  .landing-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .landing-button {
+    width: auto;
+    min-width: 11rem;
+  }
+
+  .landing-features-grid,
+  .landing-info-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .landing-cta .landing-actions {
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+/* ---------- Desktop ---------- */
+@media (min-width: 960px) {
+  .landing-hero {
+    min-height: 88vh;
+    padding: 6rem 2rem 5rem;
+  }
+
+  .landing-hero::before {
+    width: 24rem;
+    height: 24rem;
+    right: max(2rem, calc((100vw - var(--max-ancho)) / 2));
+    top: 8rem;
+  }
+
+  .landing-hero::after {
+    width: 12rem;
+    height: 12rem;
+    left: max(2rem, calc((100vw - var(--max-ancho)) / 2 - 4rem));
+  }
+
+  .landing-section {
+    padding: 5rem 2rem;
+  }
+
+  .landing-section-header {
+    margin-bottom: 2.4rem;
+  }
+
+  .landing-features-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  .landing-feature-card {
+    padding: 1.55rem;
+  }
+
+  .landing-steps {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  .landing-step {
+    grid-template-columns: 1fr;
+    min-height: 13rem;
+    padding: 1.45rem;
+  }
+
+  .landing-info-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .landing-cta {
+    margin-bottom: 5rem;
+    padding: 3.5rem 2rem;
+  }
+}
+
+/* ---------- Movimiento reducido ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .landing-hero::before,
+  .landing-hero::after,
+  .landing-hero-content {
+    animation: none;
+  }
+
+  .landing-button,
+  .landing-feature-card,
+  .landing-step,
+  .landing-info-item {
+    transition: none;
+  }
+
+  .landing-button:hover,
+  .landing-feature-card:hover,
+  .landing-step:hover,
+  .landing-info-item:hover {
+    transform: none;
+  }
+}
