@@ -1,6 +1,7 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useCallback } from 'react';
 import '../styles/home.css';
 import { getAllCountries, type RestCountry } from '../services/countriesApi';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 
 // ─── Tipo interno de la UI ────────────────────────────────────────────────────
 
@@ -19,6 +20,8 @@ interface Destination {
 }
 
 // ─── Constantes ───────────────────────────────────────────────────────────────
+
+const FAVORITES_STORAGE_KEY = 'bidaiago:favorites';
 
 // Lista fija de países que aparecen en el carrusel
 const FEATURED_CCA3 = new Set([
@@ -75,6 +78,32 @@ function HomePage() {
   const [search, setSearch] = useState('');
   const [region, setRegion] = useState('');
 
+  const { value: favoriteDestinations, setValue: setFavoriteDestinations } =
+    useLocalStorage<Destination[]>(FAVORITES_STORAGE_KEY, []);
+
+  // Set de IDs para lookups O(1)
+  const favoriteIds = useMemo(
+    () => new Set(favoriteDestinations.map((d) => d.id)),
+    [favoriteDestinations],
+  );
+
+  const isFavorite = useCallback(
+    (destinationId: string): boolean => favoriteIds.has(destinationId),
+    [favoriteIds],
+  );
+
+  const toggleFavorite = useCallback(
+    (destination: Destination): void => {
+      setFavoriteDestinations((prev) => {
+        const alreadySaved = prev.some((d) => d.id === destination.id);
+        return alreadySaved
+          ? prev.filter((d) => d.id !== destination.id)
+          : [destination, ...prev];
+      });
+    },
+    [setFavoriteDestinations],
+  );
+
   useEffect(() => {
     let cancelled = false;
 
@@ -116,6 +145,12 @@ function HomePage() {
     () => countries.filter((d) => d.featured),
     [countries],
   );
+
+  // Favoritos primero, luego destacados fijos sin duplicados
+  const carouselDestinations = useMemo(() => {
+    const uniqueFeatured = featured.filter((d) => !favoriteIds.has(d.id));
+    return [...favoriteDestinations, ...uniqueFeatured];
+  }, [favoriteDestinations, favoriteIds, featured]);
 
   const filtered = useMemo(() => {
     const q = search.toLowerCase().trim();
@@ -237,15 +272,15 @@ function HomePage() {
       >
         <div className="home-carousel-header">
           <h2 className="home-carousel-title" id="home-featured-title">
-            Destinos destacados
+            Tus favoritos y destacados
           </h2>
         </div>
 
         <div className="home-carousel" role="list">
-          {featured.map((dest) => (
+          {carouselDestinations.map((dest) => (
             <a
               key={dest.id}
-              className="home-carousel-card"
+              className={`home-carousel-card${isFavorite(dest.id) ? ' home-carousel-card-favorite' : ''}`}
               href={`/destinations/${dest.id}`}
               role="listitem"
               style={{ backgroundImage: `url(${dest.imageUrl})` }}
@@ -293,11 +328,13 @@ function HomePage() {
               <article key={dest.id} className="home-card">
                 {/* Favorito — overlay esquina superior izquierda */}
                 <button
-                  className="home-card-favorite"
+                  className={`home-card-favorite${isFavorite(dest.id) ? ' home-card-favorite-active' : ''}`}
                   type="button"
-                  aria-label={`Añadir ${dest.name} a favoritos`}
+                  aria-label={isFavorite(dest.id) ? `Quitar ${dest.name} de favoritos` : `Añadir ${dest.name} a favoritos`}
+                  aria-pressed={isFavorite(dest.id)}
+                  onClick={() => toggleFavorite(dest)}
                 >
-                  ☆
+                  {isFavorite(dest.id) ? '★' : '☆'}
                 </button>
 
                 {/* Imagen turística + bandera badge */}

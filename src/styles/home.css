@@ -446,6 +446,37 @@
   outline-offset: 2px;
 }
 
+/* Botón favorito en estado activo (★) */
+.home-card-favorite-active {
+  background: #fff;
+  color: var(--color-acento);
+  box-shadow: 0 1px 6px rgba(232, 93, 42, 0.35);
+}
+
+.home-card-favorite-active:hover {
+  background: #fff;
+  color: var(--color-acento);
+}
+
+/* Tarjeta del carrusel que es favorito — indicador visual ★ */
+.home-carousel-card-favorite::before {
+  content: '★';
+  position: absolute;
+  top: 0.55rem;
+  left: 0.55rem;
+  z-index: 2;
+  font-size: 0.9rem;
+  color: var(--color-acento);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+  line-height: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-card-favorite-active {
+    box-shadow: none;
+  }
+}
+
 /* Área de imagen turística — contenedor relativo para el badge */
 .home-card-image-area {
   position: relative;
