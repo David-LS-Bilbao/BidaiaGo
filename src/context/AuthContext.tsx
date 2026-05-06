@@ -1,0 +1,1 @@
+//Aquí  el estado global del login.

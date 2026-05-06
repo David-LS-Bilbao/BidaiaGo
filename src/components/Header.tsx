@@ -1,21 +1,25 @@
+import { useState } from "react";
+import { Link } from "react-router-dom";
 function Header() {
+  const [open, setOpen] = useState(false);
+
   return (
     <header className="cabecera">
       <div className="cabecera-contenedor">
 
-        {/* Logo / título */}
-        <h1 className="logo">BidaiaGo</h1>
+        <Link to="/" className="logo">BidaiaGo</Link>
 
-        {/* Navegación */}
-        <nav className="nav-central">
-          <a href="#">Home</a>
-          <a href="#">Destinos</a>
-          <a href="#">Mi viaje</a>
-          <a href="#">About</a>
+        <nav className={`nav-central ${open ? "activo" : ""}`}>
+          <Link to="/home">Home</Link>
+          <Link to="/destinations">Destinos</Link>
+          <Link to="/trip-list">Mi viaje</Link>
+          <Link to="/about">About</Link>
         </nav>
 
-        {/* Botón hamburguesa (para móvil) */}
-        <button className="boton-hamburguesa">
+        <button
+          className="boton-hamburguesa"
+          onClick={() => setOpen(!open)}
+        >
           ☰
         </button>
 
@@ -23,5 +27,4 @@ function Header() {
     </header>
   );
 }
-
-export default Header;
+export default Header  
