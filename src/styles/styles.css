@@ -500,3 +500,40 @@ textarea:focus-visible {
   }
   html { scroll-behavior: auto; }
 }
+/* =========================
+   MENU MOBILE ACTIVO
+   ========================= */
+
+@media (max-width: 1023px) {
+
+  .nav-central {
+    display: none;
+  }
+
+  .nav-central.activo {
+    display: flex;
+    flex-direction: column;
+
+    position: absolute;
+    top: 100%;
+    left: 0;
+
+    width: 100%;
+
+    background: var(--color-superficie);
+
+    padding: 1rem;
+
+    gap: 1rem;
+
+    border-top: 1px solid var(--color-borde);
+
+    box-shadow: var(--sombra-media);
+
+    z-index: 999;
+  }
+
+  .cabecera {
+    position: relative;
+  }
+}
