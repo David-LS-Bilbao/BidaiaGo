@@ -28,10 +28,6 @@ function Header() {
         >
           <Link to="/dashboard">Explorar</Link>
 
-          <Link to="/destinations">
-            Destinos
-          </Link>
-
           <Link to="/trip-list">
             Mi viaje
           </Link>
@@ -39,6 +35,11 @@ function Header() {
           <Link to="/about">
             About
           </Link>
+
+          <Link to="/contact">
+            Contacto
+          </Link>
+
 
           {!user && (
             <>

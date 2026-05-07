@@ -1,10 +1,9 @@
-/* ============================================
-   styles.css — Estilos generales (mobile-first ish)
-   WCAG AA: contraste 4.5:1 texto normal, 3:1 grande
-   ============================================ */
+/* styles.css — Estilos generales (mobile-first ish)
+   WCAG AA: contraste 4.5:1 texto normal, 3:1 grande */
 
 @import url('./components.css');
 @import url('./pages.css');
+@import url('./DestinationDetail.css');
 
 /* ---------- Variables globales ---------- */
 :root {
