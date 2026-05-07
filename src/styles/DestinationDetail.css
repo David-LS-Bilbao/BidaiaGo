@@ -44,16 +44,10 @@
   min-width: 200px;
   padding: 0.8rem 1rem;
   border: 1px solid var(--color-borde);
-  border-radius: var(--radio-pequeno);
+  border-radius: var(--radio-pill);
   font-size: 1rem;
   font-family: inherit;
   transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.input-busqueda:focus {
-  outline: none;
-  border-color: var(--color-primario);
-  box-shadow: 0 0 0 3px rgba(79, 104, 20, 0.15);
 }
 
 .boton-buscar {
@@ -61,7 +55,7 @@
   background: var(--color-primario);
   color: #fff;
   border: none;
-  border-radius: var(--radio-pequeno);
+  border-radius: var(--radio-pill);
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
@@ -248,18 +242,18 @@
 }
 
 .badge-seguro {
-  background: #d4edda;
-  color: #155724;
+  background: var(--publico-todos-bg);
+  color: var(--publico-todos-tx);
 }
 
 .badge-advertencia {
-  background: #fff3cd;
-  color: #856404;
+  background: var(--publico-doce-bg);
+  color: var(--publico-doce-tx);
 }
 
 .badge-peligro {
-  background: #f8d7da;
-  color: #721c24;
+  background: var(--color-error-bg);
+  color: var(--color-error-tx);
 }
 
 .recomendacion-contenido {
@@ -293,56 +287,9 @@
   }
 }
 
-/* Background Effects */
-.background-effects {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: -1;
-}
-
-.background-gradient {
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(ellipse at 30% 20%, rgba(79, 104, 20, 0.08) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(59, 85, 20, 0.06) 0%, transparent 50%);
-  animation: gradientShift 8s ease-in-out infinite;
-}
-
-@keyframes gradientShift {
-  0%, 100% {
-    background: radial-gradient(ellipse at 30% 20%, rgba(79, 104, 20, 0.08) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(59, 85, 20, 0.06) 0%, transparent 50%);
+@media (prefers-reduced-motion: reduce) {
+  .input-busqueda,
+  .boton-buscar {
+    transition: none;
   }
-  50% {
-    background: radial-gradient(ellipse at 40% 30%, rgba(79, 104, 0.1) 0%, transparent 50%), radial-gradient(ellipse at 60% 70%, rgba(59, 85, 20, 0.08) 0%, transparent 50%);
-  }
-}
-
-.floating-element {
-  position: absolute;
-  border-radius: 50%;
-  background: linear-gradient(135deg, rgba(79, 104, 20, 0.15), rgba(59, 85, 20, 0.05));
-  filter: blur(1px);
-}
-
-.pulse-element {
-  position: absolute;
-  border-radius: 50%;
-  border: 2px solid rgba(79, 104, 20, 0.3);
-}
-
-.background-fade {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 300px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, transparent 100%);
-  opacity: 0.5;
 }

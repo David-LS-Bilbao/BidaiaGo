@@ -37,83 +37,6 @@ const errorVariants = {
     animate: { opacity: 1, x: 0, transition: { duration: 0.3 } },
 };
 
-const floatVariants = {
-    initial: { y: 0, opacity: 0.3 },
-    animate: { 
-        y: [0, -20, 0], 
-        opacity: [0.3, 0.7, 0.3],
-        transition: { 
-            duration: 4, 
-            repeat: Infinity, 
-            ease: "easeInOut" as const 
-        } 
-    },
-};
-
-const pulseVariants = {
-    initial: { scale: 1, opacity: 0.2 },
-    animate: { 
-        scale: [1, 1.5, 1], 
-        opacity: [0.2, 0.5, 0.2],
-        transition: { 
-            duration: 3, 
-            repeat: Infinity, 
-            ease: "easeInOut" as const,
-            delay: 1
-        } 
-    },
-};
-
-function FloatingElement({ delay, left, size }: { delay: number; left: string; size: number }) {
-    return (
-        <motion.div
-            className="floating-element"
-            style={{ left, width: size, height: size }}
-            variants={floatVariants}
-            initial="initial"
-            animate="animate"
-            transition={{ delay, duration: 4 + delay }}
-        />
-    );
-}
-
-function PulseElement({ delay, left, top, size }: { delay: number; left: string; top: string; size: number }) {
-    return (
-        <motion.div
-            className="pulse-element"
-            style={{ left, top, width: size, height: size }}
-            variants={pulseVariants}
-            initial="initial"
-            animate="animate"
-            transition={{ delay, duration: 3 + delay }}
-        />
-    );
-}
-
-function BackgroundEffects() {
-    return (
-        <div className="background-effects">
-            <motion.div className="background-gradient" />
-
-            <FloatingElement delay={0} left="10%" size={80} />
-            <FloatingElement delay={0.5} left="25%" size={60} />
-            <FloatingElement delay={1} left="40%" size={100} />
-            <FloatingElement delay={1.5} left="55%" size={70} />
-            <FloatingElement delay={2} left="70%" size={90} />
-            <FloatingElement delay={2.5} left="85%" size={50} />
-            <FloatingElement delay={0.8} left="15%" size={40} />
-            <FloatingElement delay={1.3} left="60%" size={55} />
-            <FloatingElement delay={1.8} left="80%" size={65} />
-
-            <PulseElement delay={0} left="20%" top="30%" size={120} />
-            <PulseElement delay={0.7} left="60%" top="50%" size={80} />
-            <PulseElement delay={1.4} left="80%" top="70%" size={100} />
-            <PulseElement delay={2.1} left="30%" top="80%" size={60} />
-
-            <div className="background-fade" />
-        </div>
-    );
-}
 
 function DestinationDetailPage() {
 const { id } = useParams<{ id: string }>();
@@ -235,8 +158,6 @@ const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
     };
 
     return (
-    <>
-        <BackgroundEffects />
         <motion.div
             className="destination-page"
             variants={pageVariants}
@@ -244,10 +165,11 @@ const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
             animate="animate"
         >
         <motion.section className="hero" variants={itemVariants}>
-        <h1>Descubre tu próximo destino</h1>
+        <h1>Descubre tu próxima aventura
+    
+        </h1>
         <p>
-            Explora información de países, conoce el clima actual y recibe recomendaciones de seguridad
-            para planificar tu viaje con total tranquilidad.
+            Informate sobre tu destino .
         </p>
         </motion.section>
 
@@ -418,7 +340,6 @@ const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
         </motion.section>
         )}
         </motion.div>
-    </>
     );
 }
 
