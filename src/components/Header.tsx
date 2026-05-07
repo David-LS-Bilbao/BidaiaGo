@@ -26,7 +26,7 @@ function Header() {
             open ? "activo" : ""
           }`}
         >
-          <Link to="/">Home</Link>
+          <Link to="/dashboard">Explorar</Link>
 
           <Link to="/destinations">
             Destinos
@@ -46,7 +46,7 @@ function Header() {
                 Login
               </Link>
 
-             
+
             </>
           )}
 

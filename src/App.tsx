@@ -6,6 +6,7 @@ import AboutPage from "./pages/AboutPage";
 import DestinationDetailPage from "./pages/DestinationDetailPage";
 import HomePage from "./pages/HomePage";
 import TripListPage from "./pages/TripListPage";
+import LandingPage from "./pages/LandingPage";
 import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
@@ -17,8 +18,9 @@ function App() {
 
       <main className="contenido">
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/destinations" element={<DestinationDetailPage />} />
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/dashboard" element={<HomePage />} />
+          <Route path="/destinations/:id" element={<DestinationDetailPage />} />
           <Route path="/trip-list" element={<TripListPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/register" element={<RegisterPage />} />
@@ -31,4 +33,6 @@ function App() {
       <Footer />
     </div>
   )
-}export default App
+}
+
+export default App

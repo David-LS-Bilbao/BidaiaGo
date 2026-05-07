@@ -235,7 +235,7 @@ function HomePage() {
               <p key={i} className="home-flip-board-line">
                 {[...line].map((char, j) => (
                   <span key={j} className="home-flip-board-cell">
-                    {char === ' ' ? ' ' : char}
+                    {char === ' ' ? ' ' : char}
                   </span>
                 ))}
               </p>
