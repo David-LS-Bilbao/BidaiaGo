@@ -1,7 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import { useParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { getCountryInfo, getWeatherConditions, getSafetyRecommendations } from '../services/tipsApi';
 import type { CountryInfo, WeatherCondition, SafetyRecommendation } from '../services/tipsApi';
+
+
 
 const pageVariants = {
     initial: { opacity: 0 },
@@ -113,17 +116,19 @@ function BackgroundEffects() {
 }
 
 function DestinationDetailPage() {
+const { id } = useParams<{ id: string }>();
 const [searchQuery, setSearchQuery] = useState('');
 const [correctedQuery, setCorrectedQuery] = useState<string | null>(null);
 const [countryData, setCountryData] = useState<CountryInfo | null>(null);
 const [weatherData, setWeatherData] = useState<WeatherCondition | null>(null);
 const [safetyData, setSafetyData] = useState<SafetyRecommendation[]>([]);
-const [loading, setLoading] = useState(false);
+const [loading, setLoading] = useState<boolean>(() => !!id);
 const [error, setError] = useState<string | null>(null);
 const [showResults, setShowResults] = useState(false);
-const handleSearch = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!searchQuery.trim()) return;
+
+// Lógica de carga reutilizable — llamada desde handleSearch (event handler)
+const loadDestination = useCallback(async (query: string) => {
+    if (!query.trim()) return;
 
     setLoading(true);
     setError(null);
@@ -133,7 +138,7 @@ const handleSearch = async (e: React.FormEvent) => {
     setCorrectedQuery(null);
     setShowResults(false);
 
-    const countryResult = await getCountryInfo(searchQuery);
+    const countryResult = await getCountryInfo(query);
 
     if (countryResult.error) {
       setError(countryResult.error);
@@ -148,10 +153,10 @@ const handleSearch = async (e: React.FormEvent) => {
     const country = countryResult.data;
     setCountryData(country);
 
-    if (country.capital && country.capital[0]) {
+    if (country.capital?.[0]) {
         const weatherResult = await getWeatherConditions(country.capital[0]);
         if (!weatherResult.error) {
-        setWeatherData(weatherResult.data);
+          setWeatherData(weatherResult.data);
         }
     }
 
@@ -162,7 +167,54 @@ const handleSearch = async (e: React.FormEvent) => {
 
     setLoading(false);
     setTimeout(() => setShowResults(true), 100);
-    };
+}, []);
+
+// Auto-carga desde URL: todos los setState van después del primer await
+useEffect(() => {
+    if (!id) return;
+    let cancelled = false;
+
+    void (async () => {
+        const countryResult = await getCountryInfo(id);
+        if (cancelled) return;
+
+        if (countryResult.error) {
+            setError(countryResult.error);
+            setLoading(false);
+            return;
+        }
+
+        if (countryResult.correctedQuery) {
+            setCorrectedQuery(countryResult.correctedQuery);
+        }
+
+        const country = countryResult.data;
+        setCountryData(country);
+
+        if (country.capital?.[0]) {
+            const weatherResult = await getWeatherConditions(country.capital[0]);
+            if (!cancelled && !weatherResult.error) {
+                setWeatherData(weatherResult.data);
+            }
+        }
+
+        if (!cancelled) {
+            const safetyResult = await getSafetyRecommendations(country.name.common);
+            if (!safetyResult.error) {
+                setSafetyData(safetyResult.data);
+            }
+            setLoading(false);
+            setTimeout(() => setShowResults(true), 100);
+        }
+    })();
+
+    return () => { cancelled = true; };
+}, [id]);
+
+const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    await loadDestination(searchQuery);
+};
 
     const getSafetyBadgeClass = (level: string) => {
     switch (level) {

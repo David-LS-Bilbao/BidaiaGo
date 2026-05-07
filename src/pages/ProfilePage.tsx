@@ -21,15 +21,15 @@ const ProfilePage = () => {
   const [isEditingEmail, setIsEditingEmail] =
     useState(false);
 
+  const [name, setName] =
+    useState(user?.name ?? "");
+
+  const [email, setEmail] =
+    useState(user?.email ?? "");
+
   if (!user) {
     return null;
   }
-
-  const [name, setName] =
-    useState(user.name);
-
-  const [email, setEmail] =
-    useState(user.email);
 
   const handleLogout = () => {
     logoutUser();
