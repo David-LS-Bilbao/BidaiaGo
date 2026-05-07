@@ -384,3 +384,26 @@
   margin-top: auto;
   margin-bottom: 0;
 }
+.nav-user {
+  font-weight: 600;
+
+  color: var(--color-primario);
+}
+
+.nav-logout {
+  background: none;
+
+  border: none;
+
+  color: var(--color-texto);
+
+  font: inherit;
+
+  cursor: pointer;
+
+  transition: color 0.2s ease;
+}
+
+.nav-logout:hover {
+  color: var(--color-primario);
+}

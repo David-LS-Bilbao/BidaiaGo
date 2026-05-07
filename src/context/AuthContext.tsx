@@ -13,7 +13,9 @@ import {
   login,
   logout,
   register,
+  updateUser,
 } from "../services/authService";
+
 
 interface AuthContextType {
   user: User | null;
@@ -28,6 +30,10 @@ interface AuthContextType {
     email: string,
     password: string
   ) => void;
+
+  updateCurrentUser: (
+  updatedUser: User
+) => void;
 
   logoutUser: () => void;
 }
@@ -82,6 +88,14 @@ export const AuthProvider = ({
 
     setUser(null);
   };
+  const updateCurrentUser = (
+  updatedUser: User
+) => {
+  const savedUser =
+    updateUser(updatedUser);
+
+  setUser(savedUser);
+};
 
   return (
     <AuthContext.Provider
@@ -90,6 +104,7 @@ export const AuthProvider = ({
         loginUser,
         registerUser,
         logoutUser,
+        updateCurrentUser,
       }}
     >
       {children}

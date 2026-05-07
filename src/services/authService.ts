@@ -3,21 +3,26 @@ const USERS_KEY = "users";
 const CURRENT_USER_KEY = "currentUser";
 
 export const initializeUsers = () => {
-    const users = localStorage.getItem(USERS_KEY);
-    if (!users) {
-        const testUsers: User[] = [
-            {
-                id: crypto.randomUUID(),
-                name: "Test User",
-                email: "test@test.com",
-                password: "1234"
-            }
-        ];
-        localStorage.setItem(
-            USERS_KEY, 
-            JSON.stringify([testUsers])
-        );
-    }}
+  const users = localStorage.getItem(
+    USERS_KEY
+  );
+
+  if (!users) {
+    const testUsers: User[] = [
+      {
+        id: crypto.randomUUID(),
+        name: "Test User",
+        email: "test@test.com",
+        password: "123456",
+      },
+    ];
+
+    localStorage.setItem(
+      USERS_KEY,
+      JSON.stringify(testUsers)
+    );
+  }
+};
 
 export const register = (
   name: string,
@@ -84,4 +89,30 @@ export const getCurrentUser = (): User | null => {
   const user = localStorage.getItem(CURRENT_USER_KEY);
 
   return user ? JSON.parse(user) : null;
+};
+export const updateUser = (
+  updatedUser: User
+) => {
+  const users: User[] = JSON.parse(
+    localStorage.getItem(USERS_KEY) || "[]"
+  );
+
+  const updatedUsers = users.map(
+    (user) =>
+      user.id === updatedUser.id
+        ? updatedUser
+        : user
+  );
+
+  localStorage.setItem(
+    USERS_KEY,
+    JSON.stringify(updatedUsers)
+  );
+
+  localStorage.setItem(
+    CURRENT_USER_KEY,
+    JSON.stringify(updatedUser)
+  );
+
+  return updatedUser;
 };
