@@ -199,7 +199,6 @@
   justify-content: center;
   min-height: var(--tamano-toque-min);
   padding: 0.8rem 1.5rem;
-  background: transparent;
   color: var(--color-texto);
   border: 2px solid var(--color-borde-oscuro);
   border-radius: var(--radio-pequeno);
@@ -383,4 +382,27 @@
 .tarjeta--con-imagen .tarjeta-meta {
   margin-top: auto;
   margin-bottom: 0;
+}
+.nav-user {
+  font-weight: 600;
+
+  color: var(--color-primario);
+}
+
+.nav-logout {
+  background: none;
+
+  border: none;
+
+  color: var(--color-texto);
+
+  font: inherit;
+
+  cursor: pointer;
+
+  transition: color 0.2s ease;
+}
+
+.nav-logout:hover {
+  color: var(--color-primario);
 }
