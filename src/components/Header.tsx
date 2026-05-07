@@ -21,7 +21,7 @@ function Header() {
           to="/"
           className="logo"
         >
-          BidaiaGo
+          <img className="imgLogo" src="./public/logoCompleto.png" />
         </Link>
 
         <nav
