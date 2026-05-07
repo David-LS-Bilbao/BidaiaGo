@@ -4,6 +4,9 @@ import { Link } from "react-router-dom";
 
 import { useAuth } from "../hooks/useAuth";
 
+
+
+
 function Header() {
   const [open, setOpen] = useState(false);
 
@@ -28,12 +31,8 @@ function Header() {
         >
           <Link to="/dashboard">Explorar</Link>
 
-          <Link to="/trip-list">
-            Mi viaje
-          </Link>
-
-          <Link to="/about">
-            About
+          <Link to="/destinations">
+            Destinos
           </Link>
 
           <Link to="/contact">
