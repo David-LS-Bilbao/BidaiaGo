@@ -38,6 +38,7 @@ interface AuthContextType {
   logoutUser: () => void;
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext =
   createContext<AuthContextType | null>(null);
 
@@ -47,17 +48,11 @@ export const AuthProvider = ({
   children: React.ReactNode;
 }) => {
   const [user, setUser] = useState<User | null>(
-    null
+    () => getCurrentUser()
   );
 
   useEffect(() => {
     initializeUsers();
-
-    const loggedUser = getCurrentUser();
-
-    if (loggedUser) {
-      setUser(loggedUser);
-    }
   }, []);
 
   const loginUser = (
