@@ -11,6 +11,7 @@ import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
 import ContactPage from "./pages/ContactPage";
 
+
 function App() {
   return (
     <div className="app">
@@ -25,6 +26,7 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/destinations/:id" element={<DestinationDetailPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="*" element={<h1>Página no encontrada</h1>} />
         </Routes>

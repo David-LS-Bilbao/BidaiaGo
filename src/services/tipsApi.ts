@@ -150,22 +150,40 @@ const weatherInstance: AxiosInstance = axios.create({
   },
 });
 
-export const getCountryInfo = async (countryName: string): Promise<ApiResponse<CountryInfo>> => {
+export const getCountryInfo = async (query: string): Promise<ApiResponse<CountryInfo>> => {
   try {
-    const { corrected, wasCorrected } = correctCountryName(countryName);
-    
-    const response = await countriesInstance.get<CountryInfo[]>(`/name/${encodeURIComponent(corrected)}`);
-    const countries = response.data;
+    const trimmed = query.trim();
+    const isIsoCode = /^[A-Za-z]{2,3}$/.test(trimmed);
+
+    let countries: CountryInfo[];
+    let wasCorrected = false;
+    let corrected = trimmed;
+
+    if (isIsoCode) {
+      const response = await countriesInstance.get<CountryInfo[]>(
+        `/alpha/${encodeURIComponent(trimmed.toUpperCase())}`
+      );
+      countries = response.data;
+    } else {
+      const correction = correctCountryName(trimmed);
+      wasCorrected = correction.wasCorrected;
+      corrected = correction.corrected;
+      const response = await countriesInstance.get<CountryInfo[]>(
+        `/name/${encodeURIComponent(corrected)}`
+      );
+      countries = response.data;
+    }
+
     if (!countries || countries.length === 0) {
-      const errorMsg = wasCorrected 
+      const errorMsg = wasCorrected
         ? `¿Querías decir "${corrected}"?`
-        : `País "${countryName}" no encontrado`;
+        : `País "${query}" no encontrado`;
       return { data: {} as CountryInfo, error: errorMsg, correctedQuery: corrected };
     }
 
     const country = countries[0];
     const nameInSpanish = getCountryNameInSpanish(country.name.common);
-    
+
     const countryWithTranslation: CountryInfo = {
       ...country,
       name: {
@@ -175,16 +193,14 @@ export const getCountryInfo = async (countryName: string): Promise<ApiResponse<C
       },
     };
 
-    console.log('API Response:', countryWithTranslation);
-    return { 
-      data: countryWithTranslation, 
-      correctedQuery: wasCorrected ? nameInSpanish : undefined 
+    return {
+      data: countryWithTranslation,
+      correctedQuery: wasCorrected ? nameInSpanish : undefined,
     };
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.error('API Error:', error.response?.status, error.message);
       if (error.response?.status === 404) {
-        return { data: {} as CountryInfo, error: `País "${countryName}" no encontrado` };
+        return { data: {} as CountryInfo, error: `País "${query}" no encontrado` };
       }
       return { data: {} as CountryInfo, error: `Error de conexión: ${error.message}` };
     }

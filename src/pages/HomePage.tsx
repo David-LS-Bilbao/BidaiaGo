@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import '../styles/home.css';
 import { getAllCountries, type RestCountry } from '../services/countriesApi';
 import { useLocalStorage } from '../hooks/useLocalStorage';
@@ -307,10 +308,10 @@ function HomePage() {
 
         <div className="home-carousel" role="list">
           {carouselDestinations.map((dest) => (
-            <a
+            <Link
               key={dest.id}
               className={`home-carousel-card${isFavorite(dest.id) ? ' home-carousel-card-favorite' : ''}`}
-              href={`/destinations/${dest.id}`}
+              to={`/destinations/${dest.id}`}
               role="listitem"
               style={{ backgroundImage: `url(${dest.flagUrl || dest.imageUrl})` }}
               aria-label={`Ver ${dest.name}`}
@@ -324,7 +325,7 @@ function HomePage() {
               <span className="home-carousel-card-sub">
                 {REGION_LABELS[dest.region] ?? dest.region}
               </span>
-            </a>
+            </Link>
           ))}
         </div>
       </section>
@@ -403,12 +404,12 @@ function HomePage() {
                   </div>
 
                   <div className="home-card-actions">
-                    <a
+                    <Link
                       className="home-card-link"
-                      href={`/destinations/${dest.id}`}
+                      to={`/destinations/${dest.id}`}
                     >
                       Ver detalle
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </article>
