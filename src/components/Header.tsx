@@ -27,7 +27,7 @@ function Header() {
           }`}
         >
           <Link to="/">Home</Link>
-<<<<<<< HEAD
+
 
           <Link to="/destinations">
             Destinos
@@ -37,9 +37,10 @@ function Header() {
             Mi viaje
           </Link>
 
-          <Link to="/about">
-            About
+          <Link to="/contact">
+            Contacto
           </Link>
+
 
           {!user && (
             <>
@@ -68,12 +69,6 @@ function Header() {
               </button>
             </>
           )}
-=======
-          <Link to="/destinations">Destinos</Link>
-          <Link to="/trip-list">Mi viaje</Link>
-          <Link to="/about">About</Link>
-          <Link to="/contact">Contacto</Link>
->>>>>>> feat/contact
         </nav>
 
         <button
