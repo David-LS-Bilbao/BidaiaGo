@@ -1,3 +1,149 @@
+===== ./DOCS/auth.md =====
+// aqui ira el registro del trabajo en la rama auth
+6.05
+se hace el login y register y se añaden las rutas al navbar 
+7.05
+se soluciona el initializeduser(creaba un array dentro de un array), y se crea profile con modificación de nombre y email con updateuser
+-----------------------
+===== ./DOCS/commons.md =====
+Tareas realizadas en commons
+5/05
+Se crea la rama feat/commons para hacer una estructura de carpetas y un css comun del que saquemos el resto de las ramas para facilitar la futura implementación de las distintas ramas en el proyecto
+06/05
+Se añade funcionalidas a los botones del header con la class nav-central usando link, los botones llevan a cada pagina que iremos trabajando 
+
+-----------------------
+===== ./DOCS/proyecto-resumen.md =====
+# BidaiaGo - Resumen del Proyecto
+
+## Descripcion del Proyecto
+
+**BidaiaGo** es una aplicacion web de planificar viajes desarrollada con React, TypeScript y Vite. El proyecto esta orientado a ayudar a los usuarios a planificar sus viajes ofreciendo informacion sobre destinos, paises, clima y recomendaciones de seguridad.
+
+## Tecnologias Utilizadas
+
+| Tecnologia | Version | Descripcion |
+|------------|---------|-------------|
+| React | 19.2.5 | Framework principal |
+| TypeScript | 6.0.3 | Tipado estatico |
+| Vite | 8.0.10 | Build tool y servidor de desarrollo |
+| React Router DOM | 7.15.0 | Enrutamiento de paginas |
+| Framer Motion | 12.38.0 | Animaciones |
+| Axios | 1.16.0 | Peticiones HTTP |
+
+## Estructura del Proyecto
+
+```
+src/
+├── components/
+│   ├── Header.tsx       # Navegacion principal
+│   └── Footer.tsx        # Pie de pagina
+├── pages/
+│   ├── HomePage.tsx      # Pagina de inicio
+│   ├── DestinationDetailPage.tsx
+│   ├── TripListPage.tsx
+│   ├── AboutPage.tsx
+│   └── tipsviajesPage.tsx # Busqueda de paises con clima y seguridad
+├── services/
+│   ├── tipsApi.ts        # API de informacion de paises, clima y seguridad
+│   └── countriesApi.ts   # (En desarrollo)
+├── styles/
+│   ├── styles.css       # Estilos globales
+│   ├── components.css   # Estilos de componentes
+│   └── pages.css        # Estilos de paginas
+├── hooks/
+│   └── useLocalStorage.ts
+├── models/
+│   └── TavelDestination.ts
+├── App.tsx              # Componente principal con rutas
+└── main.tsx            # Punto de entrada
+```
+
+## Funcionalidades Implementadas
+
+### 1. Pagina Tips Viajes (`/tipsviajes`)
+
+**Caracteristicas:**
+- Busqueda de paises por nombre
+- Muestra informacion del pais:
+  - Bandera
+  - Nombre oficial y comun
+  - Region y subregion
+  - Capital
+  - Poblacion
+  - Area (km2)
+  - Zona horaria
+  - Lado de conduccion
+  - Idiomas
+  - Moneda
+- Clima actual de la capital:
+  - Temperatura
+  - Condicion del tiempo (texto)
+  - Humedad
+  - Velocidad del viento
+- Recomendaciones de seguridad (dinamicas por pais/region):
+  - Seguridad general de la region
+  - Advertencias especificas por pais
+  - Recomendaciones de salud
+  - Recomendaciones de documentacion
+
+### 2. Navegacion
+
+- Header con enlace a "Tips Viajes" (`/tipsviajes`)
+- Footer basico
+- Rutas configuradas con React Router DOM
+
+### 3. Estilos
+
+- Diseño responsive (mobile-first)
+- Paleta de colores basada en verde (inspirado en Komoot)
+- Variables CSS para temas y colores
+- Clases para accesibilidad (WCAG AA)
+
+## APIs Externas Utilizadas
+
+| API                        | URL                                      | Uso                  |
+|----------------------------|------------------------------------------|----------------------|
+| Rest Countries             | `https://restcountries.com/v3.1`         | Informacion de paises |
+| Open-Meteo                 | `https://api.open-meteo.com/v1`          | Clima actual |
+| Geocoding API (Open-Meteo) | `https://geocoding-api.open-meteo.io/v1` | Busqueda de coordenadas  |                 
+
+## Comandos Disponibles
+
+```bash
+npm run dev      # Iniciar servidor de desarrollo
+npm run build    # Compilar para produccion
+npm run lint     # Verificar codigo
+npm run preview # Previsualizar build de produccion
+```
+
+## Estado Actual
+
+- **Build**: OK - El proyecto compila correctamente
+- **Rutas**: Solo implementadas `/` y `/tipsviajes`
+- **Paginas**: HomePage, DestinationDetailPage, TripListPage, AboutPage existen pero no conectadas
+
+## Pendientes / Siguientes Pasos
+
+- Conectar las demas paginas (Home, Destinos, Mi viaje, About)
+- Implementar autenticacion si es necesario
+- Agregar mas funcionalidades de itinerarios
+- Mejorar estilos de las tarjetas de ciudades
+- Agregar imagenes para iconos de clima
+
+## Paleta de Colores
+
+- Primario: `#4f6814` (verde)
+- Primario Oscuro: `#404823`
+- Primario Claro: `#d8f3dc`
+- Acento: `#e85d2a`
+- Fondo: `#fafaf7`
+- Superficie: `#ffffff`
+
+---
+
+*Ultima actualizacion: Mayo 2026*
+-----------------------
 ===== ./eslint.config.js =====
 import js from '@eslint/js'
 import globals from 'globals'
@@ -53,8 +199,11 @@ export default defineConfig([
     "preview": "vite preview"
   },
   "dependencies": {
+    "axios": "^1.16.0",
+    "framer-motion": "^12.38.0",
     "react": "^19.2.5",
-    "react-dom": "^19.2.5"
+    "react-dom": "^19.2.5",
+    "react-router-dom": "^7.15.0"
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",
@@ -86,8 +235,11 @@ export default defineConfig([
       "name": "bidaiago",
       "version": "0.0.0",
       "dependencies": {
+        "axios": "^1.16.0",
+        "framer-motion": "^12.38.0",
         "react": "^19.2.5",
-        "react-dom": "^19.2.5"
+        "react-dom": "^19.2.5",
+        "react-router-dom": "^7.15.0"
       },
       "devDependencies": {
         "@babel/core": "^7.29.0",
@@ -1325,6 +1477,23 @@ export default defineConfig([
         "url": "https://github.com/sponsors/epoberezkin"
       }
     },
+    "node_modules/asynckit": {
+      "version": "0.4.0",
+      "resolved": "https://registry.npmjs.org/asynckit/-/asynckit-0.4.0.tgz",
+      "integrity": "sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==",
+      "license": "MIT"
+    },
+    "node_modules/axios": {
+      "version": "1.16.0",
+      "resolved": "https://registry.npmjs.org/axios/-/axios-1.16.0.tgz",
+      "integrity": "sha512-6hp5CwvTPlN2A31g5dxnwAX0orzM7pmCRDLnZSX772mv8WDqICwFjowHuPs04Mc8deIld1+ejhtaMn5vp6b+1w==",
+      "license": "MIT",
+      "dependencies": {
+        "follow-redirects": "^1.16.0",
+        "form-data": "^4.0.5",
+        "proxy-from-env": "^2.1.0"
+      }
+    },
     "node_modules/babel-plugin-react-compiler": {
       "version": "1.0.0",
       "resolved": "https://registry.npmjs.org/babel-plugin-react-compiler/-/babel-plugin-react-compiler-1.0.0.tgz",
@@ -1405,6 +1574,19 @@ export default defineConfig([
         "node": "^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7"
       }
     },
+    "node_modules/call-bind-apply-helpers": {
+      "version": "1.0.2",
+      "resolved": "https://registry.npmjs.org/call-bind-apply-helpers/-/call-bind-apply-helpers-1.0.2.tgz",
+      "integrity": "sha512-Sp1ablJ0ivDkSzjcaJdxEunN5/XvksFJ2sMBFfq6x0ryhQV/2b/KwFe21cMpmHtPOSij8K99/wSfoEuTObmuMQ==",
+      "license": "MIT",
+      "dependencies": {
+        "es-errors": "^1.3.0",
+        "function-bind": "^1.1.2"
+      },
+      "engines": {
+        "node": ">= 0.4"
+      }
+    },
     "node_modules/caniuse-lite": {
       "version": "1.0.30001791",
       "resolved": "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001791.tgz",
@@ -1426,12 +1608,37 @@ export default defineConfig([
       ],
       "license": "CC-BY-4.0"
     },
+    "node_modules/combined-stream": {
+      "version": "1.0.8",
+      "resolved": "https://registry.npmjs.org/combined-stream/-/combined-stream-1.0.8.tgz",
+      "integrity": "sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg==",
+      "license": "MIT",
+      "dependencies": {
+        "delayed-stream": "~1.0.0"
+      },
+      "engines": {
+        "node": ">= 0.8"
+      }
+    },
     "node_modules/convert-source-map": {
       "version": "2.0.0",
       "resolved": "https://registry.npmjs.org/convert-source-map/-/convert-source-map-2.0.0.tgz",
       "integrity": "sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==",
       "dev": true,
       "license": "MIT"
+    },
+    "node_modules/cookie": {
+      "version": "1.1.1",
+      "resolved": "https://registry.npmjs.org/cookie/-/cookie-1.1.1.tgz",
+      "integrity": "sha512-ei8Aos7ja0weRpFzJnEA9UHJ/7XQmqglbRwnf2ATjcB9Wq874VKH9kfjjirM6UhU2/E5fFYadylyhFldcqSidQ==",
+      "license": "MIT",
+      "engines": {
+        "node": ">=18"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/express"
+      }
     },
     "node_modules/cross-spawn": {
       "version": "7.0.6",
@@ -1480,6 +1687,15 @@ export default defineConfig([
       "dev": true,
       "license": "MIT"
     },
+    "node_modules/delayed-stream": {
+      "version": "1.0.0",
+      "resolved": "https://registry.npmjs.org/delayed-stream/-/delayed-stream-1.0.0.tgz",
+      "integrity": "sha512-ZySD7Nf91aLB0RxL4KGrKHBXl7Eds1DAmEdcoVawXnLD7SDhpNgtuII2aAkg7a7QS41jxPSZ17p4VdGnMHk3MQ==",
+      "license": "MIT",
+      "engines": {
+        "node": ">=0.4.0"
+      }
+    },
     "node_modules/detect-libc": {
       "version": "2.1.2",
       "resolved": "https://registry.npmjs.org/detect-libc/-/detect-libc-2.1.2.tgz",
@@ -1490,12 +1706,71 @@ export default defineConfig([
         "node": ">=8"
       }
     },
+    "node_modules/dunder-proto": {
+      "version": "1.0.1",
+      "resolved": "https://registry.npmjs.org/dunder-proto/-/dunder-proto-1.0.1.tgz",
+      "integrity": "sha512-KIN/nDJBQRcXw0MLVhZE9iQHmG68qAVIBg9CqmUYjmQIhgij9U5MFvrqkUL5FbtyyzZuOeOt0zdeRe4UY7ct+A==",
+      "license": "MIT",
+      "dependencies": {
+        "call-bind-apply-helpers": "^1.0.1",
+        "es-errors": "^1.3.0",
+        "gopd": "^1.2.0"
+      },
+      "engines": {
+        "node": ">= 0.4"
+      }
+    },
     "node_modules/electron-to-chromium": {
       "version": "1.5.349",
       "resolved": "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.5.349.tgz",
       "integrity": "sha512-QsWVGyRuY07Aqb234QytTfwd5d9AJlfNIQ5wIOl1L+PZDzI9d9+Fn0FRale/QYlFxt/bUnB0/nLd1jFPGxGK1A==",
       "dev": true,
       "license": "ISC"
+    },
+    "node_modules/es-define-property": {
+      "version": "1.0.1",
+      "resolved": "https://registry.npmjs.org/es-define-property/-/es-define-property-1.0.1.tgz",
+      "integrity": "sha512-e3nRfgfUZ4rNGL232gUgX06QNyyez04KdjFrF+LTRoOXmrOgFKDg4BCdsjW8EnT69eqdYGmRpJwiPVYNrCaW3g==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.4"
+      }
+    },
+    "node_modules/es-errors": {
+      "version": "1.3.0",
+      "resolved": "https://registry.npmjs.org/es-errors/-/es-errors-1.3.0.tgz",
+      "integrity": "sha512-Zf5H2Kxt2xjTvbJvP2ZWLEICxA6j+hAmMzIlypy4xcBg1vKVnx89Wy0GbS+kf5cwCVFFzdCFh2XSCFNULS6csw==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.4"
+      }
+    },
+    "node_modules/es-object-atoms": {
+      "version": "1.1.1",
+      "resolved": "https://registry.npmjs.org/es-object-atoms/-/es-object-atoms-1.1.1.tgz",
+      "integrity": "sha512-FGgH2h8zKNim9ljj7dankFPcICIK9Cp5bm+c2gQSYePhpaG5+esrLODihIorn+Pe6FGJzWhXQotPv73jTaldXA==",
+      "license": "MIT",
+      "dependencies": {
+        "es-errors": "^1.3.0"
+      },
+      "engines": {
+        "node": ">= 0.4"
+      }
+    },
+    "node_modules/es-set-tostringtag": {
+      "version": "2.1.0",
+      "resolved": "https://registry.npmjs.org/es-set-tostringtag/-/es-set-tostringtag-2.1.0.tgz",
+      "integrity": "sha512-j6vWzfrGVfyXxge+O0x5sh6cvxAog0a/4Rdd2K36zCMV5eJ+/+tOAngRO8cODMNWbVRdVlmGZQL2YS3yR8bIUA==",
+      "license": "MIT",
+      "dependencies": {
+        "es-errors": "^1.3.0",
+        "get-intrinsic": "^1.2.6",
+        "has-tostringtag": "^1.0.2",
+        "hasown": "^2.0.2"
+      },
+      "engines": {
+        "node": ">= 0.4"
+      }
     },
     "node_modules/escalade": {
       "version": "3.2.0",
@@ -1792,6 +2067,69 @@ export default defineConfig([
       "dev": true,
       "license": "ISC"
     },
+    "node_modules/follow-redirects": {
+      "version": "1.16.0",
+      "resolved": "https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.16.0.tgz",
+      "integrity": "sha512-y5rN/uOsadFT/JfYwhxRS5R7Qce+g3zG97+JrtFZlC9klX/W5hD7iiLzScI4nZqUS7DNUdhPgw4xI8W2LuXlUw==",
+      "funding": [
+        {
+          "type": "individual",
+          "url": "https://github.com/sponsors/RubenVerborgh"
+        }
+      ],
+      "license": "MIT",
+      "engines": {
+        "node": ">=4.0"
+      },
+      "peerDependenciesMeta": {
+        "debug": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/form-data": {
+      "version": "4.0.5",
+      "resolved": "https://registry.npmjs.org/form-data/-/form-data-4.0.5.tgz",
+      "integrity": "sha512-8RipRLol37bNs2bhoV67fiTEvdTrbMUYcFTiy3+wuuOnUog2QBHCZWXDRijWQfAkhBj2Uf5UnVaiWwA5vdd82w==",
+      "license": "MIT",
+      "dependencies": {
+        "asynckit": "^0.4.0",
+        "combined-stream": "^1.0.8",
+        "es-set-tostringtag": "^2.1.0",
+        "hasown": "^2.0.2",
+        "mime-types": "^2.1.12"
+      },
+      "engines": {
+        "node": ">= 6"
+      }
+    },
+    "node_modules/framer-motion": {
+      "version": "12.38.0",
+      "resolved": "https://registry.npmjs.org/framer-motion/-/framer-motion-12.38.0.tgz",
+      "integrity": "sha512-rFYkY/pigbcswl1XQSb7q424kSTQ8q6eAC+YUsSKooHQYuLdzdHjrt6uxUC+PRAO++q5IS7+TamgIw1AphxR+g==",
+      "license": "MIT",
+      "dependencies": {
+        "motion-dom": "^12.38.0",
+        "motion-utils": "^12.36.0",
+        "tslib": "^2.4.0"
+      },
+      "peerDependencies": {
+        "@emotion/is-prop-valid": "*",
+        "react": "^18.0.0 || ^19.0.0",
+        "react-dom": "^18.0.0 || ^19.0.0"
+      },
+      "peerDependenciesMeta": {
+        "@emotion/is-prop-valid": {
+          "optional": true
+        },
+        "react": {
+          "optional": true
+        },
+        "react-dom": {
+          "optional": true
+        }
+      }
+    },
     "node_modules/fsevents": {
       "version": "2.3.3",
       "resolved": "https://registry.npmjs.org/fsevents/-/fsevents-2.3.3.tgz",
@@ -1807,6 +2145,15 @@ export default defineConfig([
         "node": "^8.16.0 || ^10.6.0 || >=11.0.0"
       }
     },
+    "node_modules/function-bind": {
+      "version": "1.1.2",
+      "resolved": "https://registry.npmjs.org/function-bind/-/function-bind-1.1.2.tgz",
+      "integrity": "sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA==",
+      "license": "MIT",
+      "funding": {
+        "url": "https://github.com/sponsors/ljharb"
+      }
+    },
     "node_modules/gensync": {
       "version": "1.0.0-beta.2",
       "resolved": "https://registry.npmjs.org/gensync/-/gensync-1.0.0-beta.2.tgz",
@@ -1815,6 +2162,43 @@ export default defineConfig([
       "license": "MIT",
       "engines": {
         "node": ">=6.9.0"
+      }
+    },
+    "node_modules/get-intrinsic": {
+      "version": "1.3.0",
+      "resolved": "https://registry.npmjs.org/get-intrinsic/-/get-intrinsic-1.3.0.tgz",
+      "integrity": "sha512-9fSjSaos/fRIVIp+xSJlE6lfwhES7LNtKaCBIamHsjr2na1BiABJPo0mOjjz8GJDURarmCPGqaiVg5mfjb98CQ==",
+      "license": "MIT",
+      "dependencies": {
+        "call-bind-apply-helpers": "^1.0.2",
+        "es-define-property": "^1.0.1",
+        "es-errors": "^1.3.0",
+        "es-object-atoms": "^1.1.1",
+        "function-bind": "^1.1.2",
+        "get-proto": "^1.0.1",
+        "gopd": "^1.2.0",
+        "has-symbols": "^1.1.0",
+        "hasown": "^2.0.2",
+        "math-intrinsics": "^1.1.0"
+      },
+      "engines": {
+        "node": ">= 0.4"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/ljharb"
+      }
+    },
+    "node_modules/get-proto": {
+      "version": "1.0.1",
+      "resolved": "https://registry.npmjs.org/get-proto/-/get-proto-1.0.1.tgz",
+      "integrity": "sha512-sTSfBjoXBp89JvIKIefqw7U2CCebsc74kiY6awiGogKtoSGbgjYE/G/+l9sF3MWFPNc9IcoOC4ODfKHfxFmp0g==",
+      "license": "MIT",
+      "dependencies": {
+        "dunder-proto": "^1.0.1",
+        "es-object-atoms": "^1.0.0"
+      },
+      "engines": {
+        "node": ">= 0.4"
       }
     },
     "node_modules/glob-parent": {
@@ -1841,6 +2225,57 @@ export default defineConfig([
       },
       "funding": {
         "url": "https://github.com/sponsors/sindresorhus"
+      }
+    },
+    "node_modules/gopd": {
+      "version": "1.2.0",
+      "resolved": "https://registry.npmjs.org/gopd/-/gopd-1.2.0.tgz",
+      "integrity": "sha512-ZUKRh6/kUFoAiTAtTYPZJ3hw9wNxx+BIBOijnlG9PnrJsCcSjs1wyyD6vJpaYtgnzDrKYRSqf3OO6Rfa93xsRg==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.4"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/ljharb"
+      }
+    },
+    "node_modules/has-symbols": {
+      "version": "1.1.0",
+      "resolved": "https://registry.npmjs.org/has-symbols/-/has-symbols-1.1.0.tgz",
+      "integrity": "sha512-1cDNdwJ2Jaohmb3sg4OmKaMBwuC48sYni5HUw2DvsC8LjGTLK9h+eb1X6RyuOHe4hT0ULCW68iomhjUoKUqlPQ==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.4"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/ljharb"
+      }
+    },
+    "node_modules/has-tostringtag": {
+      "version": "1.0.2",
+      "resolved": "https://registry.npmjs.org/has-tostringtag/-/has-tostringtag-1.0.2.tgz",
+      "integrity": "sha512-NqADB8VjPFLM2V0VvHUewwwsw0ZWBaIdgo+ieHtK3hasLz4qeCRjYcqfB6AQrBggRKppKF8L52/VqdVsO47Dlw==",
+      "license": "MIT",
+      "dependencies": {
+        "has-symbols": "^1.0.3"
+      },
+      "engines": {
+        "node": ">= 0.4"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/ljharb"
+      }
+    },
+    "node_modules/hasown": {
+      "version": "2.0.3",
+      "resolved": "https://registry.npmjs.org/hasown/-/hasown-2.0.3.tgz",
+      "integrity": "sha512-ej4AhfhfL2Q2zpMmLo7U1Uv9+PyhIZpgQLGT1F9miIGmiCJIoCgSmczFdrc97mWT4kVY72KA+WnnhJ5pghSvSg==",
+      "license": "MIT",
+      "dependencies": {
+        "function-bind": "^1.1.2"
+      },
+      "engines": {
+        "node": ">= 0.4"
       }
     },
     "node_modules/hermes-estree": {
@@ -2275,6 +2710,36 @@ export default defineConfig([
         "yallist": "^3.0.2"
       }
     },
+    "node_modules/math-intrinsics": {
+      "version": "1.1.0",
+      "resolved": "https://registry.npmjs.org/math-intrinsics/-/math-intrinsics-1.1.0.tgz",
+      "integrity": "sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.4"
+      }
+    },
+    "node_modules/mime-db": {
+      "version": "1.52.0",
+      "resolved": "https://registry.npmjs.org/mime-db/-/mime-db-1.52.0.tgz",
+      "integrity": "sha512-sPU4uV7dYlvtWJxwwxHD0PuihVNiE7TyAbQ5SWxDCB9mUYvOgroQOwYQQOKPJ8CIbE+1ETVlOoK1UC2nU3gYvg==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.6"
+      }
+    },
+    "node_modules/mime-types": {
+      "version": "2.1.35",
+      "resolved": "https://registry.npmjs.org/mime-types/-/mime-types-2.1.35.tgz",
+      "integrity": "sha512-ZDY+bPm5zTTF+YpCrAU9nK0UgICYPT0QtT1NZWFv4s++TNkcgVaT0g6+4R2uI4MjQjzysHB1zxuWL50hzaeXiw==",
+      "license": "MIT",
+      "dependencies": {
+        "mime-db": "1.52.0"
+      },
+      "engines": {
+        "node": ">= 0.6"
+      }
+    },
     "node_modules/minimatch": {
       "version": "10.2.5",
       "resolved": "https://registry.npmjs.org/minimatch/-/minimatch-10.2.5.tgz",
@@ -2290,6 +2755,21 @@ export default defineConfig([
       "funding": {
         "url": "https://github.com/sponsors/isaacs"
       }
+    },
+    "node_modules/motion-dom": {
+      "version": "12.38.0",
+      "resolved": "https://registry.npmjs.org/motion-dom/-/motion-dom-12.38.0.tgz",
+      "integrity": "sha512-pdkHLD8QYRp8VfiNLb8xIBJis1byQ9gPT3Jnh2jqfFtAsWUA3dEepDlsWe/xMpO8McV+VdpKVcp+E+TGJEtOoA==",
+      "license": "MIT",
+      "dependencies": {
+        "motion-utils": "^12.36.0"
+      }
+    },
+    "node_modules/motion-utils": {
+      "version": "12.36.0",
+      "resolved": "https://registry.npmjs.org/motion-utils/-/motion-utils-12.36.0.tgz",
+      "integrity": "sha512-eHWisygbiwVvf6PZ1vhaHCLamvkSbPIeAYxWUuL3a2PD/TROgE7FvfHWTIH4vMl798QLfMw15nRqIaRDXTlYRg==",
+      "license": "MIT"
     },
     "node_modules/ms": {
       "version": "2.1.3",
@@ -2460,6 +2940,15 @@ export default defineConfig([
         "node": ">= 0.8.0"
       }
     },
+    "node_modules/proxy-from-env": {
+      "version": "2.1.0",
+      "resolved": "https://registry.npmjs.org/proxy-from-env/-/proxy-from-env-2.1.0.tgz",
+      "integrity": "sha512-cJ+oHTW1VAEa8cJslgmUZrc+sjRKgAKl3Zyse6+PV38hZe/V6Z14TbCuXcan9F9ghlz4QrFr2c92TNF82UkYHA==",
+      "license": "MIT",
+      "engines": {
+        "node": ">=10"
+      }
+    },
     "node_modules/punycode": {
       "version": "2.3.1",
       "resolved": "https://registry.npmjs.org/punycode/-/punycode-2.3.1.tgz",
@@ -2489,6 +2978,44 @@ export default defineConfig([
       },
       "peerDependencies": {
         "react": "^19.2.5"
+      }
+    },
+    "node_modules/react-router": {
+      "version": "7.15.0",
+      "resolved": "https://registry.npmjs.org/react-router/-/react-router-7.15.0.tgz",
+      "integrity": "sha512-HW9vYwuM8f4yx66Izy8xfrzCM+SBJluoZcCbww9A1TySax11S5Vgw6fi3ZjMONw9J4gQwngL7PzkyIpJJpJ7RQ==",
+      "license": "MIT",
+      "dependencies": {
+        "cookie": "^1.0.1",
+        "set-cookie-parser": "^2.6.0"
+      },
+      "engines": {
+        "node": ">=20.0.0"
+      },
+      "peerDependencies": {
+        "react": ">=18",
+        "react-dom": ">=18"
+      },
+      "peerDependenciesMeta": {
+        "react-dom": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/react-router-dom": {
+      "version": "7.15.0",
+      "resolved": "https://registry.npmjs.org/react-router-dom/-/react-router-dom-7.15.0.tgz",
+      "integrity": "sha512-VcrVg64Fo8nwBvDscajG8gRTLIuTC6N50nb22l2HOOV4PTOHgoGp8mUjy9wLiHYoYTSYI36tUnXZgasSRFZorQ==",
+      "license": "MIT",
+      "dependencies": {
+        "react-router": "7.15.0"
+      },
+      "engines": {
+        "node": ">=20.0.0"
+      },
+      "peerDependencies": {
+        "react": ">=18",
+        "react-dom": ">=18"
       }
     },
     "node_modules/rolldown": {
@@ -2549,6 +3076,12 @@ export default defineConfig([
       "bin": {
         "semver": "bin/semver.js"
       }
+    },
+    "node_modules/set-cookie-parser": {
+      "version": "2.7.2",
+      "resolved": "https://registry.npmjs.org/set-cookie-parser/-/set-cookie-parser-2.7.2.tgz",
+      "integrity": "sha512-oeM1lpU/UvhTxw+g3cIfxXHyJRc/uidd3yK1P242gzHds0udQBYzs3y8j4gCCW+ZJ7ad0yctld8RYO+bdurlvw==",
+      "license": "MIT"
     },
     "node_modules/shebang-command": {
       "version": "2.0.0",
@@ -2617,9 +3150,7 @@ export default defineConfig([
       "version": "2.8.1",
       "resolved": "https://registry.npmjs.org/tslib/-/tslib-2.8.1.tgz",
       "integrity": "sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==",
-      "dev": true,
-      "license": "0BSD",
-      "optional": true
+      "license": "0BSD"
     },
     "node_modules/type-check": {
       "version": "0.4.0",
@@ -3195,23 +3726,120 @@ If you are developing a production application, we recommend using TypeScript wi
 -----------------------
 ===== ./src/App.tsx =====
 import "./styles/styles.css";
+import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header'
 import Footer from './components/Footer'
+import DestinationDetailPage from "./pages/DestinationDetailPage";
+import HomePage from "./pages/HomePage";
+import TripListPage from "./pages/TripListPage";
+import RegisterPage from "./pages/RegisterPage";
+import LoginPage from "./pages/LoginPage";
+import ProfilePage from "./pages/ProfilePage";
+import ContactPage from "./pages/ContactPage";
 
 function App() {
   return (
-    <div className="app">
-      <Header />
+   
+      <div className="app">
+        <Header />
 
       <main className="contenido">
-        <h2>Bienvenido a Mi App de Viajes</h2>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/destinations" element={<DestinationDetailPage />} />
+          <Route path="/trip-list" element={<TripListPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="*" element={<h1>Página no encontrada</h1>} />
+        </Routes>
       </main>
 
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+   
   )
-}export default App
+}export default App 
 
+-----------------------
+===== ./src/components/ContactForm.tsx =====
+import { useContactForm } from "../hooks/useContactForm";
+
+export default function ContactForm() {
+  const {
+    formData,
+    errors,
+    isSubmitting,
+    success,
+    handleChange,
+    handleSubmit
+  } = useContactForm();
+
+  return (
+    <div className="contact-form">
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label>Nombre</label>
+          <input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            placeholder="Tu nombre"
+          />
+          {errors.name && <span className="error-message">{errors.name}</span>}
+        </div>
+
+        <div className="form-group">
+          <label>Email</label>
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            placeholder="tu@email.com"
+          />
+          {errors.email && <span className="error-message">{errors.email}</span>}
+        </div>
+
+        <div className="form-group">
+          <label>Motivo</label>
+          <select name="reason" value={formData.reason} onChange={handleChange}>
+            <option value="">Selecciona un motivo</option>
+            <option value="consulta">Consulta</option>
+            <option value="dudas">Dudas</option>
+            <option value="reservas">Reservas</option>
+            <option value="otro">Otro</option>
+          </select>
+          {errors.reason && <span className="error-message">{errors.reason}</span>}
+        </div>
+
+        <div className="form-group">
+          <label>Mensaje</label>
+          <textarea
+            name="message"
+            value={formData.message}
+            onChange={handleChange}
+            placeholder="Cuéntanos en qué podemos ayudarte..."
+            rows={5}
+          />
+          {errors.message && <span className="error-message">{errors.message}</span>}
+        </div>
+
+        <button type="submit" className="submit-btn" disabled={isSubmitting}>
+          {isSubmitting ? "Enviando..." : "Enviar mensaje"}
+        </button>
+
+        {success && (
+          <p className="success-message">
+            ¡Mensaje enviado correctamente!
+          </p>
+        )}
+      </form>
+    </div>
+  );
+}
 -----------------------
 ===== ./src/components/Footer.tsx =====
 function Footer() {
@@ -3227,24 +3855,85 @@ function Footer() {
 export default Footer;
 -----------------------
 ===== ./src/components/Header.tsx =====
+import { useState } from "react";
+
+import { Link } from "react-router-dom";
+
+import { useAuth } from "../hooks/useAuth";
+
 function Header() {
+  const [open, setOpen] = useState(false);
+
+  const { user, logoutUser } =
+    useAuth();
+
   return (
     <header className="cabecera">
       <div className="cabecera-contenedor">
 
-        {/* Logo / título */}
-        <h1 className="logo">BidaiaGo</h1>
+        <Link
+          to="/"
+          className="logo"
+        >
+          BidaiaGo
+        </Link>
 
-        {/* Navegación */}
-        <nav className="nav-central">
-          <a href="#">Home</a>
-          <a href="#">Destinos</a>
-          <a href="#">Mi viaje</a>
-          <a href="#">About</a>
+        <nav
+          className={`nav-central ${
+            open ? "activo" : ""
+          }`}
+        >
+          <Link to="/">Home</Link>
+
+
+          <Link to="/destinations">
+            Destinos
+          </Link>
+
+          <Link to="/trip-list">
+            Mi viaje
+          </Link>
+
+          <Link to="/contact">
+            Contacto
+          </Link>
+
+
+          {!user && (
+            <>
+              <Link to="/login">
+                Login
+              </Link>
+
+             
+            </>
+          )}
+
+          {user && (
+            <>
+              <Link
+               to="/profile"
+               className="nav-user"
+                >
+              {user.name}
+              </Link>
+
+              <button
+                className="nav-logout"
+                onClick={logoutUser}
+              >
+                Logout
+              </button>
+            </>
+          )}
         </nav>
 
-        {/* Botón hamburguesa (para móvil) */}
-        <button className="boton-hamburguesa">
+        <button
+          className="boton-hamburguesa"
+          onClick={() =>
+            setOpen(!open)
+          }
+        >
           ☰
         </button>
 
@@ -3256,39 +3945,2309 @@ function Header() {
 export default Header;
 
 -----------------------
+===== ./src/components/TeamMember.tsx =====
+type TeamMemberProps = {
+  name: string;
+  github: string;
+};
+
+export default function TeamMember({ name, github }: TeamMemberProps) {
+  return (
+    <div style={styles.card}>
+      <p style={styles.name}>{name}</p>
+      <a href={github} target="_blank" rel="noopener noreferrer">
+        Ver GitHub
+      </a>
+    </div>
+  );
+}
+
+const styles: Record<string, React.CSSProperties> = {
+  card: {
+    border: "1px solid #ddd",
+    padding: "1rem",
+    borderRadius: "8px",
+    textAlign: "center",
+  },
+  name: {
+    fontWeight: "bold",
+    marginBottom: "0.5rem",
+  },
+};
+-----------------------
+===== ./src/context/AuthContext.tsx =====
+//Aquí  el estado global del login.
+import {
+  createContext,
+  useEffect,
+  useState,
+} from "react";
+
+import { User } from "../models/User";
+
+import {
+  getCurrentUser,
+  initializeUsers,
+  login,
+  logout,
+  register,
+  updateUser,
+} from "../services/authService";
+
+
+interface AuthContextType {
+  user: User | null;
+
+  loginUser: (
+    email: string,
+    password: string
+  ) => void;
+
+  registerUser: (
+    name: string,
+    email: string,
+    password: string
+  ) => void;
+
+  updateCurrentUser: (
+  updatedUser: User
+) => void;
+
+  logoutUser: () => void;
+}
+
+export const AuthContext =
+  createContext<AuthContextType | null>(null);
+
+export const AuthProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
+  const [user, setUser] = useState<User | null>(
+    null
+  );
+
+  useEffect(() => {
+    initializeUsers();
+
+    const loggedUser = getCurrentUser();
+
+    if (loggedUser) {
+      setUser(loggedUser);
+    }
+  }, []);
+
+  const loginUser = (
+    email: string,
+    password: string
+  ) => {
+    const loggedUser = login(email, password);
+
+    setUser(loggedUser);
+  };
+
+  const registerUser = (
+    name: string,
+    email: string,
+    password: string
+  ) => {
+    const newUser = register(
+      name,
+      email,
+      password
+    );
+
+    setUser(newUser);
+  };
+
+  const logoutUser = () => {
+    logout();
+
+    setUser(null);
+  };
+  const updateCurrentUser = (
+  updatedUser: User
+) => {
+  const savedUser =
+    updateUser(updatedUser);
+
+  setUser(savedUser);
+};
+
+  return (
+    <AuthContext.Provider
+      value={{
+        user,
+        loginUser,
+        registerUser,
+        logoutUser,
+        updateCurrentUser,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+};
+-----------------------
+===== ./src/hooks/useAuth.ts =====
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+
+  if (!context) {
+    throw new Error(
+      "useAuth debe usarse dentro de AuthProvider"
+    );
+  }
+
+  return context;
+};
+-----------------------
+===== ./src/hooks/useContactForm.ts =====
+import React, {useState } from "react";
+import { ContactFormData, FormErrors, StoredMessage } from "../models/ContactModel";
+
+
+export function useContactForm() {
+
+  const [formData, setFormData] = useState<ContactFormData>({
+    name: "",
+    email: "",
+    reason: "",
+    message: "",
+  });
+
+  const [errors, setErrors] = useState<FormErrors>({});
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const [success, setSuccess] = useState(false);
+
+  const validate = (): FormErrors => {
+    const newErrors: FormErrors = {};
+
+    if (!formData.name.trim()) newErrors.name = "Nombre obligatorio";
+    if (!formData.email.trim()) {
+      newErrors.email = "Email obligatorio";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = "Formato inválido";
+    }
+    if (!formData.reason.trim()) newErrors.reason = "Motivo obligatorio";
+    if (!formData.message.trim()) newErrors.message = "Mensaje obligatorio";
+
+    return newErrors;
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setErrors((prev) => ({ ...prev, [e.target.name]: undefined }));
+  };
+
+  const resetForm = () => {
+    setFormData({
+      name: "",
+      email: "",
+      reason: "",
+      message: "",
+    });
+    setErrors({});
+    setSuccess(false);
+  };
+
+  const saveToLocalStorage = (data: ContactFormData) => {
+
+    const newMessage: StoredMessage = {
+      ...data,
+      id: Date.now().toString(),
+      date: new Date().toISOString()
+    };
+
+    const stored = localStorage.getItem("bidaiaGoMessages");
+    const messagesArray = stored ? JSON.parse(stored) : [];
+
+    messagesArray.push(newMessage);
+
+    localStorage.setItem("bidaiaGoMessages", JSON.stringify(messagesArray));
+  };
+
+const handleSubmit = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    const newErrors = validate();
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
+    setIsSubmitting(true);
+    setTimeout(() => {
+      saveToLocalStorage(formData);
+      resetForm();
+      setSuccess(true);
+      setIsSubmitting(false);
+    }, 500);
+  };
+
+  return {
+    formData,
+    errors,
+    isSubmitting,
+    success,
+    handleChange,
+    resetForm,
+    handleSubmit
+  };
+}
+-----------------------
 ===== ./src/hooks/useLocalStorage.ts =====
 // aqui va el contenido del hook useLocalStorage
 -----------------------
 ===== ./src/main.tsx =====
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import "./styles/styles.css";
-import App from './App'
+import React from "react";
+import ReactDOM from "react-dom/client";
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+import { BrowserRouter } from "react-router-dom";
+
+import App from "./App";
+
+import "./styles/styles.css";
+
+import { AuthProvider } from "./context/AuthContext";
+
+ReactDOM.createRoot(
+  document.getElementById("root")!
+).render(
+  <React.StrictMode>
+    <BrowserRouter>
+      <AuthProvider>
+        <App />
+      </AuthProvider>
+    </BrowserRouter>
+  </React.StrictMode>
+);
+-----------------------
+===== ./src/models/ContactModel.ts =====
+export interface ContactFormData {
+  name: string;
+  email: string;
+  reason: string;
+  message: string;
+}
+
+export interface TeamMember {
+  id: number;
+  name: string;
+  role?: string;
+  description?: string;
+  githubUrl?: string;
+}
+
+export type FormErrors = {
+  name?: string;
+  email?: string;
+  reason?: string;
+  message?: string;
+};
+
+// Para el historial de mensajes
+export interface StoredMessage extends ContactFormData {
+  id: string; 
+  date: string;
+}
 
 -----------------------
 ===== ./src/models/TavelDestination.ts =====
 // aqui va el contenido del hook useLocalStorage
 -----------------------
+===== ./src/models/User.ts =====
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+}
+-----------------------
 ===== ./src/pages/AboutPage.tsx =====
-//Aqui va el contenido de la página About
+
+function AboutPage() {
+  return (
+    <div>
+      <h1>About</h1>
+      <p>Esta es la página About de BidaiaGo</p>
+    </div>
+  );
+}
+
+export default AboutPage;
+-----------------------
+===== ./src/pages/ContactPage.tsx =====
+import ContactForm from "../components/ContactForm";
+import "../styles/contactPage.css";
+
+export default function ContactPage() {
+  return (
+    <section className="section">
+      <div className="contact-content">
+        <div className="contact-header">
+          <h2>Ponte en contacto con nosotros</h2>
+          <p>¿Tienes un viaje en mente? Creemos algo increíble juntos...</p>
+        </div>
+
+        <div className="contact-container">
+          <div className="contact-info-section">
+            <h3>Contacto</h3>
+            <p>Estamos aquí para ayudarte a hacer realidad tu viaje. Cuentanos tus preferencias y gustos y te diseñaremos un viaje perfecto.</p>
+
+            <div className="contact-details">
+              <div className="contact-item">
+                <div className="contact-icon">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+                  </svg>
+                </div>
+                <div className="contact-text">
+                  <h4>Email</h4>
+                  <p>hola@bidaiago.com</p>
+                </div>
+              </div>
+
+              <div className="contact-item">
+                <div className="contact-icon">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
+                  </svg>
+                </div>
+                <div className="contact-text">
+                  <h4>Teléfono</h4>
+                  <p>+34 946 256 254</p>
+                </div>
+              </div>
+
+              <div className="contact-item">
+                <div className="contact-icon">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                  </svg>
+                </div>
+                <div className="contact-text">
+                  <h4>Dirección</h4>
+                  <p>Ronda 2, Bilbao, Bizkaia</p>
+                </div>
+              </div>
+
+              <div className="contact-item">
+                <div className="contact-icon">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                  </svg>
+                </div>
+                <div className="contact-text">
+                  <h4>Horario</h4>
+                  <p>Lunes - Viernes: 9:00 - 17:30</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="social-links">
+              <h4>Síguenos</h4>
+              <div className="social-buttons">
+                <a href="#" className="social-btn" title="LinkedIn">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                  </svg>
+                </a>
+                <a href="#" className="social-btn" title="Facebook">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                  </svg>
+                </a>
+                <a href="#" className="social-btn" title="Instagram">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div className="contact-form-section">
+            <ContactForm />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
 -----------------------
 ===== ./src/pages/DestinationDetailPage.tsx =====
-//Aqui va el contenido de la página Destination Detail
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { getCountryInfo, getWeatherConditions, getSafetyRecommendations } from '../services/tipsApi';
+import type { CountryInfo, WeatherCondition, SafetyRecommendation } from '../services/tipsApi';
+
+const pageVariants = {
+    initial: { opacity: 0 },
+    animate: { opacity: 1, transition: { duration: 0.5 } },
+};
+
+const cardVariants = {
+    initial: { opacity: 0, y: 30 },
+    animate: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5 },
+    },
+};
+
+const staggerContainer = {
+    initial: {},
+    animate: {
+    transition: { staggerChildren: 0.1 },
+    },
+};
+
+const itemVariants = {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0, transition: { duration: 0.4 } },
+};
+
+const errorVariants = {
+    initial: { opacity: 0, x: -20 },
+    animate: { opacity: 1, x: 0, transition: { duration: 0.3 } },
+};
+
+const floatVariants = {
+    initial: { y: 0, opacity: 0.3 },
+    animate: { 
+        y: [0, -20, 0], 
+        opacity: [0.3, 0.7, 0.3],
+        transition: { 
+            duration: 4, 
+            repeat: Infinity, 
+            ease: "easeInOut" as const 
+        } 
+    },
+};
+
+const pulseVariants = {
+    initial: { scale: 1, opacity: 0.2 },
+    animate: { 
+        scale: [1, 1.5, 1], 
+        opacity: [0.2, 0.5, 0.2],
+        transition: { 
+            duration: 3, 
+            repeat: Infinity, 
+            ease: "easeInOut" as const,
+            delay: 1
+        } 
+    },
+};
+
+function FloatingElement({ delay, left, size }: { delay: number; left: string; size: number }) {
+    return (
+        <motion.div
+            className="floating-element"
+            style={{ left, width: size, height: size }}
+            variants={floatVariants}
+            initial="initial"
+            animate="animate"
+            transition={{ delay, duration: 4 + delay }}
+        />
+    );
+}
+
+function PulseElement({ delay, left, top, size }: { delay: number; left: string; top: string; size: number }) {
+    return (
+        <motion.div
+            className="pulse-element"
+            style={{ left, top, width: size, height: size }}
+            variants={pulseVariants}
+            initial="initial"
+            animate="animate"
+            transition={{ delay, duration: 3 + delay }}
+        />
+    );
+}
+
+function BackgroundEffects() {
+    return (
+        <div className="background-effects">
+            <motion.div className="background-gradient" />
+
+            <FloatingElement delay={0} left="10%" size={80} />
+            <FloatingElement delay={0.5} left="25%" size={60} />
+            <FloatingElement delay={1} left="40%" size={100} />
+            <FloatingElement delay={1.5} left="55%" size={70} />
+            <FloatingElement delay={2} left="70%" size={90} />
+            <FloatingElement delay={2.5} left="85%" size={50} />
+            <FloatingElement delay={0.8} left="15%" size={40} />
+            <FloatingElement delay={1.3} left="60%" size={55} />
+            <FloatingElement delay={1.8} left="80%" size={65} />
+
+            <PulseElement delay={0} left="20%" top="30%" size={120} />
+            <PulseElement delay={0.7} left="60%" top="50%" size={80} />
+            <PulseElement delay={1.4} left="80%" top="70%" size={100} />
+            <PulseElement delay={2.1} left="30%" top="80%" size={60} />
+
+            <div className="background-fade" />
+        </div>
+    );
+}
+
+function DestinationDetailPage() {
+const [searchQuery, setSearchQuery] = useState('');
+const [correctedQuery, setCorrectedQuery] = useState<string | null>(null);
+const [countryData, setCountryData] = useState<CountryInfo | null>(null);
+const [weatherData, setWeatherData] = useState<WeatherCondition | null>(null);
+const [safetyData, setSafetyData] = useState<SafetyRecommendation[]>([]);
+const [loading, setLoading] = useState(false);
+const [error, setError] = useState<string | null>(null);
+const [showResults, setShowResults] = useState(false);
+const handleSearch = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!searchQuery.trim()) return;
+
+    setLoading(true);
+    setError(null);
+    setCountryData(null);
+    setWeatherData(null);
+    setSafetyData([]);
+    setCorrectedQuery(null);
+    setShowResults(false);
+
+    const countryResult = await getCountryInfo(searchQuery);
+
+    if (countryResult.error) {
+      setError(countryResult.error);
+      setLoading(false);
+      return;
+    }
+
+    if (countryResult.correctedQuery) {
+      setCorrectedQuery(countryResult.correctedQuery);
+    }
+
+    const country = countryResult.data;
+    setCountryData(country);
+
+    if (country.capital && country.capital[0]) {
+        const weatherResult = await getWeatherConditions(country.capital[0]);
+        if (!weatherResult.error) {
+        setWeatherData(weatherResult.data);
+        }
+    }
+
+    const safetyResult = await getSafetyRecommendations(country.name.common);
+    if (!safetyResult.error) {
+        setSafetyData(safetyResult.data);
+    }
+
+    setLoading(false);
+    setTimeout(() => setShowResults(true), 100);
+    };
+
+    const getSafetyBadgeClass = (level: string) => {
+    switch (level) {
+        case 'low': return 'badge-seguro';
+        case 'medium': return 'badge-advertencia';
+        case 'high': return 'badge-peligro';
+        default: return '';
+    }
+    };
+
+    const getSafetyLabel = (level: string) => {
+    switch (level) {
+        case 'low': return '✓ Seguro';
+        case 'medium': return '⚠ Advertencia';
+        case 'high': return '⚠ Peligro';
+        default: return level;
+    }
+    };
+
+    return (
+    <>
+        <BackgroundEffects />
+        <motion.div
+            className="destination-page"
+            variants={pageVariants}
+            initial="initial"
+            animate="animate"
+        >
+        <motion.section className="hero" variants={itemVariants}>
+        <h1>Descubre tu próximo destino</h1>
+        <p>
+            Explora información de países, conoce el clima actual y recibe recomendaciones de seguridad
+            para planificar tu viaje con total tranquilidad.
+        </p>
+        </motion.section>
+
+        <motion.section className="seccion-busqueda" variants={itemVariants}>
+        <form onSubmit={handleSearch} className="formulario-busqueda">
+            <motion.input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Ingresa el nombre de un país (ej: Japan, France, Spain)"
+            className="input-busqueda"
+            whileFocus={{ scale: 1.02, boxShadow: '0 0 0 3px rgba(79, 104, 20, 0.3)' }}
+            transition={{ duration: 0.2 }}
+            />
+            <motion.button
+            type="submit"
+            className="boton-buscar"
+            disabled={loading}
+            whileHover={{ scale: loading ? 1 : 1.05 }}
+            whileTap={{ scale: loading ? 1 : 0.95 }}
+            >
+            {loading ? 'Buscando...' : 'Buscar'}
+            </motion.button>
+        </form>
+        </motion.section>
+
+        <AnimatePresence>
+
+        {error && (
+            <motion.div
+            className="alerta-error"
+            variants={errorVariants}
+            initial="initial"
+            animate="animate"
+            exit={{ opacity: 0, y: -10 }}
+            >
+            {error}
+            </motion.div>
+        )}
+        </AnimatePresence>
+
+        {countryData && showResults && (
+        <motion.section
+            className="resultado-pais"
+            variants={cardVariants}
+            initial="initial"
+            animate="animate"
+        >
+            <motion.div className="tarjeta-info" variants={itemVariants}>
+            <div className="info-cabecera">
+                {countryData.flags?.svg && (
+                <motion.img
+                    src={countryData.flags.svg}
+                    alt={`Bandera de ${countryData.name.common}`}
+                    className="bandera-pais"
+                    whileHover={{ scale: 1.1, rotate: 2 }}
+                    transition={{ duration: 0.3 }}
+                />
+                )}
+                <div>
+                <motion.h2
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.2 }}
+                >
+                    {countryData.name.common}
+                </motion.h2>
+                {correctedQuery && (
+                    <p className="correccion-texto">
+                        ¿Querías decir {correctedQuery}? Hemos corregido tu búsqueda.
+                    </p>
+                )}
+                <p className="informacion-secundaria">
+                    {countryData.region} · {countryData.subregion}
+                </p>
+                </div>
+            </div>
+
+            <motion.div
+                className="info-detalles"
+                variants={staggerContainer}
+                initial="initial"
+                animate="animate"
+            >
+                {[
+                { label: 'Capital', value: countryData.capital?.[0] || 'N/A' },
+                { label: 'Población', value: countryData.population?.toLocaleString() || 'N/A' },
+                { label: 'Área', value: countryData.area ? `${countryData.area.toLocaleString()} km²` : 'N/A' },
+                { label: 'Zona Horaria', value: countryData.timezones?.[0] || 'N/A' },
+                { label: 'Conducción', value: countryData.car?.side ? (countryData.car.side === 'left' ? 'Izquierda' : 'Derecha') : 'N/A' },
+                { label: 'Idiomas', value: countryData.languages ? Object.values(countryData.languages).join(', ') : 'N/A' },
+                { label: 'Moneda', value: countryData.currencies ? Object.values(countryData.currencies).map((c) => `${c.name} (${c.symbol})`).join(', ') : 'N/A' },
+                ].map((item) => (
+                <motion.div key={item.label} className="info-item" variants={itemVariants}>
+                    <span className="info-label">{item.label}</span>
+                    <span className="info-valor">{item.value}</span>
+                </motion.div>
+                ))}
+            </motion.div>
+            </motion.div>
+
+            {weatherData && (
+            <motion.div
+                className="tarjeta-clima"
+                variants={itemVariants}
+                initial="initial"
+                animate="animate"
+                whileHover={{ scale: 1.01 }}
+                transition={{ duration: 0.3 }}
+            >
+                <h3>Clima Actual</h3>
+                <div className="clima-contenido">
+                <motion.span
+                    className="clima-icono"
+                    animate={{ scale: [1, 1.1, 1] }}
+                    transition={{ repeat: Infinity, duration: 2 }}
+                >
+                    {weatherData.icon}
+                </motion.span>
+                <div className="clima-info">
+                    <motion.span
+                    className="clima-temperatura"
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.3, type: 'spring' }}
+                    >
+                    {weatherData.temperature}°C
+                    </motion.span>
+                    <span className="clima-condicion">{weatherData.condition}</span>
+                </div>
+                <div className="clima-detalles">
+                    <span>Humedad: {weatherData.humidity}%</span>
+                    <span>Viento: {weatherData.windSpeed} km/h</span>
+                </div>
+                </div>
+            </motion.div>
+            )}
+
+            {safetyData.length > 0 && (
+            <motion.div
+                className="tarjeta-seguridad"
+                variants={staggerContainer}
+                initial="initial"
+                animate="animate"
+            >
+                <h3>Recomendaciones de Seguridad</h3>
+                <ul className="lista-recomendaciones">
+                {safetyData.map((rec, index) => (
+                    <motion.li
+                    key={index}
+                    className="recomendacion-item"
+                    variants={itemVariants}
+                    whileHover={{ scale: 1.02, x: 5 }}
+                    transition={{ duration: 0.2 }}
+                    >
+                    <span className={`badge-nivel ${getSafetyBadgeClass(rec.level)}`}>
+                        {getSafetyLabel(rec.level)}
+                    </span>
+                    <div className="recomendacion-contenido">
+                        <span className="recomendacion-categoria">{rec.category}</span>
+                        <p className="recomendacion-texto">{rec.description}</p>
+                    </div>
+                    </motion.li>
+                ))}
+                </ul>
+            </motion.div>
+            )}
+        </motion.section>
+        )}
+        </motion.div>
+    </>
+    );
+}
+
+export default DestinationDetailPage;
 -----------------------
 ===== ./src/pages/HomePage.tsx =====
-//Aqui va el contenido de la página Destination Detail
+function homePage() {
+  return (
+    <div>
+      <h1>Home</h1>
+      <p>Bienvenido a BidaiaGo, tu app de viajes</p>
+    </div>
+  );
+}
+
+export default homePage;
+-----------------------
+===== ./src/pages/LoginPage.tsx =====
+import { useState } from "react";
+
+import {
+  Link,
+  useNavigate,
+} from "react-router-dom";
+
+import { useAuth } from "../hooks/useAuth";
+
+import "../styles/auth.css";
+
+const LoginPage = () => {
+  const { loginUser } = useAuth();
+
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState("");
+
+  const [password, setPassword] =
+    useState("");
+
+  const [error, setError] = useState("");
+
+  const handleSubmit = (
+    e: React.FormEvent
+  ) => {
+    e.preventDefault();
+
+    setError("");
+
+    try {
+      loginUser(email, password);
+
+      navigate("/");
+    } catch {
+      setError("Credenciales incorrectas");
+    }
+  };
+
+  return (
+    <main className="auth-page">
+      <form
+        className="formulario-auth"
+        onSubmit={handleSubmit}
+      >
+        <h1>Iniciar sesión</h1>
+
+        <p className="subtitulo">
+          Accede a tu cuenta de BidaiaGo
+        </p>
+
+        <div className="campo">
+          <label>Email</label>
+
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) =>
+              setEmail(e.target.value)
+            }
+          />
+        </div>
+
+        <div className="campo">
+          <label>Contraseña</label>
+
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) =>
+              setPassword(e.target.value)
+            }
+          />
+        </div>
+
+        {error && (
+          <p className="alerta-error">
+            {error}
+          </p>
+        )}
+
+        <button
+          className="boton-primario"
+          type="submit"
+        >
+          Entrar
+        </button>
+
+        <p className="enlace-secundario">
+          ¿No tienes cuenta?
+
+          <Link to="/register">
+            Regístrate
+          </Link>
+        </p>
+      </form>
+    </main>
+  );
+};
+
+export default LoginPage;
+-----------------------
+===== ./src/pages/ProfilePage.tsx =====
+import { useState } from "react";
+
+import { useNavigate } from "react-router-dom";
+
+import { useAuth } from "../hooks/useAuth";
+
+import "../styles/auth.css";
+
+const ProfilePage = () => {
+  const {
+    user,
+    logoutUser,
+    updateCurrentUser,
+  } = useAuth();
+
+  const navigate = useNavigate();
+
+  const [isEditingName, setIsEditingName] =
+    useState(false);
+
+  const [isEditingEmail, setIsEditingEmail] =
+    useState(false);
+
+  if (!user) {
+    return null;
+  }
+
+  const [name, setName] =
+    useState(user.name);
+
+  const [email, setEmail] =
+    useState(user.email);
+
+  const handleLogout = () => {
+    logoutUser();
+
+    navigate("/");
+  };
+
+  return (
+    <main className="profile-page">
+      <section className="profile-card">
+
+        <div className="profile-header">
+
+          <div className="profile-avatar">
+            {name.charAt(0)}
+          </div>
+
+          <h1 className="profile-title">
+            {name}
+          </h1>
+
+          <p className="profile-subtitle">
+            Perfil de BidaiaGo
+          </p>
+
+        </div>
+
+        <div className="profile-info">
+
+          {/* NOMBRE */}
+
+          <div className="profile-field">
+
+            <span className="profile-label">
+              Nombre
+            </span>
+
+            {!isEditingName ? (
+              <>
+                <p className="profile-value">
+                  {name}
+                </p>
+
+                <button
+                  className="profile-edit-button"
+                  onClick={() =>
+                    setIsEditingName(true)
+                  }
+                >
+                  Cambiar nombre
+                </button>
+              </>
+            ) : (
+              <>
+                <input
+                  className="profile-input"
+                  type="text"
+                  value={name}
+                  onChange={(e) =>
+                    setName(e.target.value)
+                  }
+                />
+
+                <div className="profile-inline-actions">
+
+                  <button
+                    className="boton-primario"
+                    onClick={() => {
+                      updateCurrentUser({
+                        ...user,
+                        name,
+                        email,
+                      });
+
+                      setIsEditingName(false);
+                    }}
+                  >
+                    Guardar
+                  </button>
+
+                  <button
+                    className="boton-secundario"
+                    onClick={() => {
+                      setName(user.name);
+
+                      setIsEditingName(false);
+                    }}
+                  >
+                    Cancelar
+                  </button>
+
+                </div>
+              </>
+            )}
+
+          </div>
+
+          {/* EMAIL */}
+
+          <div className="profile-field">
+
+            <span className="profile-label">
+              Email
+            </span>
+
+            {!isEditingEmail ? (
+              <>
+                <p className="profile-value">
+                  {email}
+                </p>
+
+                <button
+                  className="profile-edit-button"
+                  onClick={() =>
+                    setIsEditingEmail(true)
+                  }
+                >
+                  Cambiar email
+                </button>
+              </>
+            ) : (
+              <>
+                <input
+                  className="profile-input"
+                  type="email"
+                  value={email}
+                  onChange={(e) =>
+                    setEmail(e.target.value)
+                  }
+                />
+
+                <div className="profile-inline-actions">
+
+                  <button
+                    className="boton-primario"
+                    onClick={() => {
+                      updateCurrentUser({
+                        ...user,
+                        name,
+                        email,
+                      });
+
+                      setIsEditingEmail(false);
+                    }}
+                  >
+                    Guardar
+                  </button>
+
+                  <button
+                    className="boton-secundario"
+                    onClick={() => {
+                      setEmail(user.email);
+
+                      setIsEditingEmail(false);
+                    }}
+                  >
+                    Cancelar
+                  </button>
+
+                </div>
+              </>
+            )}
+
+          </div>
+
+        </div>
+
+        <div className="profile-actions">
+
+          <button
+            className="
+              boton-secundario
+              profile-logout
+            "
+            onClick={handleLogout}
+          >
+            Cerrar sesión
+          </button>
+
+        </div>
+
+      </section>
+    </main>
+  );
+};
+
+export default ProfilePage;
+-----------------------
+===== ./src/pages/RegisterPage.tsx =====
+import { useState } from "react";
+
+import {
+  Link,
+  useNavigate,
+} from "react-router-dom";
+
+import { useAuth } from "../hooks/useAuth";
+
+import "../styles/auth.css";
+
+const RegisterPage = () => {
+  const { registerUser } = useAuth();
+
+  const navigate = useNavigate();
+
+  const [name, setName] = useState("");
+
+  const [email, setEmail] = useState("");
+
+  const [password, setPassword] =
+    useState("");
+
+  const [error, setError] = useState("");
+
+  const handleSubmit = (
+    e: React.FormEvent
+  ) => {
+    e.preventDefault();
+
+    setError("");
+
+    if (!name || !email || !password) {
+      setError(
+        "Todos los campos son obligatorios"
+      );
+
+      return;
+    }
+
+    try {
+      registerUser(
+        name,
+        email,
+        password
+      );
+
+      navigate("/");
+    } catch {
+      setError(
+        "No se pudo registrar el usuario"
+      );
+    }
+  };
+
+  return (
+    <main className="auth-page">
+      <form
+        className="formulario-auth"
+        onSubmit={handleSubmit}
+      >
+        <h1>Crear cuenta</h1>
+
+        <p className="subtitulo">
+          Regístrate para guardar tus viajes
+        </p>
+
+        <div className="campo">
+          <label>Nombre</label>
+
+          <input
+            type="text"
+            placeholder="Tu nombre"
+            value={name}
+            onChange={(e) =>
+              setName(e.target.value)
+            }
+          />
+        </div>
+
+        <div className="campo">
+          <label>Email</label>
+
+          <input
+            type="email"
+            placeholder="correo@email.com"
+            value={email}
+            onChange={(e) =>
+              setEmail(e.target.value)
+            }
+          />
+        </div>
+
+        <div className="campo">
+          <label>Contraseña</label>
+
+          <input
+            type="password"
+            placeholder="********"
+            value={password}
+            onChange={(e) =>
+              setPassword(e.target.value)
+            }
+          />
+        </div>
+
+        {error && (
+          <p className="alerta-error">
+            {error}
+          </p>
+        )}
+
+        <button
+          className="boton-primario"
+          type="submit"
+        >
+          Registrarse
+        </button>
+
+        <p className="enlace-secundario">
+          ¿Ya tienes cuenta?
+
+          <Link to="/login">
+            Inicia sesión
+          </Link>
+        </p>
+      </form>
+    </main>
+  );
+};
+
+export default RegisterPage;
 -----------------------
 ===== ./src/pages/TripListPage.tsx =====
-// Aqui va el contenido de la página Trip List
+function TripListPage() {
+  return (
+    <div>
+      <h1>Mi Viaje</h1>
+      <p>Lista de mis viajes programados</p>
+    </div>
+  );
+}
+export default TripListPage;
+
+-----------------------
+===== ./src/services/authService.ts =====
+import { User } from "../models/User";
+const USERS_KEY = "users";
+const CURRENT_USER_KEY = "currentUser";
+
+export const initializeUsers = () => {
+  const users = localStorage.getItem(
+    USERS_KEY
+  );
+
+  if (!users) {
+    const testUsers: User[] = [
+      {
+        id: crypto.randomUUID(),
+        name: "Test User",
+        email: "test@test.com",
+        password: "123456",
+      },
+    ];
+
+    localStorage.setItem(
+      USERS_KEY,
+      JSON.stringify(testUsers)
+    );
+  }
+};
+
+export const register = (
+  name: string,
+  email: string,
+  password: string
+) => {
+  const users: User[] = JSON.parse(
+    localStorage.getItem(USERS_KEY) || "[]"
+  );
+
+  const userExists = users.find(
+    (user) => user.email === email
+  );
+
+  if (userExists) {
+    throw new Error("El usuario ya existe");
+  }
+
+  const newUser: User = {
+    id: crypto.randomUUID(),
+    name,
+    email,
+    password,
+  };
+
+  users.push(newUser);
+
+  localStorage.setItem(
+    USERS_KEY,
+    JSON.stringify(users)
+  );
+
+  return newUser;
+};
+export const login = (
+  email: string,
+  password: string
+) => {
+  const users: User[] = JSON.parse(
+    localStorage.getItem(USERS_KEY) || "[]"
+  );
+
+  const user = users.find(
+    (u) =>
+      u.email === email &&
+      u.password === password
+  );
+
+  if (!user) {
+    throw new Error("Credenciales incorrectas");
+  }
+
+  localStorage.setItem(
+    CURRENT_USER_KEY,
+    JSON.stringify(user)
+  );
+
+  return user;
+};
+export const logout = () => {
+  localStorage.removeItem(CURRENT_USER_KEY);
+};
+export const getCurrentUser = (): User | null => {
+  const user = localStorage.getItem(CURRENT_USER_KEY);
+
+  return user ? JSON.parse(user) : null;
+};
+export const updateUser = (
+  updatedUser: User
+) => {
+  const users: User[] = JSON.parse(
+    localStorage.getItem(USERS_KEY) || "[]"
+  );
+
+  const updatedUsers = users.map(
+    (user) =>
+      user.id === updatedUser.id
+        ? updatedUser
+        : user
+  );
+
+  localStorage.setItem(
+    USERS_KEY,
+    JSON.stringify(updatedUsers)
+  );
+
+  localStorage.setItem(
+    CURRENT_USER_KEY,
+    JSON.stringify(updatedUser)
+  );
+
+  return updatedUser;
+};
+
 -----------------------
 ===== ./src/services/countriesApi.ts =====
 // aqui va el contenido del hook useLocalStorage
+-----------------------
+===== ./src/services/tipsApi.ts =====
+import axios, { AxiosInstance } from 'axios';
+
+export interface CountryInfo {
+  name: {
+    common: string;
+    official: string;
+    nativeName?: Record<string, { common: string }>;
+  };
+  capital: string[];
+  region: string;
+  subregion: string;
+  population: number;
+  area: number;
+  languages: Record<string, string>;
+  currencies: Record<string, { name: string; symbol: string }>;
+  flags: {
+    png: string;
+    svg: string;
+  };
+  timezones: string[];
+  car: {
+    side: string;
+  };
+  maps: {
+    googleMaps: string;
+  };
+  translations?: Record<string, { common: string }>;
+}
+
+export interface WeatherCondition {
+  location: string;
+  temperature: number;
+  condition: string;
+  humidity: number;
+  windSpeed: number;
+  icon: string;
+}
+
+export interface SafetyRecommendation {
+  level: 'low' | 'medium' | 'high';
+  category: string;
+  description: string;
+}
+
+interface ApiResponse<T> {
+  data: T;
+  error?: string;
+  correctedQuery?: string;
+}
+
+const countryNameCorrections: Record<string, string> = {
+  'japon': 'japan', 'jappn': 'japan', 'japón': 'japan',
+  'españa': 'spain', 'espania': 'spain', 'españia': 'spain',
+  'francia': 'france', 'francial': 'france',
+  'alemania': 'germany', 'alimañia': 'germany',
+  'italia': 'italy',
+  'portugal': 'portugal',
+  'reino Unido': 'united kingdom', 'reinounido': 'united kingdom',
+  'ingles': 'united kingdom', 'inglaterra': 'united kingdom',
+  'eeuu': 'united states', 'estados Unidos': 'united states', 'estadosunidos': 'united states',
+  'méxico': 'mexico', 'mexiko': 'mexico', 'méjico': 'mexico',
+  'brasil': 'brazil',
+  'argentina': 'argentina',
+  'chile': 'chile',
+  'perú': 'peru', 'peru': 'peru',
+  'colombia': 'colombia',
+  'china': 'china',
+  'tailandia': 'thailand', 'thailanda': 'thailand',
+  'vietnam': 'vietnam',
+  'india': 'india',
+  'corea del sur': 'south korea', 'coreasur': 'south korea',
+  'corea del norte': 'north korea',
+  'australia': 'australia',
+  'nueva zelanda': 'new zealand', 'nuezeland': 'new zealand',
+  'canadá': 'canada', 'canada': 'canada',
+  'egipto': 'egypt',
+  'marruecos': 'morocco', 'maruecos': 'morocco',
+  'sudáfrica': 'south africa', 'sudafrica': 'south africa',
+  'rusia': 'russia',
+  'polonia': 'poland',
+  'grecia': 'greece',
+  'holanda': 'netherlands',
+  'belgica': 'belgium', 'bélgica': 'belgium',
+  'suiza': 'switzerland',
+  'noruega': 'norway',
+  'suecia': 'sweden',
+  'finlandia': 'finland',
+  'dinamarca': 'denmark',
+  'irlanda': 'ireland',
+  'república checa': 'czech', 'checoslovaquia': 'czech',
+  'hungría': 'hungary', 'hungria': 'hungary',
+  'austria': 'austria',
+};
+
+const countryNameInSpanish: Record<string, string> = {
+  'spain': 'España', 'france': 'Francia', 'germany': 'Alemania', 'italy': 'Italia',
+  'portugal': 'Portugal', 'united kingdom': 'Reino Unido', 'netherlands': 'Países Bajos',
+  'belgium': 'Bélgica', 'switzerland': 'Suiza', 'austria': 'Austria', 'greece': 'Grecia',
+  'poland': 'Polonia', 'sweden': 'Suecia', 'norway': 'Noruega', 'finland': 'Finlandia',
+  'denmark': 'Dinamarca', 'ireland': 'Irlanda', 'czech': 'República Checa', 'hungary': 'Hungría',
+  'japan': 'Japón', 'china': 'China', 'thailand': 'Tailandia', 'vietnam': 'Vietnam',
+  'india': 'India', 'south korea': 'Corea del Sur', 'indonesia': 'Indonesia', 'malaysia': 'Malasia',
+  'singapore': 'Singapur', 'philippines': 'Filipinas', 'egypt': 'Egipto', 'morocco': 'Marruecos',
+  'south africa': 'Sudáfrica', 'kenya': 'Kenia', 'united states': 'Estados Unidos', 'canada': 'Canadá',
+  'mexico': 'México', 'brazil': 'Brasil', 'argentina': 'Argentina', 'chile': 'Chile', 'peru': 'Perú',
+  'colombia': 'Colombia', 'ecuador': 'Ecuador', 'uruguay': 'Uruguay', 'australia': 'Australia',
+  'new zealand': 'Nueva Zelanda', 'fiji': 'Fiyi', 'russia': 'Rusia',
+};
+
+const correctCountryName = (input: string): { corrected: string; wasCorrected: boolean } => {
+  const normalized = input.toLowerCase().trim();
+  
+  if (countryNameCorrections[normalized]) {
+    return { corrected: countryNameCorrections[normalized], wasCorrected: true };
+  }
+
+  const words = normalized.split(/\s+/);
+  let corrected = normalized;
+  
+  for (const [wrong, right] of Object.entries(countryNameCorrections)) {
+    if (wrong.includes(' ') && words.length >= 2) {
+      const combined = words.join(' ');
+      if (combined.includes(wrong.replace(/\s+/g, '')) || combined === wrong) {
+        corrected = right;
+      }
+    }
+  }
+
+  return { corrected, wasCorrected: corrected !== input.toLowerCase().trim() };
+};
+
+const getCountryNameInSpanish = (countryName: string): string => {
+  const lower = countryName.toLowerCase();
+  return countryNameInSpanish[lower] || countryName;
+};
+
+const countriesInstance: AxiosInstance = axios.create({
+  baseURL: 'https://restcountries.com/v3.1',
+  timeout: 10000,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+const weatherInstance: AxiosInstance = axios.create({
+  baseURL: 'https://api.open-meteo.com/v1',
+  timeout: 10000,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+export const getCountryInfo = async (countryName: string): Promise<ApiResponse<CountryInfo>> => {
+  try {
+    const { corrected, wasCorrected } = correctCountryName(countryName);
+    
+    const response = await countriesInstance.get<CountryInfo[]>(`/name/${encodeURIComponent(corrected)}`);
+    const countries = response.data;
+    if (!countries || countries.length === 0) {
+      const errorMsg = wasCorrected 
+        ? `¿Querías decir "${corrected}"?`
+        : `País "${countryName}" no encontrado`;
+      return { data: {} as CountryInfo, error: errorMsg, correctedQuery: corrected };
+    }
+
+    const country = countries[0];
+    const nameInSpanish = getCountryNameInSpanish(country.name.common);
+    
+    const countryWithTranslation: CountryInfo = {
+      ...country,
+      name: {
+        ...country.name,
+        common: nameInSpanish,
+        official: country.name.official,
+      },
+    };
+
+    console.log('API Response:', countryWithTranslation);
+    return { 
+      data: countryWithTranslation, 
+      correctedQuery: wasCorrected ? nameInSpanish : undefined 
+    };
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error('API Error:', error.response?.status, error.message);
+      if (error.response?.status === 404) {
+        return { data: {} as CountryInfo, error: `País "${countryName}" no encontrado` };
+      }
+      return { data: {} as CountryInfo, error: `Error de conexión: ${error.message}` };
+    }
+    return { data: {} as CountryInfo, error: 'Error desconocido al buscar el país' };
+  }
+};
+
+export const getWeatherConditions = async (
+  capital: string
+): Promise<ApiResponse<WeatherCondition>> => {
+  try {
+    const geoResponse = await axios.get(
+      `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(capital)}&format=json&limit=1`,
+      { headers: { 'User-Agent': 'BidaiaGo/1.0' } }
+    );
+
+    if (!geoResponse.data || geoResponse.data.length === 0) {
+      return {
+        data: {} as WeatherCondition,
+        error: `Capital "${capital}" no encontrada`,
+      };
+    }
+
+    const { lat, lon } = geoResponse.data[0];
+
+    const weatherResponse = await weatherInstance.get('/forecast', {
+      params: {
+        latitude: lat,
+        longitude: lon,
+        current: 'temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m',
+      },
+    });
+
+    const current = weatherResponse.data.current;
+    const weatherCode = current.weather_code;
+
+    const weatherData: WeatherCondition = {
+      location: capital,
+      temperature: current.temperature_2m,
+      condition: getWeatherConditionFromCode(weatherCode),
+      humidity: current.relative_humidity_2m,
+      windSpeed: current.wind_speed_10m,
+      icon: getWeatherIcon(weatherCode),
+    };
+
+    return { data: weatherData };
+  } catch (error) {
+    const message = axios.isAxiosError(error)
+      ? `Error al obtener clima: ${error.message}`
+      : 'Error desconocido';
+    return { data: {} as WeatherCondition, error: message };
+  }
+};
+
+export const getSafetyRecommendations = async (countryName: string): Promise<ApiResponse<SafetyRecommendation[]>> => {
+  try {
+    const recommendations: SafetyRecommendation[] = [];
+    const countryLower = countryName.toLowerCase();
+
+    const regionData: Record<string, { level: 'low' | 'medium' | 'high', general: string }> = {
+      'europe': { level: 'low', general: 'Europa es generalmente segura. Mantén tus pertenencias atendidas en zonas turísticas.' },
+      'asia': { level: 'low', general: 'Asia ofrece experiencias únicas. Evita zonas aisladas durante la noche y cuida tus objetos de valor.' },
+      'africa': { level: 'medium', general: 'En África, infórmate sobre las zonas seguras antes de viajar. Evita mostrar objetos de valor en zonas concurridas.' },
+      'north america': { level: 'low', general: 'Norteamérica es segura en general. Ten precaución en zonas urbanas grandes.' },
+      'south america': { level: 'low', general: 'Sudamérica tiene mucho que ofrecer. Evita exhibir objetos de valor en zonas turísticas muy concurridas.' },
+      'oceania': { level: 'low', general: 'Oceanía es muy segura. Disfruta de la naturaleza pero infórmate sobre condiciones locales.' },
+    };
+
+    const countryRegions: Record<string, string> = {
+      'spain': 'europe', 'france': 'europe', 'germany': 'europe', 'italy': 'europe', 'portugal': 'europe',
+      'united kingdom': 'europe', 'netherlands': 'europe', 'belgium': 'europe', 'switzerland': 'europe',
+      'austria': 'europe', 'greece': 'europe', 'poland': 'europe', 'sweden': 'europe', 'norway': 'europe',
+      'finland': 'europe', 'denmark': 'europe', 'ireland': 'europe', 'czech': 'europe', 'hungary': 'europe',
+      'japan': 'asia', 'china': 'asia', 'thailand': 'asia', 'vietnam': 'asia', 'india': 'asia',
+      'south korea': 'asia', 'indonesia': 'asia', 'malaysia': 'asia', 'singapore': 'asia', 'philippines': 'asia',
+      'egypt': 'africa', 'morocco': 'africa', 'south africa': 'africa', 'kenya': 'africa', 'tanzania': 'africa',
+      'united states': 'north america', 'canada': 'north america', 'mexico': 'north america',
+      'brazil': 'south america', 'argentina': 'south america', 'chile': 'south america', 'peru': 'south america',
+      'colombia': 'south america', 'ecuador': 'south america',
+      'uruguay': 'south america', 
+      'australia': 'oceania', 'new zealand': 'oceania', 'fiji': 'oceania',
+    };
+
+    const countrySpecificWarnings: Record<string, { level: 'low' | 'medium' | 'high', category: string, description: string }> = {
+      'mexico': { level: 'medium', category: 'Zonas seguras', description: 'Evita zonas marginales de ciudades grandes. Usa transporte oficial y evita exhibir objetos de valor.' },
+      'brazil': { level: 'medium', category: 'Seguridad', description: 'Ten precaución en zonas turísticas de Rio de Janeiro. No muestres objetos de valor en la playa.' },
+      'india': { level: 'medium', category: 'Cultura', description: 'Respeta las normas locales de vestimenta en lugares religiosos. Ten cuidado con la comida callejera.' },
+      'south africa': { level: 'medium', category: 'Seguridad', description: 'Evita circular solo por la noche en ciudades como Johannesburgo. Usa taxis de empresas reconocidas.' },
+      'morocco': { level: 'low', category: 'Cultura', description: 'Respeta las normas culturales y vestimenta conservadora, especialmente en zonas religiosas.' },
+      'egypt': { level: 'low', category: 'Salud', description: 'Bebe solo agua embotellada. Evita alimentos de vendedores callejeros en zonas turísticas.' },
+      'thailand': { level: 'low', category: 'Salud', description: 'Ten cuidado con las condiciones del tráfico. Respeta las normas locales en templos.' },
+      'japan': { level: 'low', category: 'Transporte', description: 'El transporte público es muy seguro. Respeta las normas de etiqueta en lugares públicos.' },
+      'peru': { level: 'medium', category: 'Altitud', description: 'Si visitas zonas altas como Cusco, toma precauciones por la altitud. Hidrátate bien.' },
+    };
+
+    let detectedRegion = 'europe';
+    for (const [country, region] of Object.entries(countryRegions)) {
+      if (countryLower.includes(country)) {
+        detectedRegion = region;
+        break;
+      }
+    }
+
+    const regionInfo = regionData[detectedRegion] || regionData['europe'];
+
+    recommendations.push({
+      level: regionInfo.level,
+      category: 'Seguridad general',
+      description: regionInfo.general,
+    });
+
+    for (const [country, warning] of Object.entries(countrySpecificWarnings)) {
+      if (countryLower.includes(country)) {
+        recommendations.push({
+          level: warning.level,
+          category: warning.category,
+          description: warning.description,
+        });
+        break;
+      }
+    }
+
+    recommendations.push({
+      level: 'low',
+      category: 'Salud',
+      description: 'Consulta con tu médico las recomendaciones de vacunación antes de viajar.',
+    });
+
+    recommendations.push({
+      level: 'low',
+      category: 'Documentación',
+      description: 'Lleva copias de tus documentos de identificación y seguro de viaje.',
+    });
+
+    return { data: recommendations };
+  } catch (error) {
+    const message = axios.isAxiosError(error)
+      ? `Error al obtener recomendaciones: ${error.message}`
+      : 'Error desconocido';
+    return { data: [], error: message };
+  }
+};
+
+const getWeatherConditionFromCode = (code: number): string => {
+  const weatherCodes: Record<number, string> = {
+    0: 'Despejado',
+    1: 'Mayormente despejado',
+    2: 'Parcialmente nublado',
+    3: 'Nublado',
+    45: 'Niebla',
+    48: 'Niebla',
+    51: 'Llovizna',
+    53: 'Llovizna',
+    55: 'Llovizna',
+    61: 'Lluvia ligera',
+    63: 'Lluvia moderada',
+    65: 'Lluvia fuerte',
+    71: 'Nieve ligera',
+    73: 'Nieve moderada',
+    75: 'Nieve fuerte',
+    80: 'Chubascos',
+    81: 'Chubascos',
+    82: 'Chubascos intensos',
+    95: 'Tormenta',
+    96: 'Tormenta con granizo',
+    99: 'Tormenta con granizo',
+  };
+
+  return weatherCodes[code] || 'Desconocido';
+};
+
+
+const getWeatherIcon = (code: number): string => {
+  if (code === 0 || code === 1) return '☀️';
+  if (code === 2 || code === 3) return '☁️';
+  if (code >= 45 && code <= 48) return '🌫️';
+  if (code >= 51 && code <= 55) return '🌦️';
+  if (code >= 61 && code <= 65) return '🌧️';
+  if (code >= 71 && code <= 75) return '❄️';
+  if (code >= 80 && code <= 82) return '⛈️';
+  if (code >= 95) return '🌩️';
+  return '🌡️';
+};
+-----------------------
+===== ./src/styles/auth.css =====
+/* ============================================
+   auth.css — Login / Register
+   Prefijo exclusivo: auth-
+   Estética alineada con home.css
+   ============================================ */
+
+/* ============================================
+   1. CONTENEDOR GENERAL
+   ============================================ */
+.auth-page {
+  min-height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 2rem 1rem;
+
+  background:
+    radial-gradient(
+      ellipse 70% 60% at 50% 35%,
+      rgba(107, 138, 42, 0.12) 0%,
+      transparent 72%
+    ),
+    linear-gradient(
+      160deg,
+      #141710 0%,
+      #1d2211 55%,
+      #111309 100%
+    );
+}
+
+/* ============================================
+   2. TARJETA AUTH
+   ============================================ */
+.auth-card,
+.formulario-auth {
+  width: 100%;
+  max-width: 480px;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.04) 0%,
+      rgba(255, 255, 255, 0.02) 100%
+    );
+
+  backdrop-filter: blur(10px);
+
+  border:
+    1px solid rgba(255, 255, 255, 0.08);
+
+  border-radius: var(--radio-grande);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 10px 35px rgba(0, 0, 0, 0.45);
+
+  padding: 2rem 1.5rem;
+
+  transition:
+    transform 0.28s ease,
+    box-shadow 0.28s ease;
+}
+
+.auth-card:hover,
+.formulario-auth:hover {
+  transform: translateY(-4px);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 18px 44px rgba(0, 0, 0, 0.52);
+}
+
+@media (min-width: 768px) {
+  .auth-card,
+  .formulario-auth {
+    padding: 2.5rem;
+  }
+}
+
+/* ============================================
+   3. CABECERA
+   ============================================ */
+.formulario-auth h1,
+.auth-title {
+  font-family: var(--fuente-titulo);
+
+  font-size: 2rem;
+  font-weight: 700;
+
+  text-align: center;
+
+  color: #ffffff;
+
+  margin-bottom: 0.5rem;
+
+  letter-spacing: -0.02em;
+}
+
+.formulario-auth .subtitulo,
+.auth-subtitle {
+  text-align: center;
+
+  color: rgba(255, 255, 255, 0.7);
+
+  font-size: 0.95rem;
+
+  line-height: 1.5;
+
+  margin-bottom: 2rem;
+}
+
+/* ============================================
+   4. CAMPOS
+   ============================================ */
+.campo {
+  margin-bottom: 1.2rem;
+}
+
+.campo label {
+  display: block;
+
+  margin-bottom: 0.45rem;
+
+  font-size: 0.92rem;
+  font-weight: 600;
+
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.campo input {
+  width: 100%;
+
+  min-height: 48px;
+
+  padding: 0.85rem 1rem;
+
+  border-radius: var(--radio-pill);
+
+  border:
+    1px solid rgba(255, 255, 255, 0.08);
+
+  background:
+    rgba(255, 255, 255, 0.04);
+
+  color: #ffffff;
+
+  font-size: 0.95rem;
+
+  backdrop-filter: blur(4px);
+
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s,
+    background 0.2s;
+}
+
+.campo input::placeholder {
+  color: rgba(255, 255, 255, 0.38);
+}
+
+.campo input:focus {
+  outline: none;
+
+  border-color: var(--color-primario);
+
+  background:
+    rgba(255, 255, 255, 0.06);
+
+  box-shadow:
+    0 0 0 3px rgba(107, 138, 42, 0.22);
+}
+
+/* ============================================
+   5. BOTÓN
+   ============================================ */
+.boton-primario {
+  width: 100%;
+
+  min-height: 48px;
+
+  margin-top: 0.6rem;
+
+  border: none;
+
+  border-radius: var(--radio-pill);
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--color-primario) 0%,
+      var(--color-primario-oscuro) 100%
+    );
+
+  color: #ffffff;
+
+  font-size: 1rem;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 6px 18px rgba(0, 0, 0, 0.28);
+
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    opacity 0.18s ease;
+}
+
+.boton-primario:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 10px 24px rgba(0, 0, 0, 0.35);
+
+  opacity: 0.96;
+}
+
+.boton-primario:focus-visible {
+  outline: 3px solid var(--color-acento);
+
+  outline-offset: 3px;
+}
+
+/* ============================================
+   6. LINKS
+   ============================================ */
+.enlace-secundario {
+  margin-top: 1.5rem;
+
+  text-align: center;
+
+  font-size: 0.92rem;
+
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.enlace-secundario a {
+  color: var(--color-primario-claro);
+
+  font-weight: 700;
+
+  text-decoration: none;
+
+  margin-left: 0.35rem;
+
+  transition:
+    color 0.18s ease,
+    opacity 0.18s ease;
+}
+
+.enlace-secundario a:hover {
+  color: #ffffff;
+
+  opacity: 0.92;
+}
+
+/* ============================================
+   7. ALERTAS
+   ============================================ */
+.alerta-error {
+  margin-top: 0.4rem;
+
+  border-radius: var(--radio-medio);
+
+  border-left:
+    4px solid var(--color-error-borde);
+
+  background:
+    rgba(160, 40, 40, 0.18);
+
+  color: #ffd6d6;
+
+  padding: 0.9rem 1rem;
+
+  font-size: 0.9rem;
+
+  line-height: 1.5;
+}
+
+/* ============================================
+   8. RESPONSIVE
+   ============================================ */
+@media (max-width: 480px) {
+  .auth-page {
+    padding: 1rem;
+  }
+
+  .auth-card,
+  .formulario-auth {
+    padding: 1.5rem 1.2rem;
+  }
+
+  .formulario-auth h1,
+  .auth-title {
+    font-size: 1.7rem;
+  }
+}
+
+/* ============================================
+   9. REDUCED MOTION
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  .auth-card,
+  .formulario-auth,
+  .boton-primario,
+  .campo input {
+    transition: none;
+  }
+
+  .auth-card:hover,
+  .formulario-auth:hover,
+  .boton-primario:hover {
+    transform: none;
+  }
+}
+/* ============================================
+   PROFILE PAGE
+   ============================================ */
+
+.profile-page {
+  min-height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+  padding: 3rem 1rem;
+
+  background:
+    radial-gradient(
+      ellipse 70% 60% at 50% 35%,
+      rgba(107, 138, 42, 0.12) 0%,
+      transparent 72%
+    ),
+    linear-gradient(
+      160deg,
+      #141710 0%,
+      #1d2211 55%,
+      #111309 100%
+    );
+}
+
+.profile-card {
+  width: 100%;
+  max-width: 520px;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.04) 0%,
+      rgba(255, 255, 255, 0.02) 100%
+    );
+
+  backdrop-filter: blur(10px);
+
+  border:
+    1px solid rgba(255, 255, 255, 0.08);
+
+  border-radius: var(--radio-grande);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 10px 35px rgba(0, 0, 0, 0.45);
+
+  padding: 2rem 1.5rem;
+}
+
+.profile-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin-bottom: 2rem;
+}
+
+.profile-avatar {
+  width: 88px;
+  height: 88px;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--color-primario) 0%,
+      var(--color-primario-oscuro) 100%
+    );
+
+  color: #ffffff;
+
+  font-size: 2rem;
+  font-weight: 700;
+
+  box-shadow:
+    0 8px 22px rgba(0, 0, 0, 0.28);
+
+  margin-bottom: 1rem;
+}
+
+.profile-title {
+  color: #ffffff;
+
+  font-family: var(--fuente-titulo);
+
+  font-size: 1.9rem;
+
+  margin-bottom: 0.35rem;
+}
+
+.profile-subtitle {
+  color: rgba(255, 255, 255, 0.68);
+
+  font-size: 0.95rem;
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+
+  gap: 1rem;
+
+  margin-bottom: 2rem;
+}
+
+.profile-field {
+  
+  padding: 1rem;
+
+  border-radius: var(--radio-medio);
+
+  background:
+    rgba(255, 255, 255, 0.04);
+
+  border:
+    1px solid rgba(255, 255, 255, 0.05);
+}
+
+.profile-label {
+  display: block;
+
+  font-size: 0.82rem;
+  font-weight: 700;
+
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+
+  color: rgba(255, 255, 255, 0.5);
+
+  margin-bottom: 0.45rem;
+}
+
+.profile-value {
+  color: #ffffff;
+
+  font-size: 1rem;
+
+  word-break: break-word;
+}
+
+.profile-actions {
+  color: rgba(255, 255, 255, 0.68);
+  display: flex;
+  justify-content: center;
+}
+
+.profile-logout {
+  min-width: 220px;
+}
+
+@media (max-width: 480px) {
+  .profile-card {
+    padding: 1.5rem 1.2rem;
+  }
+
+  .profile-avatar {
+    width: 76px;
+    height: 76px;
+
+    font-size: 1.7rem;
+  }
+
+  .profile-title {
+    font-size: 1.6rem;
+  }
+}
+.profile-success {
+  margin-bottom: 1rem;
+
+  padding: 0.9rem 1rem;
+
+  border-radius: var(--radio-medio);
+
+  background:
+    rgba(60, 140, 80, 0.18);
+
+  border-left:
+    4px solid #6b8a2a;
+
+  color: #d6ffe0;
+
+  font-size: 0.92rem;
+}
 -----------------------
 ===== ./src/styles/components.css =====
 /* ============================================
@@ -3492,7 +6451,6 @@ createRoot(document.getElementById('root')!).render(
   justify-content: center;
   min-height: var(--tamano-toque-min);
   padding: 0.8rem 1.5rem;
-  background: transparent;
   color: var(--color-texto);
   border: 2px solid var(--color-borde-oscuro);
   border-radius: var(--radio-pequeno);
@@ -3677,11 +6635,710 @@ createRoot(document.getElementById('root')!).render(
   margin-top: auto;
   margin-bottom: 0;
 }
+.nav-user {
+  font-weight: 600;
+
+  color: var(--color-primario);
+}
+
+.nav-logout {
+  background: none;
+
+  border: none;
+
+  color: var(--color-texto);
+
+  font: inherit;
+
+  cursor: pointer;
+
+  transition: color 0.2s ease;
+}
+
+.nav-logout:hover {
+  color: var(--color-primario);
+}
+-----------------------
+===== ./src/styles/contactPage.css =====
+/* Contact Section */
+.contact-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+.contact-header {
+    text-align: center;
+    margin-top: 60px;
+    margin-bottom: 60px;
+}
+
+.contact-header h2 {
+    font-size: 48px;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #4f6814 0%, #9a978f 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.contact-header p {
+    font-size: 20px;
+    color: #1a1a1a;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.contact-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+}
+
+.contact-info-section {
+    padding-right: 40px;
+}
+
+.contact-info-section h3 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #1a1a1a;
+}
+
+.contact-info-section p {
+    font-size: 16px;
+    color: #1a1a1a;
+    line-height: 1.8;
+    margin-bottom: 40px;
+}
+
+.contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid #404823;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+}
+
+.contact-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateX(5px);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+}
+
+.contact-icon {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #4f6814 0%, #9a978f 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.contact-icon svg {
+    width: 24px;
+    height: 24px;
+    fill: white;
+}
+
+.contact-text {
+    flex: 1;
+}
+
+.contact-text h4 {
+    font-size: 16px;
+    color: #1a1a1a;
+    margin-bottom: 5px;
+}
+
+.contact-text p {
+    font-size: 14px;
+    color: #1a1a1a;
+    margin: 0;
+}
+
+.social-links {
+    margin-top: 40px;
+}
+
+.social-links h4 {
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: #1a1a1a;
+}
+
+.social-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.social-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: #404823;
+}
+
+.social-btn {
+    width: 45px;
+    height: 45px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.social-btn:hover {
+    background: linear-gradient(135deg, #4f6814 0%, #9a978f 100%);
+    fill: white;
+    border-color: transparent;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+}
+
+
+.contact-form-section {
+    padding-left: 40px;
+}
+
+.contact-form {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    border: 1px solid #404823;
+    border-radius: 20px;
+    padding: 40px;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 10px;
+    color: #1a1a1a;
+    font-weight: 500;
+}
+
+.form-group select {
+    width: 100%;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid #404823;
+    border-radius: 10px;
+    color: #1a1a1a;
+    font-size: 16px;
+    font-family: inherit;
+    transition: all 0.3s ease;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid #404823;
+    border-radius: 10px;
+    color: #1a1a1a;
+    font-size: 16px;
+    font-family: inherit;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #667eea;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 150px;
+    line-height: 1.5;
+}
+
+.submit-btn {
+    background: linear-gradient(135deg, #4f6814 0%, #9a978f 100%);
+    color: #1a1a1a;
+    border: none;
+    padding: 15px 40px;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
+}
+/* Tablets pequeñas y móviles grandes (768px) */
+@media (max-width: 768px) {
+    .contact-content {
+        padding: 0 20px;
+    }
+
+    .contact-header {
+        margin-top: 40px;
+        margin-bottom: 40px;
+    }
+
+    .contact-header h2 {
+        font-size: 32px;
+    }
+
+    .contact-header p {
+        font-size: 18px;
+        padding: 0 20px;
+    }
+
+    .contact-container {
+        grid-template-columns: 1fr;
+        gap: 50px;
+    }
+
+    .contact-info-section {
+        padding-right: 0;
+    }
+
+    .contact-form-section {
+        padding-left: 0;
+    }
+
+    .contact-info-section h3 {
+        font-size: 24px;
+        text-align: center;
+    }
+
+    .contact-info-section > p {
+        text-align: center;
+        padding: 0 10px;
+    }
+
+    .contact-details {
+        gap: 15px;
+    }
+
+    .contact-item {
+        padding: 15px;
+    }
+
+    .contact-icon {
+        width: 45px;
+        height: 45px;
+    }
+
+    .contact-icon svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .contact-text h4 {
+        font-size: 15px;
+    }
+
+    .contact-text p {
+        font-size: 13px;
+    }
+
+    .social-links {
+        text-align: center;
+    }
+
+    .social-buttons {
+        justify-content: center;
+    }
+
+    .contact-form {
+        padding: 30px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        padding: 12px;
+        font-size: 14px;
+    }
+
+    .submit-btn {
+        padding: 12px 30px;
+        font-size: 16px;
+    }
+}
+
+
+-----------------------
+===== ./src/styles/DestinationDetail.css =====
+/* DestinationDetailPage Styles */
+
+.destination-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+  position: relative;
+}
+
+/* Hero Section */
+.destination-page .hero {
+  text-align: center;
+  padding: 2rem 1rem;
+  margin-bottom: 2rem;
+  background: linear-gradient(180deg, rgba(216, 243, 220, 0.6) 0%, rgba(255, 255, 255, 0) 100%);
+  border-radius: var(--radio-grande);
+}
+
+.destination-page .hero h1 {
+  font-size: 1.8rem;
+  color: var(--color-primario-oscuro);
+  margin-bottom: 0.5rem;
+}
+
+.destination-page .hero p {
+  color: var(--color-texto-secundario);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* Search Section */
+.seccion-busqueda {
+  margin-bottom: 2rem;
+}
+
+.formulario-busqueda {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.input-busqueda {
+  flex: 1;
+  min-width: 200px;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-pequeno);
+  font-size: 1rem;
+  font-family: inherit;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-busqueda:focus {
+  outline: none;
+  border-color: var(--color-primario);
+  box-shadow: 0 0 0 3px rgba(79, 104, 20, 0.15);
+}
+
+.boton-buscar {
+  padding: 0.8rem 1.5rem;
+  background: var(--color-primario);
+  color: #fff;
+  border: none;
+  border-radius: var(--radio-pequeno);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.boton-buscar:hover {
+  background: var(--color-primario-oscuro);
+}
+
+.boton-buscar:disabled {
+  background: var(--color-borde-oscuro);
+  cursor: not-allowed;
+}
+
+/* Error Alert */
+.alerta-error {
+  background: var(--color-error-bg);
+  color: var(--color-error-tx);
+  border-left: 4px solid var(--color-error-borde);
+  padding: 1rem;
+  border-radius: var(--radio-pequeno);
+  margin-bottom: 1.5rem;
+}
+
+/* Results Section */
+.resultado-pais {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Country Info Card */
+.tarjeta-info {
+  background: var(--color-superficie);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-medio);
+  padding: 1.5rem;
+  box-shadow: var(--sombra-suave);
+}
+
+.info-cabecera {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.bandera-pais {
+  width: 80px;
+  height: auto;
+  border-radius: var(--radio-pequeno);
+  box-shadow: var(--sombra-suave);
+}
+
+.info-cabecera h2 {
+  font-size: 1.4rem;
+  color: var(--color-texto);
+  margin-bottom: 0.2rem;
+}
+
+.informacion-secundaria {
+  color: var(--color-texto-secundario);
+  font-size: 0.9rem;
+}
+
+.correccion-texto {
+  color: var(--color-acento);
+  font-size: 0.85rem;
+  font-style: italic;
+  margin-top: 0.25rem;
+}
+
+/* Details Grid */
+.info-detalles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.info-label {
+  font-size: 0.85rem;
+  color: var(--color-texto-secundario);
+  font-weight: 500;
+}
+
+.info-valor {
+  font-size: 1rem;
+  color: var(--color-texto);
+}
+
+/* Weather Card */
+.tarjeta-clima {
+  background: var(--color-superficie);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-medio);
+  padding: 1.5rem;
+  box-shadow: var(--sombra-suave);
+}
+
+.tarjeta-clima h3 {
+  font-size: 1.1rem;
+  color: var(--color-primario-oscuro);
+  margin-bottom: 1rem;
+}
+
+.clima-contenido {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.clima-icono {
+  font-size: 2.5rem;
+}
+
+.clima-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.clima-temperatura {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--color-texto);
+}
+
+.clima-condicion {
+  color: var(--color-texto-secundario);
+}
+
+.clima-detalles {
+  margin-left: auto;
+  display: flex;
+  gap: 1rem;
+  color: var(--color-texto-secundario);
+  font-size: 0.9rem;
+}
+
+/* Safety Card */
+.tarjeta-seguridad {
+  background: var(--color-superficie);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-medio);
+  padding: 1.5rem;
+  box-shadow: var(--sombra-suave);
+}
+
+.tarjeta-seguridad h3 {
+  font-size: 1.1rem;
+  color: var(--color-primario-oscuro);
+  margin-bottom: 1rem;
+}
+
+.lista-recomendaciones {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.recomendacion-item {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 0.8rem;
+  background: var(--color-fondo);
+  border-radius: var(--radio-pequeno);
+}
+
+.badge-nivel {
+  padding: 0.3rem 0.6rem;
+  border-radius: var(--radio-pequeno);
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.badge-seguro {
+  background: #d4edda;
+  color: #155724;
+}
+
+.badge-advertencia {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.badge-peligro {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.recomendacion-contenido {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.recomendacion-categoria {
+  font-size: 0.85rem;
+  color: var(--color-texto-secundario);
+  font-weight: 500;
+}
+
+.recomendacion-texto {
+  font-size: 0.95rem;
+  color: var(--color-texto);
+  margin: 0;
+}
+
+/* Responsive */
+@media (min-width: 768px) {
+  .destination-page {
+    padding: 2rem;
+  }
+  .destination-page .hero h1 {
+    font-size: 2.2rem;
+  }
+  .formulario-busqueda {
+    flex-wrap: nowrap;
+  }
+}
+
+/* Background Effects */
+.background-effects {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.background-gradient {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(ellipse at 30% 20%, rgba(79, 104, 20, 0.08) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(59, 85, 20, 0.06) 0%, transparent 50%);
+  animation: gradientShift 8s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+  0%, 100% {
+    background: radial-gradient(ellipse at 30% 20%, rgba(79, 104, 20, 0.08) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(59, 85, 20, 0.06) 0%, transparent 50%);
+  }
+  50% {
+    background: radial-gradient(ellipse at 40% 30%, rgba(79, 104, 0.1) 0%, transparent 50%), radial-gradient(ellipse at 60% 70%, rgba(59, 85, 20, 0.08) 0%, transparent 50%);
+  }
+}
+
+.floating-element {
+  position: absolute;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(79, 104, 20, 0.15), rgba(59, 85, 20, 0.05));
+  filter: blur(1px);
+}
+
+.pulse-element {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid rgba(79, 104, 20, 0.3);
+}
+
+.background-fade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 300px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, transparent 100%);
+  opacity: 0.5;
+}
 -----------------------
 ===== ./src/styles/pages.css =====
-/* ============================================
-   pages.css — Páginas con responsive
-   ============================================ */
+/* pages.css — Páginas con responsive*/
 
 /* ---------- Home (hero) ---------- */
 .hero {
@@ -4036,13 +7693,12 @@ createRoot(document.getElementById('root')!).render(
 }
 -----------------------
 ===== ./src/styles/styles.css =====
-/* ============================================
-   styles.css — Estilos generales (mobile-first ish)
-   WCAG AA: contraste 4.5:1 texto normal, 3:1 grande
-   ============================================ */
+/* styles.css — Estilos generales (mobile-first ish)
+   WCAG AA: contraste 4.5:1 texto normal, 3:1 grande */
 
 @import url('./components.css');
 @import url('./pages.css');
+@import url('./DestinationDetail.css');
 
 /* ---------- Variables globales ---------- */
 :root {
