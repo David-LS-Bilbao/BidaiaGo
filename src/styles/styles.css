@@ -163,14 +163,8 @@ textarea:focus-visible {
   gap: 1rem;
 }
 
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-weight: 700;
-  font-size: 1.05rem;
-  color: var(--color-primario-oscuro);
-  text-decoration: none;
+.imgLogo {
+ max-width: 150px;
 }
 
 .logo:hover { color: var(--color-primario); text-decoration: none; }
