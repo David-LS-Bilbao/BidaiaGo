@@ -1,21 +1,12 @@
-//Aqui va el contenido de la página Destination Detail
-
-// src/pages/tipsviajesPage.tsx
-
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { getCountryInfo, getWeatherConditions, getSafetyRecommendations } from '../services/tipsApi';
 import type { CountryInfo, WeatherCondition, SafetyRecommendation } from '../services/tipsApi';
 
-
-// ANIMATIONS (SIN TIPADO ESTRICTO)
-
-
 const pageVariants = {
     initial: { opacity: 0 },
     animate: { opacity: 1, transition: { duration: 0.5 } },
 };
-
 
 const cardVariants = {
     initial: { opacity: 0, y: 30 },
@@ -43,17 +34,93 @@ const errorVariants = {
     animate: { opacity: 1, x: 0, transition: { duration: 0.3 } },
 };
 
+const floatVariants = {
+    initial: { y: 0, opacity: 0.3 },
+    animate: { 
+        y: [0, -20, 0], 
+        opacity: [0.3, 0.7, 0.3],
+        transition: { 
+            duration: 4, 
+            repeat: Infinity, 
+            ease: "easeInOut" as const 
+        } 
+    },
+};
 
-// COMPONENT
+const pulseVariants = {
+    initial: { scale: 1, opacity: 0.2 },
+    animate: { 
+        scale: [1, 1.5, 1], 
+        opacity: [0.2, 0.5, 0.2],
+        transition: { 
+            duration: 3, 
+            repeat: Infinity, 
+            ease: "easeInOut" as const,
+            delay: 1
+        } 
+    },
+};
 
+function FloatingElement({ delay, left, size }: { delay: number; left: string; size: number }) {
+    return (
+        <motion.div
+            className="floating-element"
+            style={{ left, width: size, height: size }}
+            variants={floatVariants}
+            initial="initial"
+            animate="animate"
+            transition={{ delay, duration: 4 + delay }}
+        />
+    );
+}
+
+function PulseElement({ delay, left, top, size }: { delay: number; left: string; top: string; size: number }) {
+    return (
+        <motion.div
+            className="pulse-element"
+            style={{ left, top, width: size, height: size }}
+            variants={pulseVariants}
+            initial="initial"
+            animate="animate"
+            transition={{ delay, duration: 3 + delay }}
+        />
+    );
+}
+
+function BackgroundEffects() {
+    return (
+        <div className="background-effects">
+            <motion.div className="background-gradient" />
+
+            <FloatingElement delay={0} left="10%" size={80} />
+            <FloatingElement delay={0.5} left="25%" size={60} />
+            <FloatingElement delay={1} left="40%" size={100} />
+            <FloatingElement delay={1.5} left="55%" size={70} />
+            <FloatingElement delay={2} left="70%" size={90} />
+            <FloatingElement delay={2.5} left="85%" size={50} />
+            <FloatingElement delay={0.8} left="15%" size={40} />
+            <FloatingElement delay={1.3} left="60%" size={55} />
+            <FloatingElement delay={1.8} left="80%" size={65} />
+
+            <PulseElement delay={0} left="20%" top="30%" size={120} />
+            <PulseElement delay={0.7} left="60%" top="50%" size={80} />
+            <PulseElement delay={1.4} left="80%" top="70%" size={100} />
+            <PulseElement delay={2.1} left="30%" top="80%" size={60} />
+
+            <div className="background-fade" />
+        </div>
+    );
+}
 
 function DestinationDetailPage() {
 const [searchQuery, setSearchQuery] = useState('');
-const [countryData, setCountryData] = useState<CountryInfo | null>(null);
+  const [correctedQuery, setCorrectedQuery] = useState<string | null>(null);
+  const [countryData, setCountryData] = useState<CountryInfo | null>(null);
 const [weatherData, setWeatherData] = useState<WeatherCondition | null>(null);
 const [safetyData, setSafetyData] = useState<SafetyRecommendation[]>([]);
 const [loading, setLoading] = useState(false);
 const [error, setError] = useState<string | null>(null);
+const [showResults, setShowResults] = useState(false);
 const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!searchQuery.trim()) return;
@@ -63,13 +130,19 @@ const handleSearch = async (e: React.FormEvent) => {
     setCountryData(null);
     setWeatherData(null);
     setSafetyData([]);
+    setCorrectedQuery(null);
+    setShowResults(false);
 
     const countryResult = await getCountryInfo(searchQuery);
 
     if (countryResult.error) {
-        setError(countryResult.error);
-        setLoading(false);
-        return;
+      setError(countryResult.error);
+      setLoading(false);
+      return;
+    }
+
+    if (countryResult.correctedQuery) {
+      setCorrectedQuery(countryResult.correctedQuery);
     }
 
     const country = countryResult.data;
@@ -88,6 +161,7 @@ const handleSearch = async (e: React.FormEvent) => {
     }
 
     setLoading(false);
+    setTimeout(() => setShowResults(true), 100);
     };
 
     const getSafetyBadgeClass = (level: string) => {
@@ -109,12 +183,14 @@ const handleSearch = async (e: React.FormEvent) => {
     };
 
     return (
-    <motion.div
-        className="tipsviajes-page"
-        variants={pageVariants}
-        initial="initial"
-        animate="animate"
-    >
+    <>
+        <BackgroundEffects />
+        <motion.div
+            className="destination-page"
+            variants={pageVariants}
+            initial="initial"
+            animate="animate"
+        >
         <motion.section className="hero" variants={itemVariants}>
         <h1>Descubre tu próximo destino</h1>
         <p>
@@ -147,6 +223,7 @@ const handleSearch = async (e: React.FormEvent) => {
         </motion.section>
 
         <AnimatePresence>
+
         {error && (
             <motion.div
             className="alerta-error"
@@ -160,7 +237,7 @@ const handleSearch = async (e: React.FormEvent) => {
         )}
         </AnimatePresence>
 
-        {countryData && (
+        {countryData && showResults && (
         <motion.section
             className="resultado-pais"
             variants={cardVariants}
@@ -186,6 +263,11 @@ const handleSearch = async (e: React.FormEvent) => {
                 >
                     {countryData.name.common}
                 </motion.h2>
+                {correctedQuery && (
+                    <p className="correccion-texto">
+                        ¿Querías decir {correctedQuery}? Hemos corregido tu búsqueda.
+                    </p>
+                )}
                 <p className="informacion-secundaria">
                     {countryData.region} · {countryData.subregion}
                 </p>
@@ -283,7 +365,8 @@ const handleSearch = async (e: React.FormEvent) => {
             )}
         </motion.section>
         )}
-    </motion.div>
+        </motion.div>
+    </>
     );
 }
 

@@ -4,6 +4,7 @@ export interface CountryInfo {
   name: {
     common: string;
     official: string;
+    nativeName?: Record<string, { common: string }>;
   };
   capital: string[];
   region: string;
@@ -23,6 +24,7 @@ export interface CountryInfo {
   maps: {
     googleMaps: string;
   };
+  translations?: Record<string, { common: string }>;
 }
 
 export interface WeatherCondition {
@@ -43,7 +45,94 @@ export interface SafetyRecommendation {
 interface ApiResponse<T> {
   data: T;
   error?: string;
+  correctedQuery?: string;
 }
+
+const countryNameCorrections: Record<string, string> = {
+  'japon': 'japan', 'jappn': 'japan', 'japón': 'japan',
+  'españa': 'spain', 'espania': 'spain', 'españia': 'spain',
+  'francia': 'france', 'francial': 'france',
+  'alemania': 'germany', 'alimañia': 'germany',
+  'italia': 'italy',
+  'portugal': 'portugal',
+  'reino Unido': 'united kingdom', 'reinounido': 'united kingdom',
+  'ingles': 'united kingdom', 'inglaterra': 'united kingdom',
+  'eeuu': 'united states', 'estados Unidos': 'united states', 'estadosunidos': 'united states',
+  'méxico': 'mexico', 'mexiko': 'mexico', 'méjico': 'mexico',
+  'brasil': 'brazil',
+  'argentina': 'argentina',
+  'chile': 'chile',
+  'perú': 'peru', 'peru': 'peru',
+  'colombia': 'colombia',
+  'china': 'china',
+  'tailandia': 'thailand', 'thailanda': 'thailand',
+  'vietnam': 'vietnam',
+  'india': 'india',
+  'corea del sur': 'south korea', 'coreasur': 'south korea',
+  'corea del norte': 'north korea',
+  'australia': 'australia',
+  'nueva zelanda': 'new zealand', 'nuezeland': 'new zealand',
+  'canadá': 'canada', 'canada': 'canada',
+  'egipto': 'egypt',
+  'marruecos': 'morocco', 'maruecos': 'morocco',
+  'sudáfrica': 'south africa', 'sudafrica': 'south africa',
+  'rusia': 'russia',
+  'polonia': 'poland',
+  'grecia': 'greece',
+  'holanda': 'netherlands',
+  'belgica': 'belgium', 'bélgica': 'belgium',
+  'suiza': 'switzerland',
+  'noruega': 'norway',
+  'suecia': 'sweden',
+  'finlandia': 'finland',
+  'dinamarca': 'denmark',
+  'irlanda': 'ireland',
+  'república checa': 'czech', 'checoslovaquia': 'czech',
+  'hungría': 'hungary', 'hungria': 'hungary',
+  'austria': 'austria',
+};
+
+const countryNameInSpanish: Record<string, string> = {
+  'spain': 'España', 'france': 'Francia', 'germany': 'Alemania', 'italy': 'Italia',
+  'portugal': 'Portugal', 'united kingdom': 'Reino Unido', 'netherlands': 'Países Bajos',
+  'belgium': 'Bélgica', 'switzerland': 'Suiza', 'austria': 'Austria', 'greece': 'Grecia',
+  'poland': 'Polonia', 'sweden': 'Suecia', 'norway': 'Noruega', 'finland': 'Finlandia',
+  'denmark': 'Dinamarca', 'ireland': 'Irlanda', 'czech': 'República Checa', 'hungary': 'Hungría',
+  'japan': 'Japón', 'china': 'China', 'thailand': 'Tailandia', 'vietnam': 'Vietnam',
+  'india': 'India', 'south korea': 'Corea del Sur', 'indonesia': 'Indonesia', 'malaysia': 'Malasia',
+  'singapore': 'Singapur', 'philippines': 'Filipinas', 'egypt': 'Egipto', 'morocco': 'Marruecos',
+  'south africa': 'Sudáfrica', 'kenya': 'Kenia', 'united states': 'Estados Unidos', 'canada': 'Canadá',
+  'mexico': 'México', 'brazil': 'Brasil', 'argentina': 'Argentina', 'chile': 'Chile', 'peru': 'Perú',
+  'colombia': 'Colombia', 'ecuador': 'Ecuador', 'uruguay': 'Uruguay', 'australia': 'Australia',
+  'new zealand': 'Nueva Zelanda', 'fiji': 'Fiyi', 'russia': 'Rusia',
+};
+
+const correctCountryName = (input: string): { corrected: string; wasCorrected: boolean } => {
+  const normalized = input.toLowerCase().trim();
+  
+  if (countryNameCorrections[normalized]) {
+    return { corrected: countryNameCorrections[normalized], wasCorrected: true };
+  }
+
+  const words = normalized.split(/\s+/);
+  let corrected = normalized;
+  
+  for (const [wrong, right] of Object.entries(countryNameCorrections)) {
+    if (wrong.includes(' ') && words.length >= 2) {
+      const combined = words.join(' ');
+      if (combined.includes(wrong.replace(/\s+/g, '')) || combined === wrong) {
+        corrected = right;
+      }
+    }
+  }
+
+  return { corrected, wasCorrected: corrected !== input.toLowerCase().trim() };
+};
+
+const getCountryNameInSpanish = (countryName: string): string => {
+  const lower = countryName.toLowerCase();
+  return countryNameInSpanish[lower] || countryName;
+};
 
 const countriesInstance: AxiosInstance = axios.create({
   baseURL: 'https://restcountries.com/v3.1',
@@ -63,13 +152,34 @@ const weatherInstance: AxiosInstance = axios.create({
 
 export const getCountryInfo = async (countryName: string): Promise<ApiResponse<CountryInfo>> => {
   try {
-    const response = await countriesInstance.get<CountryInfo[]>(`/name/${encodeURIComponent(countryName)}`);
+    const { corrected, wasCorrected } = correctCountryName(countryName);
+    
+    const response = await countriesInstance.get<CountryInfo[]>(`/name/${encodeURIComponent(corrected)}`);
     const countries = response.data;
     if (!countries || countries.length === 0) {
-      return { data: {} as CountryInfo, error: `País "${countryName}" no encontrado` };
+      const errorMsg = wasCorrected 
+        ? `¿Querías decir "${corrected}"?`
+        : `País "${countryName}" no encontrado`;
+      return { data: {} as CountryInfo, error: errorMsg, correctedQuery: corrected };
     }
-    console.log('API Response:', countries[0]);
-    return { data: countries[0] };
+
+    const country = countries[0];
+    const nameInSpanish = getCountryNameInSpanish(country.name.common);
+    
+    const countryWithTranslation: CountryInfo = {
+      ...country,
+      name: {
+        ...country.name,
+        common: nameInSpanish,
+        official: country.name.official,
+      },
+    };
+
+    console.log('API Response:', countryWithTranslation);
+    return { 
+      data: countryWithTranslation, 
+      correctedQuery: wasCorrected ? nameInSpanish : undefined 
+    };
   } catch (error) {
     if (axios.isAxiosError(error)) {
       console.error('API Error:', error.response?.status, error.message);
@@ -86,24 +196,24 @@ export const getWeatherConditions = async (
   capital: string
 ): Promise<ApiResponse<WeatherCondition>> => {
   try {
-    // ✅ CORREGIDO: dominio .com en vez de .io
     const geoResponse = await axios.get(
-      `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(capital)}&count=1&language=en&format=json`
+      `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(capital)}&format=json&limit=1`,
+      { headers: { 'User-Agent': 'BidaiaGo/1.0' } }
     );
 
-    if (!geoResponse.data.results || geoResponse.data.results.length === 0) {
+    if (!geoResponse.data || geoResponse.data.length === 0) {
       return {
         data: {} as WeatherCondition,
         error: `Capital "${capital}" no encontrada`,
       };
     }
 
-    const { latitude, longitude } = geoResponse.data.results[0];
+    const { lat, lon } = geoResponse.data[0];
 
     const weatherResponse = await weatherInstance.get('/forecast', {
       params: {
-        latitude,
-        longitude,
+        latitude: lat,
+        longitude: lon,
         current: 'temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m',
       },
     });
