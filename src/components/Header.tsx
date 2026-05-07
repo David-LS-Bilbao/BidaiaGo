@@ -21,10 +21,11 @@ function Header() {
           to="/"
           className="logo"
         >
-          <img className="imgLogo" src="./public/logoCompleto.png" />
+          <img className="imgLogo" src="/logoCompleto.png" alt="BidaiaGo" />
         </Link>
 
         <nav
+          id="main-navigation"
           className={`nav-central ${
             open ? "activo" : ""
           }`}
@@ -71,9 +72,10 @@ function Header() {
 
         <button
           className="boton-hamburguesa"
-          onClick={() =>
-            setOpen(!open)
-          }
+          onClick={() => setOpen(!open)}
+          aria-label={open ? "Cerrar menú" : "Abrir menú"}
+          aria-expanded={open}
+          aria-controls="main-navigation"
         >
           ☰
         </button>
