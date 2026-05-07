@@ -199,7 +199,6 @@
   justify-content: center;
   min-height: var(--tamano-toque-min);
   padding: 0.8rem 1.5rem;
-  background: transparent;
   color: var(--color-texto);
   border: 2px solid var(--color-borde-oscuro);
   border-radius: var(--radio-pequeno);

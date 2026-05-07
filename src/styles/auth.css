@@ -430,6 +430,7 @@
 }
 
 .profile-field {
+  
   padding: 1rem;
 
   border-radius: var(--radio-medio);
@@ -464,6 +465,7 @@
 }
 
 .profile-actions {
+  color: rgba(255, 255, 255, 0.68);
   display: flex;
   justify-content: center;
 }
