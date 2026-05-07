@@ -20,7 +20,7 @@ export type FormErrors = {
   message?: string;
 };
 
-// Para el historial de mensajes (opcional)
+// Para el historial de mensajes
 export interface StoredMessage extends ContactFormData {
   id: string; 
   date: string;
