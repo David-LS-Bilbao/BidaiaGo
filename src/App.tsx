@@ -12,7 +12,7 @@ import ContactPage from "./pages/ContactPage";
 
 function App() {
   return (
-    <BrowserRouter>
+   
       <div className="app">
         <Header />
 
@@ -31,6 +31,6 @@ function App() {
 
         <Footer />
       </div>
-    </BrowserRouter>
+   
   )
 }export default App 

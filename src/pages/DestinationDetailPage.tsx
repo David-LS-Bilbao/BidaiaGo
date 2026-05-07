@@ -114,8 +114,8 @@ function BackgroundEffects() {
 
 function DestinationDetailPage() {
 const [searchQuery, setSearchQuery] = useState('');
-  const [correctedQuery, setCorrectedQuery] = useState<string | null>(null);
-  const [countryData, setCountryData] = useState<CountryInfo | null>(null);
+const [correctedQuery, setCorrectedQuery] = useState<string | null>(null);
+const [countryData, setCountryData] = useState<CountryInfo | null>(null);
 const [weatherData, setWeatherData] = useState<WeatherCondition | null>(null);
 const [safetyData, setSafetyData] = useState<SafetyRecommendation[]>([]);
 const [loading, setLoading] = useState(false);
