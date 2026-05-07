@@ -160,7 +160,7 @@ const loadDestination = useCallback(async (query: string) => {
         }
     }
 
-    const safetyResult = await getSafetyRecommendations(country.name.common);
+    const safetyResult = await getSafetyRecommendations(country.region, country.subregion);
     if (!safetyResult.error) {
         setSafetyData(safetyResult.data);
     }
@@ -199,7 +199,7 @@ useEffect(() => {
         }
 
         if (!cancelled) {
-            const safetyResult = await getSafetyRecommendations(country.name.common);
+            const safetyResult = await getSafetyRecommendations(country.region, country.subregion);
             if (!safetyResult.error) {
                 setSafetyData(safetyResult.data);
             }
