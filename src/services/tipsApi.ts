@@ -255,73 +255,31 @@ export const getWeatherConditions = async (
   }
 };
 
-export const getSafetyRecommendations = async (countryName: string): Promise<ApiResponse<SafetyRecommendation[]>> => {
+export const getSafetyRecommendations = async (region: string, subregion: string): Promise<ApiResponse<SafetyRecommendation[]>> => {
   try {
     const recommendations: SafetyRecommendation[] = [];
-    const countryLower = countryName.toLowerCase();
 
-    const regionData: Record<string, { level: 'low' | 'medium' | 'high', general: string }> = {
-      'europe': { level: 'low', general: 'Europa es generalmente segura. Mantén tus pertenencias atendidas en zonas turísticas.' },
-      'asia': { level: 'low', general: 'Asia ofrece experiencias únicas. Evita zonas aisladas durante la noche y cuida tus objetos de valor.' },
-      'africa': { level: 'medium', general: 'En África, infórmate sobre las zonas seguras antes de viajar. Evita mostrar objetos de valor en zonas concurridas.' },
-      'north america': { level: 'low', general: 'Norteamérica es segura en general. Ten precaución en zonas urbanas grandes.' },
-      'south america': { level: 'low', general: 'Sudamérica tiene mucho que ofrecer. Evita exhibir objetos de valor en zonas turísticas muy concurridas.' },
-      'oceania': { level: 'low', general: 'Oceanía es muy segura. Disfruta de la naturaleza pero infórmate sobre condiciones locales.' },
+    const regionData: Record<string, { level: 'low' | 'medium' | 'high'; general: string }> = {
+      'europe':        { level: 'low',    general: 'Europa es generalmente segura. Mantén tus pertenencias atendidas en zonas turísticas.' },
+      'asia':          { level: 'low',    general: 'Asia ofrece experiencias únicas. Evita zonas aisladas durante la noche y cuida tus objetos de valor.' },
+      'africa':        { level: 'medium', general: 'En África, infórmate sobre las zonas seguras antes de viajar. Evita mostrar objetos de valor en zonas concurridas.' },
+      'north america': { level: 'low',    general: 'Norteamérica es segura en general. Ten precaución en zonas urbanas grandes.' },
+      'south america': { level: 'low',    general: 'Sudamérica tiene mucho que ofrecer. Evita exhibir objetos de valor en zonas turísticas muy concurridas.' },
+      'oceania':       { level: 'low',    general: 'Oceanía es muy segura. Disfruta de la naturaleza pero infórmate sobre condiciones locales.' },
     };
 
-    const countryRegions: Record<string, string> = {
-      'spain': 'europe', 'france': 'europe', 'germany': 'europe', 'italy': 'europe', 'portugal': 'europe',
-      'united kingdom': 'europe', 'netherlands': 'europe', 'belgium': 'europe', 'switzerland': 'europe',
-      'austria': 'europe', 'greece': 'europe', 'poland': 'europe', 'sweden': 'europe', 'norway': 'europe',
-      'finland': 'europe', 'denmark': 'europe', 'ireland': 'europe', 'czech': 'europe', 'hungary': 'europe',
-      'japan': 'asia', 'china': 'asia', 'thailand': 'asia', 'vietnam': 'asia', 'india': 'asia',
-      'south korea': 'asia', 'indonesia': 'asia', 'malaysia': 'asia', 'singapore': 'asia', 'philippines': 'asia',
-      'egypt': 'africa', 'morocco': 'africa', 'south africa': 'africa', 'kenya': 'africa', 'tanzania': 'africa',
-      'united states': 'north america', 'canada': 'north america', 'mexico': 'north america',
-      'brazil': 'south america', 'argentina': 'south america', 'chile': 'south america', 'peru': 'south america',
-      'colombia': 'south america', 'ecuador': 'south america',
-      'uruguay': 'south america', 
-      'australia': 'oceania', 'new zealand': 'oceania', 'fiji': 'oceania',
-    };
-
-    const countrySpecificWarnings: Record<string, { level: 'low' | 'medium' | 'high', category: string, description: string }> = {
-      'mexico': { level: 'medium', category: 'Zonas seguras', description: 'Evita zonas marginales de ciudades grandes. Usa transporte oficial y evita exhibir objetos de valor.' },
-      'brazil': { level: 'medium', category: 'Seguridad', description: 'Ten precaución en zonas turísticas de Rio de Janeiro. No muestres objetos de valor en la playa.' },
-      'india': { level: 'medium', category: 'Cultura', description: 'Respeta las normas locales de vestimenta en lugares religiosos. Ten cuidado con la comida callejera.' },
-      'south africa': { level: 'medium', category: 'Seguridad', description: 'Evita circular solo por la noche en ciudades como Johannesburgo. Usa taxis de empresas reconocidas.' },
-      'morocco': { level: 'low', category: 'Cultura', description: 'Respeta las normas culturales y vestimenta conservadora, especialmente en zonas religiosas.' },
-      'egypt': { level: 'low', category: 'Salud', description: 'Bebe solo agua embotellada. Evita alimentos de vendedores callejeros en zonas turísticas.' },
-      'thailand': { level: 'low', category: 'Salud', description: 'Ten cuidado con las condiciones del tráfico. Respeta las normas locales en templos.' },
-      'japan': { level: 'low', category: 'Transporte', description: 'El transporte público es muy seguro. Respeta las normas de etiqueta en lugares públicos.' },
-      'peru': { level: 'medium', category: 'Altitud', description: 'Si visitas zonas altas como Cusco, toma precauciones por la altitud. Hidrátate bien.' },
-    };
-
-    let detectedRegion = 'europe';
-    for (const [country, region] of Object.entries(countryRegions)) {
-      if (countryLower.includes(country)) {
-        detectedRegion = region;
-        break;
-      }
+    let detectedRegion = region.toLowerCase();
+    if (detectedRegion === 'americas') {
+      detectedRegion = subregion.toLowerCase().includes('south') ? 'south america' : 'north america';
     }
 
-    const regionInfo = regionData[detectedRegion] || regionData['europe'];
+    const regionInfo = regionData[detectedRegion] ?? regionData['europe'];
 
     recommendations.push({
       level: regionInfo.level,
       category: 'Seguridad general',
       description: regionInfo.general,
     });
-
-    for (const [country, warning] of Object.entries(countrySpecificWarnings)) {
-      if (countryLower.includes(country)) {
-        recommendations.push({
-          level: warning.level,
-          category: warning.category,
-          description: warning.description,
-        });
-        break;
-      }
-    }
 
     recommendations.push({
       level: 'low',
