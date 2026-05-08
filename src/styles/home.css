@@ -1,0 +1,980 @@
+/* ============================================
+   home.css — Dashboard / Explorador de países
+   Prefijo exclusivo: home-
+   Mobile-first · WCAG AA · prefers-reduced-motion
+   ============================================ */
+
+/* ============================================
+   1. CONTENEDOR RAÍZ
+   ============================================ */
+.home-page {
+  width: 100%;
+  max-width: var(--max-ancho);
+  margin: 0 auto;
+  padding: 1.5rem 1rem 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+@media (min-width: 768px) {
+  .home-page {
+    padding: 2rem 1.5rem 4rem;
+    gap: 3rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .home-page {
+    padding: 2.5rem 1rem 4rem;
+  }
+}
+
+/* ============================================
+   2. CABECERA DEL DASHBOARD
+   ============================================ */
+.home-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2.5rem 1rem 3rem;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 40%, rgba(107, 138, 42, 0.14) 0%, transparent 70%),
+    linear-gradient(160deg, #141710 0%, #1d2211 55%, #111309 100%);
+  border-radius: var(--radio-grande);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 8px 30px rgba(0, 0, 0, 0.35);
+}
+
+/* Oculto visualmente, presente para lectores de pantalla */
+.home-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (min-width: 768px) {
+  .home-header {
+    padding: 3.5rem 2rem 4.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .home-header {
+    padding: 4.5rem 2rem 5.5rem;
+  }
+}
+
+/* ============================================
+   2b. FLIP BOARD — hero full-width
+   ============================================ */
+.home-flip-board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  width: 100%;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+
+.home-flip-board-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-primario, #6b8a2a);
+  opacity: 0.75;
+  line-height: 1;
+}
+
+.home-flip-board-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  perspective: 600px;
+}
+
+.home-flip-board-line {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  gap: 0.12em;
+  margin: 0;
+  transform-origin: top center;
+  animation: home-flip-line-in 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.home-flip-board-line:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+@keyframes home-flip-line-in {
+  from {
+    opacity: 0;
+    transform: rotateX(-80deg) translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: rotateX(0deg) translateY(0);
+  }
+}
+
+.home-flip-board-cell {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 1.55em;
+  min-width: 0.78em;
+  padding: 0 0.08em;
+  background: #232818;
+  border-radius: 3px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.55);
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #f0be50;
+  line-height: 1;
+  position: relative;
+  text-shadow: 0 0 8px rgba(240, 190, 80, 0.4);
+}
+
+/* División central — estética split-flap */
+.home-flip-board-cell::after {
+  content: '';
+  position: absolute;
+  inset: 50% 0 auto;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+}
+
+.home-flip-board-subtitle {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.38);
+  letter-spacing: 0.05em;
+  text-align: center;
+  margin: 0;
+  line-height: 1.5;
+  max-width: 340px;
+}
+
+@media (min-width: 768px) {
+  .home-flip-board-cell {
+    font-size: 1.65rem;
+  }
+
+  .home-flip-board-subtitle {
+    font-size: 0.9rem;
+    max-width: 460px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .home-flip-board-cell {
+    font-size: 2.2rem;
+  }
+
+  .home-flip-board-subtitle {
+    font-size: 0.95rem;
+    max-width: 520px;
+  }
+}
+
+/* ============================================
+   3. ZONA DE CONTROLES (buscador + filtro)
+   ============================================ */
+.home-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+@media (min-width: 600px) {
+  .home-controls {
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+  }
+}
+
+/* Buscador */
+.home-search {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--color-superficie);
+  border: 1.5px solid var(--color-borde);
+  border-radius: var(--radio-pill);
+  padding: 0.55rem 1.1rem;
+  min-height: 44px;
+  box-shadow: var(--sombra-suave);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.home-search:focus-within {
+  border-color: var(--color-primario);
+  box-shadow: 0 0 0 3px rgba(79, 104, 20, 0.15);
+}
+
+.home-search input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 0.95rem;
+  color: var(--color-texto);
+  font-family: inherit;
+  min-width: 0;
+}
+
+.home-search input::placeholder {
+  color: var(--color-texto-claro, #6a6a6a);
+}
+
+.home-search svg,
+.home-search .home-search-icon {
+  flex-shrink: 0;
+  color: var(--color-texto-secundario);
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+/* Filtro por región */
+.home-filter {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--color-superficie);
+  border: 1.5px solid var(--color-borde);
+  border-radius: var(--radio-pill);
+  padding: 0.55rem 1rem 0.55rem 1.1rem;
+  min-height: 44px;
+  cursor: pointer;
+  box-shadow: var(--sombra-suave);
+  transition: border-color 0.2s;
+  white-space: nowrap;
+}
+
+.home-filter:focus-within {
+  border-color: var(--color-primario);
+  box-shadow: 0 0 0 3px rgba(79, 104, 20, 0.15);
+}
+
+.home-filter select {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 0.95rem;
+  color: var(--color-texto);
+  font-family: inherit;
+  cursor: pointer;
+  appearance: none;
+  padding-right: 0.4rem;
+}
+
+.home-filter svg,
+.home-filter .home-filter-icon {
+  flex-shrink: 0;
+  color: var(--color-texto-secundario);
+  width: 1rem;
+  height: 1rem;
+  pointer-events: none;
+}
+
+/* ============================================
+   4. CARRUSEL — PAÍSES DESTACADOS
+   ============================================ */
+.home-carousel-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.home-carousel-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.home-carousel-title {
+  font-family: var(--fuente-titulo);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-texto);
+  margin: 0;
+  line-height: 1.3;
+}
+
+@media (min-width: 768px) {
+  .home-carousel-title {
+    font-size: 1.45rem;
+  }
+}
+
+/* Pista del carrusel */
+.home-carousel {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scroll-padding-left: 0.25rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.75rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-borde) transparent;
+  perspective: 1200px;
+  perspective-origin: 50% 50%;
+}
+
+.home-carousel::-webkit-scrollbar {
+  height: 4px;
+}
+
+.home-carousel::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.home-carousel::-webkit-scrollbar-thumb {
+  background-color: var(--color-borde);
+  border-radius: var(--radio-pill);
+}
+
+/* Tarjeta del carrusel */
+.home-carousel-card {
+  flex: 0 0 220px;
+  scroll-snap-align: start;
+  position: relative;
+  min-height: 240px;
+  background-color: #1a1e12;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: var(--radio-grande);
+  overflow: hidden;
+  box-shadow: var(--sombra-media);
+  transition: transform 0.30s ease-out, box-shadow 0.30s ease-out;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  transform-style: preserve-3d;
+  transform-origin: center bottom;
+}
+
+.home-carousel-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 30%,
+    rgba(0, 0, 0, 0.6) 80%,
+    rgba(0, 0, 0, 0.85) 100%
+  );
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.home-carousel-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--sombra-fuerte);
+  z-index: 2;
+}
+
+/* Texto superpuesto */
+.home-carousel-card-label {
+  position: relative;
+  z-index: 1;
+  padding: 1rem 1.1rem;
+  color: #fff;
+  font-family: var(--fuente-titulo);
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+  line-height: 1.3;
+}
+
+.home-carousel-card-sub {
+  position: relative;
+  z-index: 1;
+  padding: 0 1.1rem 1rem;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 0.82rem;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* Bandera circular en el carrusel — por encima del overlay oscuro */
+.home-carousel-flag-badge {
+  position: absolute;
+  top: 0.65rem;
+  right: 0.65rem;
+  z-index: 2;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2.5px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+  background: #f0f0e8;
+  flex-shrink: 0;
+}
+
+@media (min-width: 768px) {
+  .home-carousel-card {
+    flex: 0 0 260px;
+    min-height: 280px;
+  }
+
+  .home-carousel-flag-badge {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .home-carousel-card {
+    flex: 0 0 300px;
+    min-height: 300px;
+  }
+}
+
+/* ── Efecto abanico 3D — solo desktop ─────────────────────────────────── */
+@media (min-width: 768px) {
+  /* Rotaciones alternas que crean el patrón de abanico */
+  .home-carousel-card:nth-child(4n + 1) {
+    transform: rotateZ(-2deg) rotateY(4deg);
+  }
+  .home-carousel-card:nth-child(4n + 2) {
+    transform: rotateZ(-1deg) rotateY(2deg);
+  }
+  .home-carousel-card:nth-child(4n + 3) {
+    transform: rotateZ(1deg) rotateY(-2deg);
+  }
+  .home-carousel-card:nth-child(4n + 4) {
+    transform: rotateZ(2deg) rotateY(-4deg);
+  }
+
+  /* Hover: la card se endereza, sube y destaca sobre sus vecinas */
+  .home-carousel-card:hover {
+    transform: translateY(-6px) rotateZ(0deg) rotateY(0deg) scale(1.03);
+    box-shadow:
+      0 16px 38px rgba(0, 0, 0, 0.22),
+      0 6px 14px rgba(0, 0, 0, 0.12);
+    z-index: 2;
+  }
+}
+
+/* ============================================
+   5. GRID DE CARDS — TODOS LOS PAÍSES
+   ============================================ */
+.home-grid-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.home-grid-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.home-grid-title {
+  font-family: var(--fuente-titulo);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-texto);
+  margin: 0;
+}
+
+@media (min-width: 768px) {
+  .home-grid-title {
+    font-size: 1.45rem;
+  }
+}
+
+/* Grid */
+.home-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+@media (min-width: 540px) {
+  .home-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 900px) {
+  .home-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+@media (min-width: 1100px) {
+  .home-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ============================================
+   6. CARD DE PAÍS (grid)
+   ============================================ */
+.home-card {
+  position: relative; /* ancla los overlays de favorito y bandera */
+  display: flex;
+  flex-direction: column;
+  background: var(--color-superficie);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-grande);
+  overflow: hidden;
+  box-shadow: var(--sombra-suave);
+  transition: transform 0.28s ease-out, box-shadow 0.28s ease-out;
+  transform-origin: center 65%;
+}
+
+.home-card:hover {
+  transform: perspective(900px) translateY(-8px) rotateX(5deg);
+  box-shadow:
+    0 18px 42px rgba(0, 0, 0, 0.15),
+    0 6px 14px rgba(0, 0, 0, 0.08);
+  z-index: 1;
+}
+
+/* Imagen / bandera (legacy — mantenido por compatibilidad) */
+.home-card-flag {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+  background: var(--color-primario-claro);
+  flex-shrink: 0;
+}
+
+/* Botón de favorito — overlay esquina superior izquierda */
+.home-card-favorite {
+  position: absolute;
+  top: 0.65rem;
+  left: 0.65rem;
+  z-index: 10;
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(4px);
+  color: var(--color-texto);
+  font-size: 1.05rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.22);
+  transition: background 0.18s ease, transform 0.15s ease;
+}
+
+.home-card-favorite:hover {
+  background: #fff;
+  transform: scale(1.12);
+}
+
+.home-card-favorite:focus-visible {
+  outline: 3px solid var(--color-acento);
+  outline-offset: 2px;
+}
+
+/* Botón favorito en estado activo (★) */
+.home-card-favorite-active {
+  background: #fff;
+  color: var(--color-acento);
+  box-shadow: 0 1px 6px rgba(232, 93, 42, 0.35);
+}
+
+.home-card-favorite-active:hover {
+  background: #fff;
+  color: var(--color-acento);
+}
+
+/* Tarjeta del carrusel que es favorito — indicador visual ★ */
+.home-carousel-card-favorite::before {
+  content: '★';
+  position: absolute;
+  top: 0.55rem;
+  left: 0.55rem;
+  z-index: 2;
+  font-size: 0.9rem;
+  color: var(--color-acento);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+  line-height: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-card-favorite-active {
+    box-shadow: none;
+  }
+}
+
+/* Área de imagen turística — contenedor relativo para el badge */
+.home-card-image-area {
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+/* Imagen turística — ocupa toda la parte superior */
+.home-card-image {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  display: block;
+  background: var(--color-primario-claro);
+  transition: transform 0.35s ease-out;
+}
+
+.home-card:hover .home-card-image {
+  transform: scale(1.06);
+}
+
+/* Bandera circular — badge overlay en la card del grid */
+.home-card-flag-badge {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  z-index: 5;
+  width: 3.3rem;
+  height: 3.3rem;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+  background: var(--color-superficie);
+}
+
+/* Contador de resultados filtrados */
+.home-grid-count {
+  font-size: 0.88rem;
+  color: var(--color-texto-secundario);
+  font-weight: 500;
+}
+
+/* Contenido */
+.home-card-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem 1.1rem;
+}
+
+.home-card-title {
+  font-family: var(--fuente-titulo);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-texto);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.home-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.75rem;
+  font-size: 0.82rem;
+  color: var(--color-texto-secundario);
+  line-height: 1.4;
+}
+
+.home-card-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+/* Acciones — dentro de home-card-content, sin padding lateral extra */
+.home-card-actions {
+  padding-top: 0.5rem;
+  margin-top: auto;
+}
+
+.home-card-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  min-height: 40px;
+  padding: 0.5rem 1.2rem;
+  background: var(--color-primario);
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: inherit;
+  border-radius: var(--radio-pill);
+  border: 2px solid transparent;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+  cursor: pointer;
+}
+
+.home-card-link:hover {
+  background: var(--color-primario-oscuro);
+  color: #fff;
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+.home-card-link:focus-visible {
+  outline: 3px solid var(--color-acento);
+  outline-offset: 3px;
+}
+
+/* ============================================
+   7. ESTADOS: LOADING · ERROR · VACÍO
+   ============================================ */
+
+/* Loading */
+.home-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  min-height: 200px;
+  color: var(--color-texto-secundario);
+  font-size: 0.95rem;
+}
+
+.home-loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--color-borde);
+  border-top-color: var(--color-primario);
+  border-radius: 50%;
+  animation: home-spin 0.8s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes home-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Error */
+.home-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 2rem 1.5rem;
+  background: var(--color-error-bg);
+  border: 1px solid var(--color-error-borde);
+  border-radius: var(--radio-grande);
+  color: var(--color-error-tx);
+  text-align: center;
+}
+
+.home-error-title {
+  font-family: var(--fuente-titulo);
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--color-error-tx);
+}
+
+.home-error-message {
+  font-size: 0.92rem;
+  margin: 0;
+  color: var(--color-error-tx);
+  opacity: 0.9;
+}
+
+.home-error-retry {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 40px;
+  padding: 0.5rem 1.2rem;
+  background: var(--color-error-tx);
+  color: #fff;
+  border: none;
+  border-radius: var(--radio-pill);
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  margin-top: 0.25rem;
+}
+
+.home-error-retry:hover {
+  opacity: 0.88;
+}
+
+.home-error-retry:focus-visible {
+  outline: 3px solid var(--color-acento);
+  outline-offset: 3px;
+}
+
+/* Sin resultados */
+.home-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 3rem 1.5rem;
+  background: var(--color-superficie);
+  border: 1px dashed var(--color-borde);
+  border-radius: var(--radio-grande);
+  color: var(--color-texto-secundario);
+  text-align: center;
+}
+
+.home-empty-icon {
+  font-size: 2.5rem;
+  line-height: 1;
+}
+
+.home-empty-title {
+  font-family: var(--fuente-titulo);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-texto);
+  margin: 0;
+}
+
+.home-empty-message {
+  font-size: 0.92rem;
+  margin: 0;
+  max-width: 340px;
+}
+
+/* ============================================
+   9. BOTÓN FLOTANTE — volver arriba
+   ============================================ */
+.home-scroll-top {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 200;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  border: none;
+  background: var(--color-primario);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+  transition: opacity 0.22s ease, transform 0.22s ease, background 0.18s ease;
+}
+
+.home-scroll-top-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.home-scroll-top:hover {
+  background: var(--color-primario-oscuro);
+}
+
+.home-scroll-top:focus-visible {
+  outline: 3px solid var(--color-acento);
+  outline-offset: 3px;
+}
+
+@media (min-width: 768px) {
+  .home-scroll-top {
+    bottom: 2rem;
+    right: 2rem;
+    width: 3rem;
+    height: 3rem;
+  }
+}
+
+/* ============================================
+   8. ACCESIBILIDAD — prefers-reduced-motion
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  .home-carousel-card,
+  .home-card,
+  .home-card-image,
+  .home-card-favorite,
+  .home-card-link,
+  .home-error-retry,
+  .home-scroll-top {
+    transition: none;
+  }
+
+  .home-scroll-top {
+    transform: none;
+  }
+
+  .home-card:hover {
+    transform: none;
+    box-shadow: var(--sombra-fuerte);
+  }
+
+  .home-card:hover .home-card-image {
+    transform: none;
+  }
+
+  .home-card-favorite:hover {
+    transform: none;
+  }
+
+  /* Flip board: sin rotación, solo fade */
+  .home-flip-board-line {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Desactivar abanico 3D del carrusel */
+  .home-carousel-card:nth-child(4n + 1),
+  .home-carousel-card:nth-child(4n + 2),
+  .home-carousel-card:nth-child(4n + 3),
+  .home-carousel-card:nth-child(4n + 4) {
+    transform: none;
+  }
+
+  .home-carousel-card:hover {
+    transform: none;
+    box-shadow: var(--sombra-fuerte);
+  }
+
+  .home-loading-spinner {
+    animation: none;
+    border-top-color: var(--color-primario);
+    opacity: 0.6;
+  }
+
+  .home-carousel {
+    scroll-snap-type: none;
+  }
+}
