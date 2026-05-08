@@ -7,6 +7,7 @@ La aplicación permite buscar países, consultar información útil sobre ellos,
 ✨ Características principales
 🔎 Búsqueda de países por nombre
 🌎 Información detallada de cada destino:
+
 Bandera
 Nombre oficial y común
 Región y subregión
@@ -16,6 +17,7 @@ Población
 Zona horaria
 Idiomas
 Moneda
+
 🌤️ Clima actual de la capital
 ⚠️ Recomendaciones de seguridad y salud
 ❤️ Lista de favoritos usando localStorage
@@ -45,7 +47,8 @@ Rest Countries API	Información de países
 Open-Meteo API	Clima actual
 Open-Meteo Geocoding API	Coordenadas de capitales
 
-📁 Estructura del proyecto
+📁 Estructura del proyecto 
+```text
 src/
 ├── components/
 │   ├── Header.tsx
@@ -77,6 +80,7 @@ src/
 │
 ├── App.tsx
 └── main.tsx
+```
 
 Basado en la estructura definida en el proyecto.
 
@@ -131,6 +135,7 @@ npm run dev
 La aplicación estará disponible normalmente en:
 
 http://localhost:5173
+
 📦 Scripts disponibles
 npm run dev       # Servidor desarrollo
 npm run build     # Build producción
@@ -164,6 +169,7 @@ feat/trip-list
 feat/stats-about-docs
 
 📌 Estado actual
+
 Implementado
 Header y Footer
 Página landing
