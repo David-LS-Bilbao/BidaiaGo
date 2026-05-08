@@ -38,7 +38,7 @@ const LoginPage = () => {
   };
 
   return (
-    <main className="auth-page">
+    <main >
       <form
         className="formulario-auth"
         onSubmit={handleSubmit}
