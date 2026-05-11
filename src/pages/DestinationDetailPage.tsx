@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { getCountryInfo, getWeatherConditions, getSafetyRecommendations } from '../services/tipsApi';
@@ -49,9 +49,21 @@ const [loading, setLoading] = useState<boolean>(() => !!id);
 const [error, setError] = useState<string | null>(null);
 const [showResults, setShowResults] = useState(false);
 
-// Lógica de carga reutilizable — llamada desde handleSearch (event handler)
+const requestIdRef = useRef(0);
+const timeoutRef = useRef<ReturnType<typeof window.setTimeout> | null>(null);
+
+
+// Cada carga invalida la anterior para evitar que respuestas lentas pisen datos recientes.
 const loadDestination = useCallback(async (query: string) => {
-    if (!query.trim()) return;
+    const trimmedQuery = query.trim();
+    if (!trimmedQuery) return;
+
+    const requestId = ++requestIdRef.current;
+
+    if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+    }
 
     setLoading(true);
     setError(null);
@@ -61,7 +73,8 @@ const loadDestination = useCallback(async (query: string) => {
     setCorrectedQuery(null);
     setShowResults(false);
 
-    const countryResult = await getCountryInfo(query);
+    const countryResult = await getCountryInfo(trimmedQuery);
+    if (requestId !== requestIdRef.current) return;
 
     if (countryResult.error) {
       setError(countryResult.error);
@@ -78,61 +91,66 @@ const loadDestination = useCallback(async (query: string) => {
 
     if (country.capital?.[0]) {
         const weatherResult = await getWeatherConditions(country.capital[0]);
+        if (requestId !== requestIdRef.current) return;
         if (!weatherResult.error) {
           setWeatherData(weatherResult.data);
         }
     }
 
-    const safetyResult = await getSafetyRecommendations(country.region, country.subregion);
+    // Algunos países no traen subregion en REST Countries.
+    const safetyResult = await getSafetyRecommendations(country.region, country.subregion ?? '');
+    if (requestId !== requestIdRef.current) return;
     if (!safetyResult.error) {
         setSafetyData(safetyResult.data);
     }
 
     setLoading(false);
-    setTimeout(() => setShowResults(true), 100);
+    timeoutRef.current = window.setTimeout(() => {
+        if (requestId === requestIdRef.current) {
+            setShowResults(true);
+        }
+    }, 100);
 }, []);
 
-// Auto-carga desde URL: todos los setState van después del primer await
+// Auto-carga desde URL usando la misma protección contra peticiones obsoletas.
 useEffect(() => {
-    if (!id) return;
-    let cancelled = false;
-
-    void (async () => {
-        const countryResult = await getCountryInfo(id);
-        if (cancelled) return;
-
-        if (countryResult.error) {
-            setError(countryResult.error);
+    if (!id) {
+        const requestId = ++requestIdRef.current;
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+            timeoutRef.current = null;
+        }
+        // La limpieza se difiere para no disparar setState sincronamente dentro del efecto.
+        queueMicrotask(() => {
+            if (requestId !== requestIdRef.current) return;
             setLoading(false);
-            return;
+            setError(null);
+            setCountryData(null);
+            setWeatherData(null);
+            setSafetyData([]);
+            setCorrectedQuery(null);
+            setShowResults(false);
+        });
+        return;
+    }
+
+    const scheduledRequestId = requestIdRef.current;
+    
+    // La carga inicial se agenda fuera del cuerpo síncrono del efecto para cumplir las reglas de hooks.
+    queueMicrotask(() => {
+        if (scheduledRequestId === requestIdRef.current) {
+            void loadDestination(id);
         }
+    });
 
-        if (countryResult.correctedQuery) {
-            setCorrectedQuery(countryResult.correctedQuery);
+    return () => {
+        requestIdRef.current += 1;
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+            timeoutRef.current = null;
         }
-
-        const country = countryResult.data;
-        setCountryData(country);
-
-        if (country.capital?.[0]) {
-            const weatherResult = await getWeatherConditions(country.capital[0]);
-            if (!cancelled && !weatherResult.error) {
-                setWeatherData(weatherResult.data);
-            }
-        }
-
-        if (!cancelled) {
-            const safetyResult = await getSafetyRecommendations(country.region, country.subregion);
-            if (!safetyResult.error) {
-                setSafetyData(safetyResult.data);
-            }
-            setLoading(false);
-            setTimeout(() => setShowResults(true), 100);
-        }
-    })();
-
-    return () => { cancelled = true; };
-}, [id]);
+    };
+}, [id, loadDestination]);
 
 const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -177,6 +195,7 @@ const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
         <form onSubmit={handleSearch} className="formulario-busqueda">
             <motion.input
             type="text"
+            aria-label="Buscar país"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Ingresa el nombre de un país (ej: Japan, France, Spain)"
@@ -243,7 +262,7 @@ const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
                     </p>
                 )}
                 <p className="informacion-secundaria">
-                    {countryData.region} · {countryData.subregion}
+                    {countryData.region} · {countryData.subregion ?? 'Sin subregión'}
                 </p>
                 </div>
             </div>
