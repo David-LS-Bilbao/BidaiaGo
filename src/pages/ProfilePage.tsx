@@ -13,13 +13,12 @@ const ProfilePage = () => {
 
   const navigate = useNavigate();
 
-  if (!user) return null;
-
+  // Los hooks deben ejecutarse siempre, incluso cuando no hay usuario activo.
   const [name, setName] =
-    useState(user.name);
+    useState(user?.name ?? "");
 
   const [email, setEmail] =
-    useState(user.email);
+    useState(user?.email ?? "");
 
   const [success, setSuccess] =
     useState("");
@@ -29,6 +28,9 @@ const ProfilePage = () => {
 
   const [isEditingEmail, setIsEditingEmail] =
     useState(false);
+
+  // La salida temprana va después de los hooks para mantener siempre el mismo orden de render.
+  if (!user) return null;
 
   const handleSave = () => {
     updateCurrentUser({

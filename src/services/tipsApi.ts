@@ -8,7 +8,7 @@ export interface CountryInfo {
   };
   capital: string[];
   region: string;
-  subregion: string;
+  subregion?: string;
   population: number;
   area: number;
   languages: Record<string, string>;
