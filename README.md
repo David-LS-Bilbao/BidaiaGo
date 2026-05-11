@@ -136,6 +136,24 @@ La aplicación estará disponible normalmente en:
 
 http://localhost:5173
 
+📝 Notas de desarrollo
+
+Durante el desarrollo puede aparecer en la consola del navegador este mensaje:
+
+```text
+Uncaught (in promise) Error: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was received
+```
+
+Este aviso suele venir de extensiones del navegador que usan mensajería interna, no del código de BidaiaGo. Para confirmarlo, abrir la app en una ventana de incógnito sin extensiones o probar en otro navegador.
+
+Correcciones MVP recientes en destinos:
+
+- La página de detalle de destino invalida peticiones antiguas para evitar que una respuesta lenta sobrescriba la búsqueda más reciente.
+- Se limpian los temporizadores usados para mostrar resultados, evitando actualizaciones de estado obsoletas.
+- La subregión del país se trata como dato opcional, porque algunas respuestas de Rest Countries no la incluyen.
+- La petición de geolocalización para el clima ya no intenta establecer la cabecera `User-Agent`, bloqueada por los navegadores.
+- El buscador de destinos incluye etiqueta accesible para lectores de pantalla.
+
 📦 Scripts disponibles
 npm run dev       # Servidor desarrollo
 npm run build     # Build producción

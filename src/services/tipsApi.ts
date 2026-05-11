@@ -213,8 +213,8 @@ export const getWeatherConditions = async (
 ): Promise<ApiResponse<WeatherCondition>> => {
   try {
     const geoResponse = await axios.get(
-      `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(capital)}&format=json&limit=1`,
-      { headers: { 'User-Agent': 'BidaiaGo/1.0' } }
+      // El navegador no permite establecer manualmente la cabecera User-Agent.
+      `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(capital)}&format=json&limit=1`
     );
 
     if (!geoResponse.data || geoResponse.data.length === 0) {
